@@ -149,3 +149,23 @@ $RECYCLE.BIN/
 
 # Mac crap
 .DS_Store
+
+# Node.js
+# Copied from https://github.com/github/gitignore/blob/master/Node.gitignore
+lib-cov
+lcov.info
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+
+pids
+logs
+results
+build
+.grunt
+
+node_modules
