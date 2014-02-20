@@ -1,0 +1,11 @@
+{
+  "name": "valtech_shortie",
+  "version": "0.1.0",
+  "description": "Valtech URL shortener",
+  "main": "app.js",
+  "author": {
+    "name": "c.palmstierna",
+    "email": "christian.palmstierna@valtech.se"
+  }
+}
+
