@@ -1,7 +1,7 @@
 ﻿var request = require('supertest'),
     express = require('express');
 
-var app = require('../app').app;
+var app = require('../../src/app').app;
 
 describe('GET /', function() {
   it('should return html', function(done) {

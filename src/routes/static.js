@@ -1,6 +1,10 @@
-﻿exports.index = function(req, res) {
-  res.sendfile('views/index.html');
+﻿var path = require('path');
+
+exports.index = function(req, res) {
+  var filePath = path.join(__dirname, '../views/index.html');
+  res.sendfile(filePath);
 };
 exports.admin = function(req, res) {
-  res.sendfile('views/admin.html');
+  var filePath = path.join(__dirname, '../views/admin.html');
+  res.sendfile(filePath);
 };

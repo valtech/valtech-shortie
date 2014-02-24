@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "stuff", "stuff", "{123037BB
 		..\package.json = ..\package.json
 	EndProjectSection
 EndProject
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "tests", "tests.njsproj", "{E7DBDDB5-D115-431A-A602-1C4B67CFEECC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +22,10 @@ Global
 		{9EDCBF0B-30AA-46B4-A194-A72A8CCC1B65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9EDCBF0B-30AA-46B4-A194-A72A8CCC1B65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9EDCBF0B-30AA-46B4-A194-A72A8CCC1B65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7DBDDB5-D115-431A-A602-1C4B67CFEECC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7DBDDB5-D115-431A-A602-1C4B67CFEECC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7DBDDB5-D115-431A-A602-1C4B67CFEECC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7DBDDB5-D115-431A-A602-1C4B67CFEECC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
