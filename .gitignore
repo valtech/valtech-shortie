@@ -8,8 +8,8 @@ _ReSharper*/
 *.[Rr]e[Ss]harper
 
 # Visual Studio stuffs
-vs120/bin
-vs120/obj
+bin
+obj
 
 # =========================
 # Windows detritus
