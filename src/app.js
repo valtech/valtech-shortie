@@ -24,6 +24,9 @@ if ('development' == app.get('env')) {
 app.get('/', staticRoutes.index);
 app.get('/admin', staticRoutes.admin);
 app.get('/:slug', redirectRoutes.get);
+app.post('/', redirectRoutes.post);
+app.put('/:slug', redirectRoutes.put);
+app.delete('/:slug', redirectRoutes.delete);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
