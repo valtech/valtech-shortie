@@ -5,9 +5,13 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "src", "src.njsproj", "{9EDCBF0B-30AA-46B4-A194-A72A8CCC1B65}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "stuff", "stuff", "{123037BB-798D-4577-A67B-863C6CBBB512}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "metafiles", "metafiles", "{123037BB-798D-4577-A67B-863C6CBBB512}"
 	ProjectSection(SolutionItems) = preProject
-		..\package.json = ..\package.json
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		package.json = package.json
+		Procfile = Procfile
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "tests", "tests.njsproj", "{E7DBDDB5-D115-431A-A602-1C4B67CFEECC}"

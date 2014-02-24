@@ -21,9 +21,11 @@
     <LaunchUrl />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="lib\slugGenerator.js" />
     <Compile Include="routes\static.js" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="lib\" />
     <Folder Include="routes\" />
   </ItemGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
