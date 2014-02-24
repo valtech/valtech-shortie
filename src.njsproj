@@ -23,7 +23,8 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
     <Compile Include="app.js" />
-    <Compile Include="routes\index.js" />
+    <Compile Include="routes\redirect.js" />
+    <Compile Include="routes\static.js" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="public\" />
@@ -31,6 +32,7 @@
     <Folder Include="views\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="views\admin.html" />
     <Content Include="views\index.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
