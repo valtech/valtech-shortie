@@ -6,6 +6,10 @@
   "author": {
     "name": "c.palmstierna",
     "email": "christian.palmstierna@valtech.se"
-  }
+  },
+  "engines": {
+    "node": ">=0.10.25"
+  },
+  "private": true
 }
 
