@@ -1,0 +1,42 @@
+// it isn't set in stone what options we should set here
+// see http://www.jshint.com/docs/options/ for details
+{
+  "globals": {
+    "jasmine": false,
+    "spyOn": false,
+    "it": false,
+    "console": false,
+    "describe": false,
+    "expect": false,
+    "beforeEach": false,
+    "waits": false,
+    "waitsFor": false,
+    "runs": false
+  },
+
+  "indent": 2,
+
+  "node" : true,
+  "browser" : true,
+
+  "boss" : false,
+  "curly": false,
+  "debug": false,
+  "devel": false,
+  "evil": true,
+  "forin": false,
+  "immed": true,
+  "laxbreak": false,
+  "newcap": true,
+  "noarg": true,
+  "noempty": false,
+  "nonew": false,
+  "nomen": false,
+  "plusplus": false,
+  "regexp": false,
+  "undef": true,
+  "sub": true,
+  "strict": false,
+  "white": false,
+  "unused": false
+}
