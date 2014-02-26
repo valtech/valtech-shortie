@@ -20,7 +20,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // development only
 if ('development' == app.get('env')) {
-  console.log("adding express error handler");
   app.use(express.errorHandler());
 }
 
@@ -32,7 +31,6 @@ app.put('/:slug', redirectRoutes.put);
 app.delete('/:slug', redirectRoutes.delete);
 
 app.all('*', errorRoutes.handleNotFound);
-app.del('*', errorRoutes.handleNotFound);
 app.use(errorRoutes.handleError);
 
 http.createServer(app).listen(app.get('port'), function() {
