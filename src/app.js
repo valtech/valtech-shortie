@@ -1,6 +1,7 @@
 var express = require('express');
 var staticRoutes = require('./routes/static');
 var redirectRoutes = require('./routes/redirect');
+var errorRoutes = require('./routes/error');
 var http = require('http');
 var path = require('path');
 
@@ -19,6 +20,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // development only
 if ('development' == app.get('env')) {
+  console.log("adding express error handler");
   app.use(express.errorHandler());
 }
 
@@ -29,7 +31,11 @@ app.post('/', redirectRoutes.post);
 app.put('/:slug', redirectRoutes.put);
 app.delete('/:slug', redirectRoutes.delete);
 
-http.createServer(app).listen(app.get('port'), function(){
+app.all('*', errorRoutes.handleNotFound);
+app.del('*', errorRoutes.handleNotFound);
+app.use(errorRoutes.handleError);
+
+http.createServer(app).listen(app.get('port'), function() {
   console.log('Express server listening on port ' + app.get('port'));
 });
 
