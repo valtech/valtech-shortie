@@ -24,21 +24,24 @@
   <ItemGroup>
     <Compile Include="app.js" />
     <Compile Include="auth\routes.js" />
+    <Compile Include="error\middleware.js" />
+    <Compile Include="error\routes.js" />
     <Compile Include="lib\DbFactory.js" />
     <Compile Include="lib\SlugGenerator.js" />
     <Compile Include="lib\SlugGenerator.ts" />
     <Compile Include="redirects\data.js" />
     <Compile Include="auth\routes.ts" />
     <Compile Include="redirects\routes.js" />
-    <Compile Include="routes\error.js" />
+    <Compile Include="error\routes.ts" />
     <Compile Include="redirects\routes.ts" />
-    <Compile Include="routes\static.js" />
+    <Compile Include="routes\static.ts" />
     <Compile Include="server.js" />
     <Compile Include="server.ts" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="lib\" />
     <Folder Include="auth\" />
+    <Folder Include="error\" />
     <Folder Include="redirects\" />
     <Folder Include="public\" />
     <Folder Include="routes\" />
@@ -47,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.ts" />
+    <Content Include="error\middleware.ts" />
     <Content Include="lib\DbFactory.ts" />
     <Content Include="redirects\data.ts" />
     <Content Include="public\favicon.ico" />

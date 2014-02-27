@@ -8,7 +8,8 @@ var path = require('path');
 import redirectRoutes = require('./redirects/routes');
 import authRoutes = require('./auth/routes');
 import staticRoutes = require('./routes/static');
-import errorRoutes = require('./routes/error');
+import errorRoutes = require('./error/routes');
+import errorMiddleware = require('./error/middleware');
 
 var app = express();
 
@@ -42,7 +43,6 @@ authRoutes.setup(app);
 redirectRoutes.setup(app);
 errorRoutes.setup(app);
 
-app.use(errorRoutes.handleError);
-
+app.use(errorMiddleware.handleError);
 
 export var App = app;
