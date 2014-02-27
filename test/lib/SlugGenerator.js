@@ -1,16 +1,15 @@
-﻿var SlugGenerator = require('../../src/lib/SlugGenerator');
-
-var assert = require('chai').assert;
+﻿/// <reference path="../../types/chai.d.ts" />
+/// <reference path="../../types/mocha.d.ts" />
+/// <reference path="../../types/underscore.d.ts" />
+var SlugGenerator = require('../../src/lib/SlugGenerator');
 var _ = require('underscore');
+var chai = require('chai');
+var assert = chai.assert;
 
 describe('SlugGenerator', function () {
-    var slugGenerator;
-    before(function () {
-        slugGenerator = new SlugGenerator(5, 'bcdfghjklmnpqrstvwxz');
-    });
     describe('generated slug', function () {
         it('should contain 5 consonants', function () {
-            var slug = slugGenerator.generate();
+            var slug = SlugGenerator.generate(5, 'bcdfghjklmnpqrstvwxz');
             assert.match(slug, /[bcdfghjklmnpqrstvwxz]{5}/);
         });
 
@@ -18,7 +17,8 @@ describe('SlugGenerator', function () {
             var n = 20;
             var slugs = [];
             while (n--) {
-                slugs.push(slugGenerator.generate());
+                var slug = SlugGenerator.generate(5, 'bcdfghjklmnpqrstvwxz');
+                slugs.push(slug);
             }
             assert.equal(_.uniq(slugs).length, slugs.length);
         });
