@@ -1,4 +1,7 @@
 /// <reference path="../../types/node/node.d.ts" />
+/// <reference path="../../types/express/express.d.ts" />
+
+import express = require('express');
 
 var util = require('util'),
     request = require('request'),
@@ -109,7 +112,7 @@ function load_profile(token, callback) {
   });
 }
 
-export function setup(app) {
+export function setup(app : express.Application) : void {
     app.get('/login', login);
     app.get('/login/authenticated', authenticated);
     app.get('/logout', logout);

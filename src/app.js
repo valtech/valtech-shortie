@@ -36,18 +36,11 @@ app.configure('development', function () {
     app.use(express.errorHandler());
 });
 
-// static routes
-app.get('/', staticRoutes.index);
-app.get('/admin', staticRoutes.admin);
-
-// auth routes
+staticRoutes.setup(app);
 authRoutes.setup(app);
-
-// redirect routes
 redirectRoutes.setup(app);
+errorRoutes.setup(app);
 
-// error routes
-app.all('*', errorRoutes.handleNotFound);
 app.use(errorRoutes.handleError);
 
 exports.App = app;

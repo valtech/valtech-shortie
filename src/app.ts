@@ -7,8 +7,8 @@ var path = require('path');
 
 import redirectRoutes = require('./redirects/routes');
 import authRoutes = require('./auth/routes');
-var staticRoutes = require('./routes/static');
-var errorRoutes = require('./routes/error');
+import staticRoutes = require('./routes/static');
+import errorRoutes = require('./routes/error');
 
 var app = express();
 
@@ -37,18 +37,12 @@ app.configure('development', function () {
   app.use(express.errorHandler());
 });
 
-// static routes
-app.get('/', staticRoutes.index);
-app.get('/admin', staticRoutes.admin);
-
-// auth routes
+staticRoutes.setup(app);
 authRoutes.setup(app);
-
-// redirect routes
 redirectRoutes.setup(app);
+errorRoutes.setup(app);
 
-// error routes
-app.all('*', errorRoutes.handleNotFound);
 app.use(errorRoutes.handleError);
+
 
 export var App = app;

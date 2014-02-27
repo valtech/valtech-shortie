@@ -1,4 +1,5 @@
 /// <reference path="../../types/node/node.d.ts" />
+/// <reference path="../../types/express/express.d.ts" />
 var util = require('util'), request = require('request'), qs = require('querystring');
 
 var VAUTH_CONSUMER_KEY = 'wix6Iz249hFjMsXI7QcfUTKl8oXVH4CfYNSE7cED', VAUTH_CONSUMER_SECRET = 'L76UBmoGjx3Veq8MLi622yAUZMwAMgchikIEJeI2';
