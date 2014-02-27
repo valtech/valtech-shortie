@@ -28,6 +28,7 @@
     "grunt-contrib-jshint": "~0.8.0",
     "grunt-mocha-test": "~0.9.3",
     "jshint": "~2.4.4",
-    "typescript": "~0.9.7"
+    "typescript": "~0.9.7",
+    "grunt-typescript-compile": "^0.2.0"
   }
 }
