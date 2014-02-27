@@ -17,6 +17,7 @@ exports.login = function(req, res, next) {
   if (req.authSession.signed_in === true) {
     return res.redirect('/me?alreadySignedIn');
   }
+
   var oauth_body = {
     consumer_key: VAUTH_CONSUMER_KEY,
     consumer_secret: VAUTH_CONSUMER_SECRET,
@@ -42,9 +43,12 @@ exports.logout = function(req, res) {
 
 exports.authenticated = function(req, res, next) {
   var token = req.authSession.token;
+  delete req.authSession.token;
+
   if (req.query.oauth_verifier) {
     token.oauth_verifier = req.query.oauth_verifier;
   }
+
   var oauth_body = {
     consumer_key: VAUTH_CONSUMER_KEY,
     consumer_secret: VAUTH_CONSUMER_SECRET,
@@ -57,7 +61,6 @@ exports.authenticated = function(req, res, next) {
     if (err) return next(err);
 
     var token = qs.parse(vauthBody);
-    req.authSession.token = token;
     console.log('sucessfully got an access token',  token);
 
     load_profile(token, function(err, profile) {
@@ -73,7 +76,6 @@ exports.authenticated = function(req, res, next) {
 
 exports.viewSession = function(req, res) {
   res.send(200, req.authSession);
-
 };
 
 function abs_url(req, path) {
