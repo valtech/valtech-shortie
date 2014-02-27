@@ -2,6 +2,16 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
+    typescript: {
+      options: {
+        module: 'commonjs',
+        target: 'es5'
+      },
+      dist: {
+        src: 'src/lib/**/*.ts'
+      }
+    },
+
     mochaTest: {
       test: {
         options: {
@@ -33,7 +43,9 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-mocha-test');
+  grunt.loadNpmTasks('grunt-typescript-compile');
 
   grunt.registerTask('test', ['mochaTest']);
-  grunt.registerTask('default', ['test', 'jshint']);
+  grunt.registerTask('build', ['typescript']);
+  grunt.registerTask('default', ['build', 'test', 'jshint']);
 };
