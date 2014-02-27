@@ -2,7 +2,6 @@ var util = require('util'),
     request = require('request'),
     qs = require('querystring');
 
-// This client token is for the 'valte.ch localhost' application in vauth (with id 19)
 var VAUTH_CONSUMER_KEY = 'wix6Iz249hFjMsXI7QcfUTKl8oXVH4CfYNSE7cED',
     VAUTH_CONSUMER_SECRET = 'L76UBmoGjx3Veq8MLi622yAUZMwAMgchikIEJeI2';
 
@@ -14,18 +13,21 @@ var VAUTH_HOST = 'vauth.valtech.se',
     VAUTH_USERS_URL = util.format('https://%s/users/', VAUTH_HOST);
 
 exports.login = function(req, res, next) {
+  // TODO: Refactor this check into some middleware
+  if (req.authSession.signed_in === true) {
+    return res.redirect('/me?alreadySignedIn');
+  }
   var oauth_body = {
     consumer_key: VAUTH_CONSUMER_KEY,
     consumer_secret: VAUTH_CONSUMER_SECRET,
-    callback: abs_url(req, '/authenticated')
+    callback: abs_url(req, '/login/authenticated')
   };
   request.post({ url: VAUTH_REQUEST_TOKEN_URL, oauth: oauth_body }, function(vauthErr, vauthRes, vauthBody) {
-    var statusCode = vauthRes.statusCode;
-    if (vauthErr || statusCode != 200) {
-      return next('invalid response from vauth: ' + statusCode + '. ' + vauthBody);
-    }
+    var err = parse_vauth_err(vauthErr, vauthRes, vauthBody);
+    if (err) return next(err);
+
     var request_token = qs.parse(vauthBody);
-    req.session.request_token = request_token;
+    req.authSession.token = request_token;
     console.log('sucessfully got a request token',  request_token);
 
     var authorize_url = util.format('%s?oauth_token=%s', VAUTH_AUTHORIZE_URL, request_token.oauth_token);
@@ -34,13 +36,12 @@ exports.login = function(req, res, next) {
 };
 
 exports.logout = function(req, res) {
-  req.session = null;
-  res.send(200, "logout");
+  req.authSession.reset();
+  res.redirect('/');
 };
 
 exports.authenticated = function(req, res, next) {
-  var token = req.session.request_token;
-  req.session.request_token = null; // TODO: Should we clear the request token from the session here?
+  var token = req.authSession.token;
   if (req.query.oauth_verifier) {
     token.oauth_verifier = req.query.oauth_verifier;
   }
@@ -52,22 +53,38 @@ exports.authenticated = function(req, res, next) {
     verifier: token.oauth_verifier
   };
   request.post({ url: VAUTH_ACCESS_TOKEN_URL, oauth: oauth_body }, function(vauthErr, vauthRes, vauthBody) {
-    var statusCode = vauthRes.statusCode;
-    if (vauthErr || statusCode != 200) {
-      return next('invalid response from vauth: ' + statusCode + '. ' + vauthBody);
-    }
+    var err = parse_vauth_err(vauthErr, vauthRes, vauthBody);
+    if (err) return next(err);
+
     var token = qs.parse(vauthBody);
+    req.authSession.token = token;
     console.log('sucessfully got an access token',  token);
+
     load_profile(token, function(err, profile) {
       if (err) return next(err);
+
+      req.authSession.profile = profile;
+      req.authSession.signed_in = true;
       console.log('got a profile', profile);
-      res.send(200, profile);
+      res.redirect('/me');
     });
   });
 };
 
+exports.viewSession = function(req, res) {
+  res.send(200, req.authSession);
+
+};
+
 function abs_url(req, path) {
   return util.format('%s://%s%s', req.protocol, req.get('host'), path);
+}
+
+function parse_vauth_err(err, res, body) {
+  var status_code = res.statusCode;
+  if (err || status_code != 200) {
+    return 'invalid response from vauth: ' + status_code + ': ' + body;
+  }
 }
 
 function load_profile(token, callback) {
@@ -80,11 +97,9 @@ function load_profile(token, callback) {
   var headers = {
     'Accept': '*/*'
   };
-  request.get({ url: VAUTH_PROFILE_URL, oauth: oauth_body, headers: headers }, function(vauthErr, vauthRes, vauthBody) {
-    var statusCode = vauthRes.statusCode;
-    if (vauthErr || statusCode != 200) {
-      return callback('invalid response from vauth: ' + statusCode + '. ' + vauthBody);
-    }
+  request.get({ url: VAUTH_PROFILE_URL, oauth: oauth_body, json: true, headers: headers }, function(vauthErr, vauthRes, vauthBody) {
+    var err = parse_vauth_err(vauthErr, vauthRes, vauthBody);
+    if (err) return callback(err);
 
     callback(null, vauthBody);
   });

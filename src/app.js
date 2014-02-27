@@ -1,6 +1,7 @@
 var express = require('express'),
     http = require('http'),
-    path = require('path');
+    path = require('path'),
+    sessions = require('client-sessions');
 
 var staticRoutes = require('./routes/static'),
     redirectRoutes = require('./routes/redirect'),
@@ -18,9 +19,15 @@ app.use(express.favicon(path.join(__dirname, 'public/favicon.ico')));
 app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
-app.use(express.cookieParser('LKSDJFLKSHf-very-secret'));
-app.use(express.cookieSession()); // TODO: Set secret and age and stuff
-// Should we use cookie sessions?
+app.use(sessions({
+  cookieName: 'authSession',
+  secret: 'TODO: create some better secret',
+  duration: 60 * 60 * 1000, // 1h
+  activeDuration: 5 * 60 * 1000, // 5m 'sliding expiration'
+  cookie: {
+    secure: false // TODO: Set to true in stage/prod when we have certs
+  }
+}));
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -32,8 +39,9 @@ if ('development' == app.get('env')) {
 app.get('/', staticRoutes.index);
 
 app.get('/login', authRoutes.login);
+app.get('/login/authenticated', authRoutes.authenticated);
 app.get('/logout', authRoutes.logout);
-app.get('/authenticated', authRoutes.authenticated);
+app.get('/me', authRoutes.viewSession);
 
 app.get('/admin', staticRoutes.admin);
 
