@@ -17,7 +17,7 @@ exports.login = function(req, res, next) {
   var oauth_body = {
     consumer_key: VAUTH_CONSUMER_KEY,
     consumer_secret: VAUTH_CONSUMER_SECRET,
-    callback: 'http://localhost:3000/authenticated' // TODO: Build callback from currently used scheme + hostname
+    callback: abs_url(req, '/authenticated')
   };
   request.post({ url: VAUTH_REQUEST_TOKEN_URL, oauth: oauth_body }, function(vauthErr, vauthRes, vauthBody) {
     var statusCode = vauthRes.statusCode;
@@ -65,6 +65,10 @@ exports.authenticated = function(req, res, next) {
     });
   });
 };
+
+function abs_url(req, path) {
+  return util.format('%s://%s%s', req.protocol, req.get('host'), path);
+}
 
 function load_profile(token, callback) {
   var oauth_body = {
