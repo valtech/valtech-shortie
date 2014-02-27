@@ -45,16 +45,12 @@ app.get('/me', authRoutes.viewSession);
 
 app.get('/admin', staticRoutes.admin);
 
-app.get('/:slug', redirectRoutes.get);
-app.post('/', redirectRoutes.post);
-app.put('/:slug', redirectRoutes.put);
-app.delete('/:slug', redirectRoutes.delete);
+app.get('/:slug', redirectRoutes.getHandler);
+app.post('/', redirectRoutes.postHandler);
+app.put('/:slug', redirectRoutes.putHandler);
+app.delete('/:slug', redirectRoutes.deleteHandler);
 
 app.all('*', errorRoutes.handleNotFound);
 app.use(errorRoutes.handleError);
-
-http.createServer(app).listen(app.get('port'), function() {
-  console.log('Express server listening on port ' + app.get('port'));
-});
 
 exports.app = app;
