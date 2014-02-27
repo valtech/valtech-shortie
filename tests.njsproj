@@ -23,6 +23,7 @@
   <ItemGroup>
     <Compile Include="db\RedirectRepository.js" />
     <Compile Include="lib\SlugGenerator.js" />
+    <Compile Include="routes\error.js" />
     <Compile Include="routes\static.js" />
   </ItemGroup>
   <ItemGroup>

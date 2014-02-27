@@ -24,6 +24,8 @@
   <ItemGroup>
     <Compile Include="app.js" />
     <Compile Include="lib\SlugGenerator.ts" />
+    <Compile Include="routes\auth.js" />
+    <Compile Include="routes\error.js" />
     <Compile Include="routes\redirect.js" />
     <Compile Include="routes\static.js" />
   </ItemGroup>
@@ -32,12 +34,19 @@
     <Folder Include="public\" />
     <Folder Include="routes\" />
     <Folder Include="views\" />
+    <Folder Include="views\layouts\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="lib\DbFactory.ts" />
     <Content Include="lib\RedirectRepository.ts" />
+    <Content Include="public\favicon.ico" />
+    <Content Include="views\404.jade" />
+    <Content Include="views\500.jade" />
     <Content Include="views\admin.html" />
+    <Content Include="views\admin.jade" />
     <Content Include="views\index.html" />
+    <Content Include="views\index.jade" />
+    <Content Include="views\layouts\layout.jade" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />
