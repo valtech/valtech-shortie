@@ -39,8 +39,9 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-mocha-test');
     grunt.loadNpmTasks('grunt-typescript-compile');
+    grunt.loadNpmTasks('grunt-npm-install');
 
     grunt.registerTask('test', ['mochaTest']);
     grunt.registerTask('build', ['typescript']);
-    grunt.registerTask('default', ['build', 'test', 'jshint']);
+    grunt.registerTask('default', ['npm-install', 'build', 'test', 'jshint']);
 };
