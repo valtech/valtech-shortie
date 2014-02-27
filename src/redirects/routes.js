@@ -1,4 +1,5 @@
-﻿function getHandler(req, res, next) {
+﻿/// <reference path="../../types/express/express.d.ts" />
+function getHandler(req, res, next) {
     if (req.params.slug == 'cats') {
         res.redirect('http://icanhazcheezburger.com/');
         return;
@@ -14,7 +15,6 @@ function postHandler(req, res, next) {
     // return 400 on invalid data
     next();
 }
-exports.postHandler = postHandler;
 
 function putHandler(req, res, next) {
     // require auth
@@ -22,11 +22,17 @@ function putHandler(req, res, next) {
     // return 400 on slug/shortUrl mismatch
     // return redirect entity in body on success
 }
-exports.putHandler = putHandler;
 
 function deleteHandler(req, res, next) {
     // require auth
     // delete redirect
     // only returns 200 or 404
 }
-exports.deleteHandler = deleteHandler;
+
+function setup(app) {
+    app.get('/:slug', exports.getHandler);
+    app.post('/', postHandler);
+    app.put('/:slug', putHandler);
+    app.del('/:slug', deleteHandler);
+}
+exports.setup = setup;

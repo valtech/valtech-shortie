@@ -6,7 +6,7 @@ var sessions = require('client-sessions');
 var path = require('path');
 
 import redirectRoutes = require('./redirects/routes');
-var authRoutes = require('./auth/routes');
+import authRoutes = require('./auth/routes');
 var staticRoutes = require('./routes/static');
 var errorRoutes = require('./routes/error');
 
@@ -42,16 +42,10 @@ app.get('/', staticRoutes.index);
 app.get('/admin', staticRoutes.admin);
 
 // auth routes
-app.get('/login', authRoutes.login);
-app.get('/login/authenticated', authRoutes.authenticated);
-app.get('/logout', authRoutes.logout);
-app.get('/me', authRoutes.viewSession);
+authRoutes.setup(app);
 
 // redirect routes
-app.get('/:slug', redirectRoutes.getHandler);
-app.post('/', redirectRoutes.postHandler);
-app.put('/:slug', redirectRoutes.putHandler);
-app.del('/:slug', redirectRoutes.deleteHandler);
+redirectRoutes.setup(app);
 
 // error routes
 app.all('*', errorRoutes.handleNotFound);

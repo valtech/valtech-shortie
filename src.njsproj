@@ -23,11 +23,12 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
     <Compile Include="app.js" />
+    <Compile Include="auth\routes.js" />
     <Compile Include="lib\DbFactory.js" />
     <Compile Include="lib\SlugGenerator.js" />
     <Compile Include="lib\SlugGenerator.ts" />
     <Compile Include="redirects\data.js" />
-    <Compile Include="auth\routes.js" />
+    <Compile Include="auth\routes.ts" />
     <Compile Include="redirects\routes.js" />
     <Compile Include="routes\error.js" />
     <Compile Include="redirects\routes.ts" />

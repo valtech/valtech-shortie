@@ -1,4 +1,8 @@
-﻿export function getHandler(req, res, next) {
+﻿/// <reference path="../../types/express/express.d.ts" />
+
+import express = require('express');
+
+export function getHandler(req, res, next) {
   if (req.params.slug == 'cats') {
     res.redirect('http://icanhazcheezburger.com/');
     return;
@@ -6,7 +10,7 @@
   next();
 }
 
-export function postHandler(req, res, next) {
+function postHandler(req, res, next) {
   // require auth
   // add new redirect with generated slug
   // return 200 and redirect entity in body on success
@@ -14,15 +18,22 @@ export function postHandler(req, res, next) {
   next();
 }
 
-export function putHandler(req, res, next) {
+function putHandler(req, res, next) {
   // require auth
   // update slug or add redirect with specified slug
   // return 400 on slug/shortUrl mismatch
   // return redirect entity in body on success
 }
 
-export function deleteHandler(req, res, next) {
+function deleteHandler(req, res, next) {
   // require auth
   // delete redirect
   // only returns 200 or 404
+}
+
+export function setup(app: express.Application): void {
+  app.get('/:slug', getHandler);
+  app.post('/', postHandler);
+  app.put('/:slug', putHandler);
+  app.del('/:slug', deleteHandler);
 }
