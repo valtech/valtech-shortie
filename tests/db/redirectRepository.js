@@ -1,11 +1,11 @@
 ﻿var assert = require('chai').assert;
-var dbFactory = require('../../src/lib/dbFactory');
-var RedirectRepository = require('../../src/lib/redirectRepository');
+var DbFactory = require('../../src/lib/DbFactory');
+var RedirectRepository = require('../../src/lib/RedirectRepository');
 
 describe('RedirectRepository', function() {
   var repo, db;
   beforeEach(function(done) {
-    dbFactory('nedb', {}, function(err, db_) {
+    DbFactory.create('nedb', {}, function(err, db_) {
       db = db_;
       repo = new RedirectRepository(db_);
       done();
