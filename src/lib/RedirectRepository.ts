@@ -1,10 +1,10 @@
 ﻿/// <reference path="../../types/node/node.d.ts" />
 
-class RedirectRepository {
+export class RedirectRepository {
     private db : any;
 
     constructor(db) {
-        this.db = db;
+      this.db = db;
     }
 
     public addRedirect(redirect: any, callback? : (err : string, doc : any) => void) {
@@ -22,4 +22,3 @@ class RedirectRepository {
         return this.db.find({ url: url });
     }
 }
-module.exports = RedirectRepository;

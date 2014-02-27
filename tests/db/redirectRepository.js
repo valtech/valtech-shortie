@@ -1,6 +1,7 @@
-﻿var assert = require('chai').assert;
-var DbFactory = require('../../src/lib/DbFactory');
-var RedirectRepository = require('../../src/lib/RedirectRepository');
+﻿var DbFactory = require('../../src/lib/DbFactory');
+var RedirectRepository = require('../../src/lib/RedirectRepository').RedirectRepository;
+
+var assert = require('chai').assert;
 
 describe('RedirectRepository', function() {
   var repo, db;

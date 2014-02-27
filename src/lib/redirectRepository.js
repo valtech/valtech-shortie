@@ -19,4 +19,4 @@ var RedirectRepository = (function () {
     };
     return RedirectRepository;
 })();
-module.exports = RedirectRepository;
+exports.RedirectRepository = RedirectRepository;
