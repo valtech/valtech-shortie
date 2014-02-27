@@ -1,4 +1,4 @@
-﻿/// <reference path="../../types/express/express.d.ts" />
+﻿/// <reference path="../../types/express.d.ts" />
 function getHandler(req, res, next) {
     if (req.params.slug == 'cats') {
         res.redirect('http://icanhazcheezburger.com/');

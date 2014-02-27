@@ -1,4 +1,4 @@
-﻿/// <reference path="../../types/node/node.d.ts" />
+﻿/// <reference path="../../types/node.d.ts" />
 var SlugGenerator = (function () {
     function SlugGenerator(slugLength, allowedChars) {
         this.slugLength = slugLength || 5;
