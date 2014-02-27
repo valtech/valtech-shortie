@@ -1,10 +1,6 @@
-﻿var path = require('path');
-
-exports.index = function(req, res) {
-  var filePath = path.join(__dirname, '../views/index.html');
-  res.sendfile(filePath);
+﻿exports.index = function(req, res) {
+  res.render('index');
 };
 exports.admin = function(req, res) {
-  var filePath = path.join(__dirname, '../views/admin.html');
-  res.sendfile(filePath);
+  res.render('admin');
 };
