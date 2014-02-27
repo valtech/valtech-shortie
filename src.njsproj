@@ -42,9 +42,7 @@
     <Content Include="public\favicon.ico" />
     <Content Include="views\404.jade" />
     <Content Include="views\500.jade" />
-    <Content Include="views\admin.html" />
     <Content Include="views\admin.jade" />
-    <Content Include="views\index.html" />
     <Content Include="views\index.jade" />
     <Content Include="views\layouts\layout.jade" />
   </ItemGroup>
