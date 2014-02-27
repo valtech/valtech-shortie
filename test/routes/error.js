@@ -4,7 +4,7 @@ var request = require('supertest'),
 
 process.env['env'] = 'test';
 
-var app = require('../../src/app').app;
+var app = require('../../src/app').App;
 
 _.each(['GET', 'POST'], function(verb) {
   describe(verb + ' /non-existing-resource', function() {

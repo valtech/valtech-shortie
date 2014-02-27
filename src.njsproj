@@ -45,6 +45,7 @@
     <Folder Include="views\layouts\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app.ts" />
     <Content Include="lib\DbFactory.ts" />
     <Content Include="redirects\data.ts" />
     <Content Include="public\favicon.ico" />
