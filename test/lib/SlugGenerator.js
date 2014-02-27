@@ -1,5 +1,4 @@
-﻿/// <reference path="../../types/chai.d.ts" />
-/// <reference path="../../types/mocha.d.ts" />
+﻿/// <reference path="../../types/mocha.d.ts" />
 /// <reference path="../../types/underscore.d.ts" />
 var SlugGenerator = require('../../src/lib/SlugGenerator');
 var _ = require('underscore');

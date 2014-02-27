@@ -23,6 +23,7 @@
   <ItemGroup>
     <Compile Include="lib\SlugGenerator.js" />
     <Compile Include="redirects\data.js" />
+    <Compile Include="redirects\data.ts" />
     <Compile Include="lib\SlugGenerator.ts" />
     <Compile Include="routes\error.js" />
     <Compile Include="routes\static.js" />
