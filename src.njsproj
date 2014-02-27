@@ -24,6 +24,7 @@
   <ItemGroup>
     <Compile Include="app.js" />
     <Compile Include="lib\DbFactory.js" />
+    <Compile Include="lib\RedirectRepository.js" />
     <Compile Include="lib\SlugGenerator.js" />
     <Compile Include="lib\SlugGenerator.ts" />
     <Compile Include="redirects\data.js" />
