@@ -6,7 +6,7 @@ var path = require('path');
 
 var redirectRoutes = require('./redirects/routes');
 var authRoutes = require('./auth/routes');
-var staticRoutes = require('./routes/static');
+var staticRoutes = require('./static/routes');
 var errorRoutes = require('./error/routes');
 var errorMiddleware = require('./error/middleware');
 
@@ -33,10 +33,6 @@ app.configure(function () {
     app.use(express.static(path.join(__dirname, 'public')));
 });
 
-app.configure('production', function() {
-    app.use(errorMiddleware.handleError);
-});
-
 app.configure('development', function () {
     app.use(express.errorHandler());
 });
@@ -45,5 +41,7 @@ staticRoutes.setup(app);
 authRoutes.setup(app);
 redirectRoutes.setup(app);
 errorRoutes.setup(app);
+
+app.use(errorMiddleware.handleError);
 
 exports.App = app;

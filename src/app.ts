@@ -7,7 +7,7 @@ var path = require('path');
 
 import redirectRoutes = require('./redirects/routes');
 import authRoutes = require('./auth/routes');
-import staticRoutes = require('./routes/static');
+import staticRoutes = require('./static/routes');
 import errorRoutes = require('./error/routes');
 import errorMiddleware = require('./error/middleware');
 
