@@ -24,16 +24,17 @@
   <ItemGroup>
     <Compile Include="app.js" />
     <Compile Include="lib\DbFactory.js" />
-    <Compile Include="lib\RedirectRepository.js" />
     <Compile Include="lib\SlugGenerator.js" />
     <Compile Include="lib\SlugGenerator.ts" />
+    <Compile Include="redirects\data.js" />
     <Compile Include="routes\auth.js" />
     <Compile Include="routes\error.js" />
-    <Compile Include="routes\redirect.js" />
+    <Compile Include="redirects\routes.js" />
     <Compile Include="routes\static.js" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="lib\" />
+    <Folder Include="redirects\" />
     <Folder Include="public\" />
     <Folder Include="routes\" />
     <Folder Include="views\" />
@@ -41,7 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="lib\DbFactory.ts" />
-    <Content Include="lib\RedirectRepository.ts" />
+    <Content Include="redirects\data.ts" />
     <Content Include="public\favicon.ico" />
     <Content Include="views\404.jade" />
     <Content Include="views\500.jade" />

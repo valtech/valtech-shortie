@@ -21,14 +21,14 @@
     <LaunchUrl />
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="db\RedirectRepository.js" />
+    <Compile Include="redirects\data.js" />
     <Compile Include="lib\SlugGenerator.js" />
     <Compile Include="routes\error.js" />
     <Compile Include="routes\static.js" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="lib\" />
-    <Folder Include="db\" />
+    <Folder Include="redirects\" />
     <Folder Include="routes\" />
   </ItemGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />

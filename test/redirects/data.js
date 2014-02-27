@@ -1,5 +1,5 @@
 ﻿var DbFactory = require('../../src/lib/DbFactory');
-var RedirectRepository = require('../../src/lib/RedirectRepository').RedirectRepository;
+var data = require('../../src/redirects/data');
 
 var assert = require('chai').assert;
 
@@ -8,7 +8,7 @@ describe('RedirectRepository', function() {
   beforeEach(function(done) {
     DbFactory.create('nedb', {}, function(err, db_) {
       db = db_;
-      repo = new RedirectRepository(db_);
+      repo = new data.RedirectRepository(db_);
       done();
     });
   });
