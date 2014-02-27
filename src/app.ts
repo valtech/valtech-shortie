@@ -12,7 +12,7 @@ var errorRoutes = require('./routes/error');
 
 var app = express();
 
-app.configure('production', function () {
+app.configure(function () {
   app.set('port', process.env.PORT || 3000);
   app.set('views', path.join(__dirname, 'views'));
   app.set('view engine', 'jade');
@@ -51,7 +51,7 @@ app.get('/me', authRoutes.viewSession);
 app.get('/:slug', redirectRoutes.getHandler);
 app.post('/', redirectRoutes.postHandler);
 app.put('/:slug', redirectRoutes.putHandler);
-app.delete('/:slug', redirectRoutes.deleteHandler);
+app.del('/:slug', redirectRoutes.deleteHandler);
 
 // error routes
 app.all('*', errorRoutes.handleNotFound);
