@@ -5,7 +5,7 @@ var express = require('express'),
 
 var staticRoutes = require('./routes/static'),
     redirectRoutes = require('./redirects/routes'),
-    authRoutes = require('./routes/auth'),
+    authRoutes = require('./auth/routes'),
     errorRoutes = require('./routes/error');
 
 
