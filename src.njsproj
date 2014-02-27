@@ -23,6 +23,9 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
     <Compile Include="app.js" />
+    <Compile Include="lib\DbFactory.js" />
+    <Compile Include="lib\RedirectRepository.js" />
+    <Compile Include="lib\SlugGenerator.js" />
     <Compile Include="lib\SlugGenerator.ts" />
     <Compile Include="routes\auth.js" />
     <Compile Include="routes\error.js" />

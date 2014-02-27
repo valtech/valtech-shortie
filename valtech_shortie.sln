@@ -16,7 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "metafiles", "metafiles", "{
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "tests", "tests.njsproj", "{E7DBDDB5-D115-431A-A602-1C4B67CFEECC}"
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "test", "test.njsproj", "{E7DBDDB5-D115-431A-A602-1C4B67CFEECC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
