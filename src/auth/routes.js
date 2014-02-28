@@ -1,5 +1,7 @@
 /// <reference path="../../types/node.d.ts" />
 /// <reference path="../../types/express.d.ts" />
+var authMiddleware = require('./middleware');
+
 var util = require('util'), request = require('request'), qs = require('querystring');
 
 var VAUTH_CONSUMER_KEY = 'wix6Iz249hFjMsXI7QcfUTKl8oXVH4CfYNSE7cED', VAUTH_CONSUMER_SECRET = 'L76UBmoGjx3Veq8MLi622yAUZMwAMgchikIEJeI2';
@@ -7,7 +9,6 @@ var VAUTH_CONSUMER_KEY = 'wix6Iz249hFjMsXI7QcfUTKl8oXVH4CfYNSE7cED', VAUTH_CONSU
 var VAUTH_HOST = 'vauth.valtech.se', VAUTH_REQUEST_TOKEN_URL = util.format('https://%s/oauth/request_token', VAUTH_HOST), VAUTH_ACCESS_TOKEN_URL = util.format('https://%s/oauth/access_token', VAUTH_HOST), VAUTH_AUTHORIZE_URL = util.format('https://%s/oauth/authorize', VAUTH_HOST), VAUTH_PROFILE_URL = util.format('https://%s/users/me', VAUTH_HOST), VAUTH_USERS_URL = util.format('https://%s/users/', VAUTH_HOST);
 
 function login(req, res, next) {
-    // TODO: Refactor this check into some middleware
     if (req.authSession.signed_in === true) {
         return res.redirect('/me?alreadySignedIn');
     }
@@ -24,6 +25,11 @@ function login(req, res, next) {
 
         var request_token = qs.parse(vauthBody);
         req.authSession.token = request_token;
+        var redirect = req.query.redirect;
+        if (redirect) {
+            console.log('will redirect after login to', redirect);
+            req.authSession.redirectAfterLogin = redirect;
+        }
         console.log('sucessfully got a request token', request_token);
 
         var authorize_url = util.format('%s?oauth_token=%s', VAUTH_AUTHORIZE_URL, request_token.oauth_token);
@@ -42,6 +48,8 @@ function authenticated(req, res, next) {
 
     if (req.query.oauth_verifier) {
         token.oauth_verifier = req.query.oauth_verifier;
+    } else {
+        next();
     }
 
     var oauth_body = {
@@ -66,7 +74,14 @@ function authenticated(req, res, next) {
             req.authSession.profile = profile;
             req.authSession.signed_in = true;
             console.log('got a profile', profile);
-            res.redirect('/me');
+            console.log('successfully logged in');
+            var redirect = '/me';
+            if (req.authSession.redirectAfterLogin) {
+                redirect = req.authSession.redirectAfterLogin;
+                delete req.authSession.redirectAfterLogin;
+            }
+            console.log('will redirect to', redirect);
+            res.redirect(redirect);
         });
     });
 }
@@ -109,6 +124,6 @@ function setup(app) {
     app.get('/login', login);
     app.get('/login/authenticated', authenticated);
     app.get('/logout', logout);
-    app.get('/me', viewSession);
+    app.get('/me', authMiddleware.requireAuth, viewSession);
 }
 exports.setup = setup;

@@ -2,6 +2,7 @@
 /// <reference path="../../types/express.d.ts" />
 
 import express = require('express');
+import authMiddleware = require('./middleware');
 
 var util = require('util'),
     request = require('request'),
@@ -18,7 +19,6 @@ var VAUTH_HOST = 'vauth.valtech.se',
     VAUTH_USERS_URL = util.format('https://%s/users/', VAUTH_HOST);
 
 function login(req, res, next) {
-  // TODO: Refactor this check into some middleware
   if (req.authSession.signed_in === true) {
     return res.redirect('/me?alreadySignedIn');
   }
@@ -34,6 +34,11 @@ function login(req, res, next) {
 
     var request_token = qs.parse(vauthBody);
     req.authSession.token = request_token;
+    var redirect = req.query.redirect;
+    if (redirect) {
+      console.log('will redirect after login to', redirect);
+      req.authSession.redirectAfterLogin = redirect;
+    }
     console.log('sucessfully got a request token',  request_token);
 
     var authorize_url = util.format('%s?oauth_token=%s', VAUTH_AUTHORIZE_URL, request_token.oauth_token);
@@ -52,6 +57,8 @@ function authenticated(req, res, next) {
 
   if (req.query.oauth_verifier) {
     token.oauth_verifier = req.query.oauth_verifier;
+  } else {
+    next();
   }
 
   var oauth_body = {
@@ -74,7 +81,14 @@ function authenticated(req, res, next) {
       req.authSession.profile = profile;
       req.authSession.signed_in = true;
       console.log('got a profile', profile);
-      res.redirect('/me');
+      console.log('successfully logged in');
+      var redirect = '/me';
+      if (req.authSession.redirectAfterLogin) {
+        redirect = req.authSession.redirectAfterLogin;
+        delete req.authSession.redirectAfterLogin;
+      }
+      console.log('will redirect to', redirect);
+      res.redirect(redirect);
     });
   });
 }
@@ -116,5 +130,5 @@ export function setup(app : express.Application) : void {
     app.get('/login', login);
     app.get('/login/authenticated', authenticated);
     app.get('/logout', logout);
-    app.get('/me', viewSession);
+    app.get('/me', authMiddleware.requireAuth, viewSession);
 }

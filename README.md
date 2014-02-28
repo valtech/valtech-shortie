@@ -37,9 +37,14 @@ This will install all required Node modules.
     grunt
     node src/server.js
 
-#### With [node-supervisor](https://github.com/isaacs/node-supervisor)
+#### With grunt and [node-supervisor](https://github.com/isaacs/node-supervisor)
 
-    grunt
+Tab A:
+
+    grunt default watch
+
+Tab B:
+
     supervisor src/server.js
 
 #### Debugging with [node-inspector](https://github.com/node-inspector/node-inspector)
