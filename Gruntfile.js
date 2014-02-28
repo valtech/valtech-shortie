@@ -33,6 +33,16 @@ module.exports = function (grunt) {
                     ]
                 }
             }
+        },
+
+        watch: {
+            all: {
+                files: [
+                    'src/**/*.ts',
+                    'test/**/*.js'
+                ],
+                tasks: ['default']
+            }
         }
     });
 
@@ -40,6 +50,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-mocha-test');
     grunt.loadNpmTasks('grunt-typescript-compile');
     grunt.loadNpmTasks('grunt-npm-install');
+    grunt.loadNpmTasks('grunt-contrib-watch');
 
     grunt.registerTask('test', ['mochaTest']);
     grunt.registerTask('build', ['typescript']);
