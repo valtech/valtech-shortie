@@ -34,7 +34,6 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="src\models\" />
     <Folder Include="src\viewmodels\" />
     <Folder Include="test\lib\" />
     <Folder Include="test\viewmodels\" />
@@ -57,7 +56,6 @@
     <Content Include=".types\jquery.d.ts" />
     <Content Include=".types\my-chai.d.ts" />
     <Content Include=".types\knockout.d.ts" />
-    <Content Include="src\models\Shortie.ts" />
     <Content Include="src\viewmodels\shortie-vm.ts" />
     <Content Include="test\lib\SlugGenerator.ts" />
     <Content Include="test\redirects\data.ts" />
