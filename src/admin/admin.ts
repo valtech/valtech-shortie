@@ -1,10 +1,12 @@
+/// <reference path="../../.types/node.d.ts" />
 /// <reference path="../../.types/underscore.d.ts" />
+/// <reference path="../../.types/jquery.d.ts" />
 
 // This is for frontend logic
 
 import _ = require('underscore');
-var $ = require('jquery');
+import $ = require('jquery');
 
-_.each(['testing', 'browserify', 'through alerts'], function(x) {
-  window.alert(x);
+_.each(['testing', 'browserify', 'through alerts'], x => {
+	window.alert(x);
 });
