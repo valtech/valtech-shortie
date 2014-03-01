@@ -8,7 +8,7 @@ module.exports = function (grunt) {
                 target: 'es5'
             },
             dist: {
-            	src: ['src/**/*.ts','test/**/*.ts']
+            src: ['src/**/*.ts','test/**/*.ts']
             }
         },
 
