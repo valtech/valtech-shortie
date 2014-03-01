@@ -15,21 +15,23 @@ import shortie = require('./shortie-vm');
 export class vm {
 	public shorties: KnockoutObservableArray<shortie.vm>;
 	public currentShortie: KnockoutObservable<shortie.vm>;
-	public select : (shorty: shortie.vm) => any;
+	public select = (shortie: shortie.vm) => {
+		var current = _.find<shortie.vm>(this.shorties(), s=> s == shortie);
+		if (!current)
+			return;
+
+		this.shorties().forEach(s=> s.isCurrent(false));
+		current.isCurrent(true);
+	};
 
 	constructor(raws: Array<shortie.obj>) {
 		var arrayOfVms = _.map(raws, raw => new shortie.vm(raw));
 		this.shorties = ko.observableArray(arrayOfVms);
 
-		this.select = (shorty) => {
-			var current = _.find<shortie.vm>(this.shorties(), s=> s == shorty);
-			if (!current)
-				return;
 
-			this.shorties().forEach(s=> s.isCurrent(false));
-			current.isCurrent(true);
-		};
 	}
 
 	
+
+
 }
