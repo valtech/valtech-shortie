@@ -30,8 +30,8 @@ app.configure(function () {
       secure: false // TODO: Set to true in stage/prod when we have certs
     }
   }));
-  app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
+  app.use(app.router);
 });
 
 app.configure('development', function () {

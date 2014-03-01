@@ -30,7 +30,16 @@ module.exports = function (grunt) {
                     src: [
                       'Gruntfile.js',
                       'src/**/*.js',
+                      '!src/public/bundle.js'
                     ]
+                }
+            }
+        },
+
+        browserify: {
+            dist: {
+                files: {
+                    'src/public/bundle.js': ['src/admin/admin.js']
                 }
             }
         },
@@ -50,9 +59,10 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-mocha-test');
     grunt.loadNpmTasks('grunt-typescript-compile');
     grunt.loadNpmTasks('grunt-npm-install');
+    grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     grunt.registerTask('test', ['mochaTest']);
     grunt.registerTask('build', ['typescript']);
-    grunt.registerTask('default', ['npm-install', 'build', 'test', 'jshint']);
+    grunt.registerTask('default', ['npm-install', 'build', 'browserify', 'test', 'jshint']);
 };
