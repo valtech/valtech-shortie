@@ -10457,7 +10457,8 @@ return jQuery;
 }).call(this);
 
 },{}],3:[function(require,module,exports){
-/// <reference path="../../types/underscore.d.ts" />
+/// <reference path="../../.types/underscore.d.ts" />
+// This is for frontend logic
 var _ = require('underscore');
 var $ = require('jquery');
 

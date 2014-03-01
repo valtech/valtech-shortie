@@ -1,4 +1,4 @@
-﻿/// <reference path="../../types/node.d.ts" />
+﻿/// <reference path="../../.types/node.d.ts" />
 var defaultSlugLength = 5;
 var defaultAllowedChars = 'bcdfghjklmnpqrstvwxz';
 

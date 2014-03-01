@@ -1,4 +1,4 @@
-﻿/// <reference path="../types/node.d.ts" />
+﻿/// <reference path="../.types/node.d.ts" />
 
 import http = require('http');
 import app = require('./app');

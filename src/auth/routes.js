@@ -1,5 +1,5 @@
-/// <reference path="../../types/node.d.ts" />
-/// <reference path="../../types/express.d.ts" />
+/// <reference path="../../.types/node.d.ts" />
+/// <reference path="../../.types/express.d.ts" />
 var authMiddleware = require('./middleware');
 
 var util = require('util'), request = require('request'), qs = require('querystring');

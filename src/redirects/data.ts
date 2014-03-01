@@ -1,4 +1,4 @@
-﻿/// <reference path="../../types/node.d.ts" />
+﻿/// <reference path="../../.types/node.d.ts" />
 
 export class RedirectRepository {
     private db : any;

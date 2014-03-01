@@ -1,5 +1,5 @@
-﻿/// <reference path="../types/node.d.ts" />
-/// <reference path="../types/express.d.ts" />
+﻿/// <reference path="../.types/node.d.ts" />
+/// <reference path="../.types/express.d.ts" />
 
 import express = require('express');
 var sessions = require('client-sessions');

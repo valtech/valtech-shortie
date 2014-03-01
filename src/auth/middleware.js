@@ -1,4 +1,4 @@
-/// <reference path="../../types/node.d.ts" />
+/// <reference path="../../.types/node.d.ts" />
 var util = require('util'), qs = require('querystring');
 
 function requireAuth(req, res, next) {

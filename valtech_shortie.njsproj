@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <Name>valtech_shortie</Name>
+    <RootNamespace>valtech_shortie</RootNamespace>
+    <NodeExePath />
+    <NodeExeArguments />
+    <ScriptArguments />
+    <StartWebBrowser>True</StartWebBrowser>
+    <LaunchUrl />
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>8d2ee7ff-e667-4fa4-bf45-ce99421d7df1</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>src\server.js</StartupFile>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>C:\Project\Valtech\valtech_shortie\src</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+    <ProjectView>ProjectFiles</ProjectView>
+    <NodejsPort>1337</NodejsPort>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="test\lib\" />
+    <Folder Include="test\redirects\" />
+    <Folder Include="test\routes\" />
+    <Folder Include=".types\" />
+    <Folder Include="src\admin\" />
+    <Folder Include="src\auth\" />
+    <Folder Include="src\error\" />
+    <Folder Include="src\lib\" />
+    <Folder Include="src\public\" />
+    <Folder Include="src\redirects\" />
+    <Folder Include="src\static\" />
+    <Folder Include="src\views\" />
+    <Folder Include="src\views\layouts\" />
+    <Folder Include="test\" />
+    <Folder Include="src\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="test\lib\SlugGenerator.ts" />
+    <Content Include="test\redirects\data.ts" />
+    <Content Include=".types\chai.d.ts" />
+    <Content Include=".types\express.d.ts" />
+    <Content Include=".types\mocha.d.ts" />
+    <Content Include=".types\node.d.ts" />
+    <Content Include=".types\supertest.d.ts" />
+    <Content Include=".types\underscore.d.ts" />
+    <Content Include="src\admin\admin.ts" />
+    <Content Include="src\app.ts" />
+    <Content Include="src\auth\middleware.ts" />
+    <Content Include="src\auth\routes.ts" />
+    <Content Include="src\error\middleware.ts" />
+    <Content Include="src\error\routes.ts" />
+    <Content Include="src\lib\DbFactory.ts" />
+    <Content Include="src\lib\SlugGenerator.ts" />
+    <Content Include="src\public\favicon.ico" />
+    <Content Include="src\redirects\data.ts" />
+    <Content Include="src\redirects\routes.ts" />
+    <Content Include="src\server.ts" />
+    <Content Include="src\static\routes.ts" />
+    <Content Include="src\views\404.jade" />
+    <Content Include="src\views\500.jade" />
+    <Content Include="src\views\admin.jade" />
+    <Content Include="src\views\index.jade" />
+    <Content Include="src\views\layouts\layout.jade" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="src\public\bundle.js" />
+    <Compile Include="src\server.js" />
+    <Compile Include="test\routes\static.js" />
+  </ItemGroup>
+  <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:48022/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost:1337</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
