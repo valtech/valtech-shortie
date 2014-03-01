@@ -1,6 +1,6 @@
-# valtech\_shortie
+# valtech\_shortie - valte.ch
 
-Valtech URL shortening service.
+Valtech URL shortening service. Runs on Heroku.
 
 ## TODO
 
@@ -11,6 +11,17 @@ Valtech URL shortening service.
 * Cookie authorization for API with CSRF token to prevent illicit usage
 * Auth for external applications (static auth tokens)
 
+
+# API
+
+TODO. Will require an "application key + secret". POST, PUT and DELETE. JSON data.
+
+# Admin
+
+Go to `/admin` and login using vauth. You can administer existing URLs and add new ones.
+
+
+# Dev
 
 ## Prerequisites
 
@@ -37,7 +48,7 @@ This will install all required Node modules.
     grunt
     node src/server.js
 
-#### With grunt and [node-supervisor](https://github.com/isaacs/node-supervisor)
+#### With grunt watch and [node-supervisor](https://github.com/isaacs/node-supervisor)
 
 Tab A:
 
@@ -58,9 +69,13 @@ Just open valtech_shortie.sln, build and press F5! :-)
 
 ## Grunt tasks
 
-When running grunt without arguments, the following tasks are executed in order:
+When running `grunt` without arguments, the following tasks are executed in order:
 
 * **npm-install:** installs all NPM dependencies
 * **build:** compiles TypeScript into JavaScript
+* **browserify:** uses [browserify](http://browserify.org) to bundle frontend JS
 * **test:** runs all Mocha tests in test/
 * **jshint:** runs JsHint on all JavaScript files in src/
+
+You can also run `grunt watch` to make grunt run the commands when files change.
+
