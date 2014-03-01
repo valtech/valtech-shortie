@@ -57,6 +57,7 @@
     <Content Include=".types\my-chai.d.ts" />
     <Content Include=".types\knockout.d.ts" />
     <Content Include=".types\sinon.d.ts" />
+    <Content Include="src\viewmodels\organizer.ts" />
     <Content Include="src\viewmodels\shortie-vm.ts" />
     <Content Include="test\lib\SlugGenerator.ts" />
     <Content Include="test\redirects\data.ts" />
@@ -83,6 +84,7 @@
     <Content Include="src\views\admin.jade" />
     <Content Include="src\views\index.jade" />
     <Content Include="src\views\layouts\layout.jade" />
+    <Content Include="test\viewmodels\organizer.ts" />
     <Content Include="test\viewmodels\shortie-vm.ts" />
   </ItemGroup>
   <ItemGroup>
