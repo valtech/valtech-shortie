@@ -23,10 +23,10 @@ export class vm {
 
 	select(shortie: shortie.vm) : void {
 		var current = _.find<shortie.vm>(this.shorties(), s=> s == shortie);
-		if (current) {
-			this.shorties().forEach(s=> s.isCurrent(false));
-			current.isCurrent(true);
-		}
-	}
+		if (!current)
+			return;
 
+		this.shorties().forEach(s=> s.isCurrent(false));
+		current.isCurrent(true);
+	}
 }
