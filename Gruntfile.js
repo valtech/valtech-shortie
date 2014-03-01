@@ -45,12 +45,20 @@ module.exports = function (grunt) {
         },
 
         watch: {
-            all: {
+            build: {
+                files: ['<%= typescript.dist.src %>'],
+                tasks: ['build']
+            },
+            browserify: {
+                files: ['src/admin/*.js'],
+                tasks: ['browserify']
+            },
+            test: {
                 files: [
-                    'src/**/*.ts',
-                    'test/**/*.js'
+                    '<%= mochaTest.test.src %>',
+                    '<%= jshint.src.files.src %>'
                 ],
-                tasks: ['default']
+                tasks: ['test', 'jshint']
             }
         }
     });
