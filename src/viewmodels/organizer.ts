@@ -17,7 +17,16 @@ export class vm {
 	public currentShortie: KnockoutObservable<shortie.vm>;
 
 	constructor(raws: Array<shortie.obj>) {
-		var arrayOfVms = _.map(raws, raw=> new shortie.vm(raw));
+		var arrayOfVms = _.map(raws, raw => new shortie.vm(raw));
 		this.shorties = ko.observableArray(arrayOfVms);
 	}
+
+	select(shortie: shortie.vm) : void {
+		var current = _.find<shortie.vm>(this.shorties(), s=> s == shortie);
+		if (current) {
+			this.shorties().forEach(s=> s.isCurrent(false));
+			current.isCurrent(true);
+		}
+	}
+
 }

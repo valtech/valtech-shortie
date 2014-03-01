@@ -7,10 +7,13 @@
 import shortie = require('../../src/viewmodels/shortie-vm');
 import organizer = require('../../src/viewmodels/organizer');
 
+import underscore = require('underscore');
 import chai = require('chai');
-var assert : Assert = chai.assert;
-
 import sinonModule = require('sinon');
+
+var _: UnderscoreStatic = underscore;
+var assert : Assert = chai.assert;
+var expect : ExpectStatic = chai.expect;
 var sinon: SinonStatic = sinonModule;
 
 describe("The 'organizer'", ()=> {
@@ -34,5 +37,50 @@ describe("The 'organizer'", ()=> {
 		/* Assert */
 		//sinon.assert.callCount(spy, 3); // TODO: make this work.
 		assert.equal(model.shorties().length, 3);
+	});
+
+	describe("The 'select' method", ()=> {
+		var model: organizer.vm;
+
+		beforeEach(()=> {
+			model = new organizer.vm(raws);
+		});
+
+		it("Should do nothing if shortie not part of collection", ()=> {
+			/* Setup */
+			var rougeShortie = new shortie.vm(new shortie.obj("rouge", "rougheUrl"));
+
+			/* Test */
+			model.select(rougeShortie);
+
+			/* Assert */
+			_.each(model.shorties(), vm=> {
+				expect(vm.isCurrent()).to.be.false;
+			});
+		});
+
+		it("Should select shortie if part of collection", () => {
+			/* Setup */
+			var current = model.shorties()[0];
+
+			/* Test */
+			model.select(current);
+
+			/* Assert */
+			expect(current.isCurrent()).to.be.true;
+		});
+
+		it("Should deselect the previous shortie", ()=> {
+			/* Setup */
+			var previous = model.shorties()[0];
+			var next= model.shorties()[1];
+			previous.isCurrent(true);
+
+			/* Test */
+			model.select(next);
+
+			/* Assert */
+			expect(previous.isCurrent()).to.be.false;
+		});
 	});
 })
