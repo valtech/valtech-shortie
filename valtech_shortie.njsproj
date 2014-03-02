@@ -34,10 +34,9 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="src\viewmodels\" />
     <Folder Include="src\views\includes\" />
     <Folder Include="test\lib\" />
-    <Folder Include="test\viewmodels\" />
+    <Folder Include="test\admin\" />
     <Folder Include="test\redirects\" />
     <Folder Include="test\routes\" />
     <Folder Include=".types\" />
@@ -58,8 +57,8 @@
     <Content Include=".types\my-chai.d.ts" />
     <Content Include=".types\knockout.d.ts" />
     <Content Include=".types\sinon.d.ts" />
-    <Content Include="src\viewmodels\organizer.ts" />
-    <Content Include="src\viewmodels\shortie.ts" />
+    <Content Include="src\admin\organizer.ts" />
+    <Content Include="src\admin\shortie.ts" />
     <Content Include="src\views\includes\ko.jade" />
     <Content Include="test\lib\SlugGenerator.ts" />
     <Content Include="test\redirects\data.ts" />
@@ -86,8 +85,8 @@
     <Content Include="src\views\admin.jade" />
     <Content Include="src\views\index.jade" />
     <Content Include="src\views\layouts\layout.jade" />
-    <Content Include="test\viewmodels\organizer.ts" />
-    <Content Include="test\viewmodels\shortie.ts" />
+    <Content Include="test\admin\organizer.ts" />
+    <Content Include="test\admin\shortie.ts" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\public\bundle.js" />
