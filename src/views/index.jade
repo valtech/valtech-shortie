@@ -5,11 +5,15 @@ block content
   p a work in progress. <a href="/cats">/cats</a> is funny.
   p by <a href="http://valtech.se">valtech</a>.
 
-  ul(data-bind='foreach:shorties', id=shorties)
-    li
-      span(data-bind="text:slug, style : {color : isCurrent() ? 'red' : undefined}")
-      <a data-bind="attr : {href : fullUrl}"> link </a>.
-      input(type='button', value='edit', data-bind='click: $parent.select')
+  div(id='organizer')
+    h3 Shorties
+    input(type='button', data-bind='click:addNew', value='add')
+    ul(data-bind='foreach:shorties')
+      li
+        span(data-bind="text:slug, style : {color : isCurrent() ? 'red' : undefined}")
+        <a data-bind="attr : {href : fullUrl}"> link </a>.
+        input(type='button', value='edit', data-bind='click: $parent.select')
+   
 
 block scripts
   script(src="bundle.js")

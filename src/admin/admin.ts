@@ -21,4 +21,4 @@ var raws = [
 var o = new organizer.vm(raws);
 
 
-ko.applyBindings(o, document.getElementById('shorties'))
+ko.applyBindings(o, document.getElementById('organizer'))
