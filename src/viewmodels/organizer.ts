@@ -15,6 +15,12 @@ import shortie = require('./shortie-vm');
 export class vm {
 	public shorties: KnockoutObservableArray<shortie.vm>;
 	public currentShortie: KnockoutObservable<shortie.vm>;
+
+	constructor(raws: Array<shortie.obj>) {
+		var arrayOfVms = _.map(raws, raw => new shortie.vm(raw));
+		this.shorties = ko.observableArray(arrayOfVms);
+	}
+
 	public select = (shortie: shortie.vm) => {
 		var current = _.find<shortie.vm>(this.shorties(), s=> s == shortie);
 		if (!current)
@@ -24,14 +30,10 @@ export class vm {
 		current.isCurrent(true);
 	};
 
-	constructor(raws: Array<shortie.obj>) {
-		var arrayOfVms = _.map(raws, raw => new shortie.vm(raw));
-		this.shorties = ko.observableArray(arrayOfVms);
-
-
+	public addNew = () => {
+		var newShortie = new shortie.vm();
+		this.shorties.push(newShortie);
+		this.select(newShortie);
 	}
-
-	
-
 
 }

@@ -83,4 +83,29 @@ describe("The 'organizer'", ()=> {
 			expect(previous.isCurrent()).to.be.false;
 		});
 	});
+
+	describe("The 'addNew' method", ()=> {
+		it("Should add a new shortie to the list", ()=> {
+			/* Setup */
+			var initialCount = raws.length;
+			var model = new organizer.vm(raws);
+
+			/* Test */
+			model.addNew();
+
+			/* Assert */
+			expect(model.shorties().length).to.be.equal(initialCount + 1);
+		});
+
+		it("Should set the newst shortie as current", ()=> {
+			/* Setup */
+			var model = new organizer.vm(raws);
+
+			/* Test */
+			model.addNew();
+
+			/* Assert */
+			expect(model.shorties()[3].isCurrent()).to.be.true;
+		});
+	});
 })
