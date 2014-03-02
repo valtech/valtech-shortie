@@ -1,0 +1,18 @@
+﻿script(type='text/template', id='shortie-main')
+  tr(data-bind="template : {name : 'shortie-edit', data: $data}, visible:isCurrent")
+  tr(data-bind="template : {name : 'shortie-normal', data: $data}, visible:!isCurrent()")
+
+
+script(type='text/template', id='shortie-edit')
+  td
+    input(type='text', placeholder='rly shrt', data-bind="value:slug")
+  td
+    input(type='text', placeholder='really looong', data-bind='value: fullUrl')
+  td
+    input(type='button', value='save', data-bind='click: $parents[1].save')
+
+script(type='text/template', id='shortie-normal')
+  td(data-bind='text:slug')
+  td(data-bind='text:fullUrl')
+  td
+    input(type='button', value='edit', data-bind='click: $parents[1].select')

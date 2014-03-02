@@ -8,12 +8,20 @@ block content
   div(id='organizer')
     h3 Shorties
     input(type='button', data-bind='click:addNew', value='add')
-    ul(data-bind='foreach:shorties')
-      li
-        span(data-bind="text:slug, style : {color : isCurrent() ? 'red' : undefined}")
-        <a data-bind="attr : {href : fullUrl}"> link </a>.
-        input(type='button', value='edit', data-bind='click: $parent.select')
+    span(data-bind='visible: spamWarning') <b>Spam warning!</b> enter value for empty shorty before adding a new one.
+    
+    br
+    
+    table
+      thead
+        tr
+          th Slug
+          th Full Url
+          th 
+      tbody(data-bind="template : {name : 'shortie-main', foreach: shorties}")
    
+  include includes/ko
 
 block scripts
   script(src="bundle.js")
+
