@@ -11,8 +11,8 @@ export class vm {
 	private raw: obj;
 
 	public slug: KnockoutObservable<string>;
-	public fullUrl: KnockoutObservable<string>
-	public isCurrent: KnockoutObservable<boolean>
+  public fullUrl: KnockoutObservable<string>;
+  public isCurrent: KnockoutObservable<boolean>;
 	
 	constructor(shortie? : obj) {
 		this.raw = shortie;
