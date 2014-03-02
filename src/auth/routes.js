@@ -1,6 +1,9 @@
+var util = require('util');
+var qs = require('querystring');
+
 var authMiddleware = require('./middleware');
 
-var util = require('util'), request = require('request'), qs = require('querystring');
+var request = require('request');
 
 var VAUTH_CONSUMER_KEY = 'wix6Iz249hFjMsXI7QcfUTKl8oXVH4CfYNSE7cED', VAUTH_CONSUMER_SECRET = 'L76UBmoGjx3Veq8MLi622yAUZMwAMgchikIEJeI2';
 

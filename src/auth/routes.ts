@@ -1,12 +1,13 @@
 /// <reference path="../../.types/node.d.ts" />
 /// <reference path="../../.types/express.d.ts" />
 
+import util = require('util');
+import qs = require('querystring');
 import express = require('express');
+
 import authMiddleware = require('./middleware');
 
-var util = require('util'),
-    request = require('request'),
-    qs = require('querystring');
+var request = require('request');
 
 var VAUTH_CONSUMER_KEY = 'wix6Iz249hFjMsXI7QcfUTKl8oXVH4CfYNSE7cED',
     VAUTH_CONSUMER_SECRET = 'L76UBmoGjx3Veq8MLi622yAUZMwAMgchikIEJeI2';
@@ -108,7 +109,7 @@ function parse_vauth_err(err, res, body) {
   }
 }
 
-function load_profile(token, callback) {
+function load_profile(token, callback : (err, json? : any) => void) {
   var oauth_body = {
     consumer_key: VAUTH_CONSUMER_KEY,
     consumer_secret: VAUTH_CONSUMER_SECRET,
