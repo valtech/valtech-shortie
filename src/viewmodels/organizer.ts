@@ -41,6 +41,7 @@ export class vm {
 	public addNew = () => {
 		if (this.containsEmpties()) {
 			this.spamAttemped(true);
+			selectFirstEmptyShorties(this.shorties());
 			return;
 		}
 
@@ -61,4 +62,16 @@ function containsEmptyShorties(shorties: Array <shortie.vm>) : boolean {
 	);
 
 	return hasEmpties;
+}
+
+function selectFirstEmptyShorties(shorties: Array<shortie.vm>): void {
+	shorties.forEach(s=> s.isCurrent(false));
+	var firstEmpty = _.find<shortie.vm>(shorties, shortie=> {
+		if (!shortie.slug() || !shortie.fullUrl())
+			return true;
+		return false;
+	});
+
+	if (firstEmpty)
+		firstEmpty.isCurrent(true);
 }

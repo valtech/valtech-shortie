@@ -122,6 +122,18 @@ describe("The 'organizer'", ()=> {
 			/* Assert */
 			expect(model.shorties().length).to.be.equal(initialCount + 1);
 		});
+
+		it("Should set empty shortie in focus if present", ()=> {
+			/* Setup */
+			raws.push(new shortie.obj('', ''));
+			var model = new organizer.vm(raws);
+
+			/* Test */
+			model.addNew();
+
+			/* Assert */
+			expect(model.shorties()[3].isCurrent()).to.be.true;
+		});
 	});
 
 	describe("The 'save' method", ()=> {
