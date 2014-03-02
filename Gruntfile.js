@@ -5,7 +5,8 @@ module.exports = function (grunt) {
         typescript: {
             options: {
                 module: 'commonjs',
-                target: 'es5'
+                target: 'es5',
+                removeComments: true
             },
             dist: {
             src: ['src/**/*.ts','test/**/*.ts']
