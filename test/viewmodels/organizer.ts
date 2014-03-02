@@ -123,4 +123,67 @@ describe("The 'organizer'", ()=> {
 			expect(model.shorties().length).to.be.equal(initialCount + 1);
 		});
 	});
+
+	describe("The 'save' method", ()=> {
+		it('Should reset current on all slugs', () => {
+			/* Setup */
+			var model = new organizer.vm(raws);
+			var current = model.shorties()[0]
+			current.isCurrent(true);
+
+			/* Test */
+			model.save(current);
+
+			/* Assert */
+			_.each(model.shorties(), vm=> {
+				expect(vm.isCurrent()).to.be.false;
+			});
+
+		});
+	});
+
+	describe("The 'spamWarning' property", ()=> {
+		it("Should be false if all shorties have value", ()=> {
+			/* Setup */
+			var model = new organizer.vm(raws);
+
+			/* Assert */
+			expect(model.spamWarning()).to.be.false;
+		});
+
+		it("Should be false if one new shorties and no attempt to create new", () => {
+			/* Setup */
+			raws.push(new shortie.obj('',''));
+			var model = new organizer.vm(raws);
+
+			/* Assert */
+			expect(model.spamWarning()).to.be.false;
+		});
+
+		it("Should be true if one new shorties and attempt to create new is performed", () => {
+			/* Setup */
+			raws.push(new shortie.obj('', ''));
+			var model = new organizer.vm(raws);
+
+			/* Test */
+			model.addNew();
+
+			/* Assert */
+			expect(model.spamWarning()).to.be.true;
+		});
+
+		it("Should be false again if new slug gets values", ()=> {
+			/* Setup */
+			raws.push(new shortie.obj('', ''));
+			var model = new organizer.vm(raws);
+			model.addNew();
+
+			/* Test */
+			model.shorties()[3].slug('newSlug');
+			model.shorties()[3].fullUrl('newUrl');
+
+			/* Assert */
+			expect(model.spamWarning()).to.be.false;
+		});
+	});
 })
