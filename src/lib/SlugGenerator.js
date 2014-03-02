@@ -1,5 +1,4 @@
-﻿/// <reference path="../../.types/node.d.ts" />
-var defaultSlugLength = 5;
+﻿var defaultSlugLength = 5;
 var defaultAllowedChars = 'bcdfghjklmnpqrstvwxz';
 
 function generate(slugLength, allowedChars) {

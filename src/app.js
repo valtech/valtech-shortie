@@ -1,6 +1,4 @@
-﻿/// <reference path="../.types/node.d.ts" />
-/// <reference path="../.types/express.d.ts" />
-var express = require('express');
+﻿var express = require('express');
 var sessions = require('client-sessions');
 var path = require('path');
 
