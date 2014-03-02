@@ -31,9 +31,19 @@ export class vm {
 	};
 
 	public addNew = () => {
+		if (containsEmptyShorties(this.shorties()))
+			return;
+
 		var newShortie = new shortie.vm();
 		this.shorties.push(newShortie);
 		this.select(newShortie);
 	}
+}
 
+function containsEmptyShorties(shorties: Array <shortie.vm>) : boolean {
+	var hasEmpties = _.any<shortie.vm>(shorties,
+		shortie => { return !shortie.slug() || !shortie.fullUrl(); }
+	);
+
+	return hasEmpties;
 }

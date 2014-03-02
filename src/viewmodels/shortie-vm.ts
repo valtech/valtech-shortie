@@ -17,10 +17,12 @@ export class vm {
 	constructor(shortie? : obj) {
 		this.raw = shortie;
 		this.isCurrent = ko.observable(false);
+		this.slug = ko.observable<string>();
+		this.fullUrl = ko.observable<string>();
 
 		if (shortie) {
-			this.slug = ko.observable(shortie.slug);
-			this.fullUrl = ko.observable(shortie.fullUrl);
+			this.slug(shortie.slug);
+			this.fullUrl(shortie.fullUrl);
 		}
 	}
 }

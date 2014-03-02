@@ -107,5 +107,20 @@ describe("The 'organizer'", ()=> {
 			/* Assert */
 			expect(model.shorties()[3].isCurrent()).to.be.true;
 		});
+
+		it("Should prevent creation of multiple empty shorties", ()=> {
+			/* Setup */
+			var initialCount = raws.length;
+			var model = new organizer.vm(raws);
+
+			/* Test */
+			model.addNew();
+			model.addNew(); //spam
+			model.addNew(); //spam
+			model.addNew(); //spam
+
+			/* Assert */
+			expect(model.shorties().length).to.be.equal(initialCount + 1);
+		});
 	});
 })
