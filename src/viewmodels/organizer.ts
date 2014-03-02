@@ -12,7 +12,7 @@ var ko: KnockoutStatic = knockout;
 
 import shortie = require('./shortie-vm');
 
-export class ViewModel {
+export class vm {
   public shorties: KnockoutObservableArray<shortie.vm>;
   public currentShortie: KnockoutObservable<shortie.vm>;
   public spamWarning: KnockoutComputed<boolean>;
