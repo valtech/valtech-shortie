@@ -1,14 +1,14 @@
 /// <reference path="../../.types/node.d.ts" />
 /// <reference path="../../.types/underscore.d.ts" />
 /// <reference path="../../.types/jquery.d.ts" />
-/// <reference path="../viewmodels/shortie-vm.ts" />
+/// <reference path="../viewmodels/shortie.ts" />
 
 // This is for frontend logic
 
 import ko = require('knockout');
 import _ = require('underscore');
 import $ = require('jquery');
-import shortie = require('../viewmodels/shortie-vm');
+import shortie = require('../viewmodels/shortie');
 import organizer = require('../viewmodels/organizer');
 
 // temporary shorties

@@ -1,7 +1,7 @@
 ﻿/// <reference path="../../.types/underscore.d.ts"/>
 /// <reference path="../../.types/node.d.ts"/>
 /// <reference path="../../.types/knockout.d.ts"/>
-/// <reference path="shortie-vm.ts"/>
+/// <reference path="shortie.ts"/>
 
 import knockout = require('knockout');
 import underscore = require('underscore');
@@ -10,7 +10,7 @@ import underscore = require('underscore');
 var _: UnderscoreStatic = underscore;
 var ko: KnockoutStatic = knockout;
 
-import shortie = require('./shortie-vm');
+import shortie = require('./shortie');
 
 export class vm {
   public shorties: KnockoutObservableArray<shortie.vm>;

@@ -1,10 +1,10 @@
 ﻿/// <reference path="../../.types/mocha.d.ts"/>
 /// <reference path="../../.types/sinon.d.ts"/>
 /// <reference path="../../.types/my-chai.d.ts"/>
-/// <reference path="../../src/viewmodels/shortie-vm.ts"/>
+/// <reference path="../../src/viewmodels/shortie.ts"/>
 /// <reference path="../../src/viewmodels/organizer.ts"/>
 
-import shortie = require('../../src/viewmodels/shortie-vm');
+import shortie = require('../../src/viewmodels/shortie');
 import organizer = require('../../src/viewmodels/organizer');
 
 import underscore = require('underscore');

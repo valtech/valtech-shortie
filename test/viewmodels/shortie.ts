@@ -1,8 +1,8 @@
 ﻿/// <reference path="../../.types/mocha.d.ts"/>
 /// <reference path="../../.types/my-chai.d.ts"/>
-/// <reference path="../../src/viewmodels/shortie-vm.ts"/>
+/// <reference path="../../src/viewmodels/shortie.ts"/>
 
-import shortie = require('../../src/viewmodels/shortie-vm');
+import shortie = require('../../src/viewmodels/shortie');
 import chai = require('chai');
 
 // setup short handlers
