@@ -11,12 +11,12 @@
             this.db.insert(redirect);
     };
 
-    RedirectRepository.prototype.getRedirectBySlug = function (slug) {
-        return this.db.findOne({ slug: slug });
+    RedirectRepository.prototype.getRedirectBySlug = function (slug, callback) {
+        this.db.findOne({ slug: slug }, callback);
     };
 
-    RedirectRepository.prototype.getRedirectsByUrl = function (url) {
-        return this.db.find({ url: url });
+    RedirectRepository.prototype.getRedirectsByUrl = function (url, callback) {
+        return this.db.find({ url: url }, callback);
     };
     return RedirectRepository;
 })();
