@@ -13,7 +13,6 @@ describe('RedirectRepository', function() {
       done();
     });
   });
-  
   it('should be able to add a Redirect', function(done) {
     var redirect = {      
       url: 'http://icanhazcheezburger.com/',
@@ -27,16 +26,14 @@ describe('RedirectRepository', function() {
       done();
     });
   });
-  it('should fail if Redirect already exists', function(done) {
+  it('should fail when adding a duplicate Redirect', function(done) {
     var redirect = {      
       url: 'http://icanhazcheezburger.com/',
       slug: 'cats'
     };
     repo.addRedirect(redirect);
     repo.addRedirect(redirect, function(err, doc) {
-      assert.isNull(err, err);
-      assert.isNotNull(doc);
-      assert.equal(doc.slug, 'cats');
+      assert.isNotNull(err, err);
       done();
     });
   });

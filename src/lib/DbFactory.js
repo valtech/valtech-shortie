@@ -1,13 +1,14 @@
 ﻿var Datastore = require('nedb');
 
 function create(type, options, callback) {
+    var db;
     switch (type) {
         case 'nedb':
-            var db = new Datastore(options);
-            callback(null, db);
+            db = new Datastore(options);
             break;
         case 'mongodb':
             break;
     }
+    callback(null, db);
 }
 exports.create = create;

@@ -5,6 +5,8 @@ export class RedirectRepository {
 
     constructor(db) {
       this.db = db;
+
+      this.db.ensureIndex({ fieldName: 'slug', unique: true });
     }
 
     public addRedirect(redirect: any, callback? : (err : string, doc : any) => void) {

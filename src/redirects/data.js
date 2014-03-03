@@ -1,6 +1,8 @@
 ﻿var RedirectRepository = (function () {
     function RedirectRepository(db) {
         this.db = db;
+
+        this.db.ensureIndex({ fieldName: 'slug', unique: true });
     }
     RedirectRepository.prototype.addRedirect = function (redirect, callback) {
         if (callback)
