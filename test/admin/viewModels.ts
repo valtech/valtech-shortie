@@ -1,6 +1,6 @@
 ﻿/// <reference path="../../.types/mocha/mocha.d.ts"/>
 /// <reference path="../../.types/sinon/sinon.d.ts"/>
-/// <reference path="../../.types/my-chai.d.ts"/>
+/// <reference path="../../.types/my-chai/my-chai.d.ts"/>
 /// <reference path="../../src/admin/viewModels.ts"/>
 
 import viewModels = require('../../src/admin/viewModels');

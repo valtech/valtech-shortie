@@ -9,9 +9,11 @@ import app = require('../../src/app');
 var shortieApp: express.Express = app.App;
 
 describe('app', function () {
-  describe('GET /:slug', function (done) {
-    request(shortieApp)
-      .get('/cats')
-      .expect(301, done);
+  describe('GET /:slug', function () {
+    it('should do redirect if shortie exists', function (done) {
+      request(shortieApp)
+        .get('/cats')
+        .expect(302, done);
+    });
   });
 });
