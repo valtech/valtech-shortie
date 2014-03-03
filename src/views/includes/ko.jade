@@ -5,9 +5,9 @@
 
 script(type='text/template', id='shortie-edit')
   td
-    input(type='text', placeholder='rly shrt', data-bind="value:slug")
+    input.form-control(type='text', placeholder='rly shrt', data-bind="value:slug")
   td
-    input(type='text', placeholder='really looong', data-bind='value: fullUrl')
+    input.form-control(type='text', placeholder='really looong', data-bind='value: fullUrl')
   td
     .btn-group.pull-right
       button.btn.btn-default.btn-xs(data-bind='click: $parents[1].save.bind($parents[1])')
