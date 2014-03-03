@@ -63,6 +63,9 @@
     <Folder Include="src\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include=".gitattributes" />
+    <Content Include=".gitignore" />
+    <Content Include=".jshintrc" />
     <Content Include=".types\express\express.d.ts" />
     <Content Include=".types\jquery\jquery.d.ts" />
     <Content Include=".types\knockout\knockout.d.ts" />
@@ -73,6 +76,9 @@
     <Content Include=".types\superagent\superagent.d.ts" />
     <Content Include=".types\supertest\supertest.d.ts" />
     <Content Include=".types\underscore\underscore.d.ts" />
+    <Content Include="package.json" />
+    <Content Include="Procfile" />
+    <Content Include="README.md" />
     <Content Include="src\admin\viewModels.ts" />
     <Content Include="src\public\robots.txt" />
     <Content Include="src\redirects\model.ts" />
@@ -100,6 +106,7 @@
     <Content Include="src\views\layouts\layout.jade" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Gruntfile.js" />
     <Compile Include="src\public\bundle.js" />
     <Compile Include="src\server.js" />
     <Compile Include="test\redirects\routes.ts" />
