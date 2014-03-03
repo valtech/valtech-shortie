@@ -10,12 +10,13 @@ import _ = require('underscore');
 import $ = require('jquery');
 import shortie = require('./shortie');
 import organizer = require('./organizer');
+import model = require('../redirects/model');
 
 // temporary shorties
 var raws = [
-	new shortie.RedirectModel("fun", "http://9gag.com/trending"),
-  new shortie.RedirectModel("funner", "http://9gag.com/hot"),
-  new shortie.RedirectModel("funniest", "http://money.cnn.com/data/markets/")
+	new model.RedirectModel("fun", "http://9gag.com/trending"),
+  new model.RedirectModel("funner", "http://9gag.com/hot"),
+  new model.RedirectModel("funniest", "http://money.cnn.com/data/markets/")
 ];
 
 var o = new organizer.vm(raws);

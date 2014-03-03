@@ -3,6 +3,7 @@
 /// <reference path="../../src/admin/shortie.ts"/>
 
 import shortie = require('../../src/admin/shortie');
+import model = require('../../src/redirects/model');
 import chai = require('chai');
 
 // setup short handlers
@@ -12,21 +13,21 @@ var expect = chai.expect;
 describe('The shortie-vm', () => {
 	it("Should not be selected by default", ()=> {
 		/* Setup */
-    var model = new shortie.RedirectViewModel();
+    var viewModel = new shortie.RedirectViewModel();
 		
 		/* Assert */
-		assert.isNotNull(model);
+    assert.isNotNull(viewModel);
 	});
 
 	it("Should initialize properties from constructor", ()=> {
 		/* Setup */
-		var raw = new shortie.RedirectModel("not-that-tall", "http://www.thetallestmanonearth.com/");
+		var raw = new model.RedirectModel("not-that-tall", "http://www.thetallestmanonearth.com/");
 
 		/* Test */
-		var model = new shortie.RedirectViewModel(raw);
+    var viewModel = new shortie.RedirectViewModel(raw);
 
 		/* Assert */
-		expect(model.fullUrl()).to.equal(raw.fullUrl);
-		expect(model.slug()).to.equal(raw.slug);
+    expect(viewModel.fullUrl()).to.equal(raw.fullUrl);
+    expect(viewModel.slug()).to.equal(raw.slug);
 	});
 });

@@ -11,6 +11,7 @@ var _: UnderscoreStatic = underscore;
 var ko: KnockoutStatic = knockout;
 
 import shortie = require('./shortie');
+import model = require('../redirects/model');
 
 export class vm {
   public shorties: KnockoutObservableArray<shortie.RedirectViewModel>;
@@ -20,7 +21,7 @@ export class vm {
   private spamAttemped: KnockoutObservable<boolean>;
   private containsEmpties: KnockoutComputed<boolean>;
 
-  constructor(raws: Array<shortie.RedirectModel>) {
+  constructor(raws: Array<model.RedirectModel>) {
     var arrayOfVms = _.map(raws, raw => new shortie.RedirectViewModel(raw));
     this.shorties = ko.observableArray(arrayOfVms);
 

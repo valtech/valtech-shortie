@@ -6,6 +6,7 @@
 
 import shortie = require('../../src/admin/shortie');
 import organizer = require('../../src/admin/organizer');
+import model = require('../../src/redirects/model');
 
 import underscore = require('underscore');
 import chai = require('chai');
@@ -17,13 +18,13 @@ var expect: ExpectStatic = chai.expect;
 var sinon: SinonStatic = sinonModule;
 
 describe("The 'organizer'", () => {
-  var raws: Array<shortie.RedirectModel>;
+  var raws: Array<model.RedirectModel>;
 
   beforeEach(() => {
     raws = [
-      new shortie.RedirectModel("lilla-anna", "http://sv.wikipedia.org/wiki/Lilla_Anna_och_Langa_farbrorn"),
-      new shortie.RedirectModel("go-shorty", "http://rapgenius.com/50-cent-in-da-club-lyrics"),
-      new shortie.RedirectModel("i-wish", "http://open.spotify.com/track/74WFSCXc8yHY7HDXREiLpM")
+      new model.RedirectModel("lilla-anna", "http://sv.wikipedia.org/wiki/Lilla_Anna_och_Langa_farbrorn"),
+      new model.RedirectModel("go-shorty", "http://rapgenius.com/50-cent-in-da-club-lyrics"),
+      new model.RedirectModel("i-wish", "http://open.spotify.com/track/74WFSCXc8yHY7HDXREiLpM")
     ];
   });
 
@@ -40,31 +41,31 @@ describe("The 'organizer'", () => {
   });
 
   describe("The 'select' method", () => {
-    var model: organizer.vm;
+    var viewModel: organizer.vm;
 
     beforeEach(() => {
-      model = new organizer.vm(raws);
+      viewModel = new organizer.vm(raws);
     });
 
     it("Should do nothing if shortie not part of collection", () => {
       /* Setup */
-      var rougeShortie = new shortie.RedirectViewModel(new shortie.RedirectModel("rouge", "rougheUrl"));
+      var rougeShortie = new shortie.RedirectViewModel(new model.RedirectModel("rouge", "rougheUrl"));
 
       /* Test */
-      model.select(rougeShortie);
+      viewModel.select(rougeShortie);
 
       /* Assert */
-      _.each(model.shorties(), vm=> {
+      _.each(viewModel.shorties(), vm=> {
         expect(vm.isCurrent()).to.be.false;
       });
     });
 
     it("Should select shortie if part of collection", () => {
       /* Setup */
-      var current = model.shorties()[0];
+      var current = viewModel.shorties()[0];
 
       /* Test */
-      model.select(current);
+      viewModel.select(current);
 
       /* Assert */
       expect(current.isCurrent()).to.be.true;
@@ -72,12 +73,12 @@ describe("The 'organizer'", () => {
 
     it("Should deselect the previous shortie", () => {
       /* Setup */
-      var previous = model.shorties()[0];
-      var next = model.shorties()[1];
+      var previous = viewModel.shorties()[0];
+      var next = viewModel.shorties()[1];
       previous.isCurrent(true);
 
       /* Test */
-      model.select(next);
+      viewModel.select(next);
 
       /* Assert */
       expect(previous.isCurrent()).to.be.false;
@@ -125,14 +126,14 @@ describe("The 'organizer'", () => {
 
     it("Should set empty shortie in focus if present", () => {
       /* Setup */
-      raws.push(new shortie.RedirectModel('', ''));
-      var model = new organizer.vm(raws);
+      raws.push(new model.RedirectModel('', ''));
+      var viewModel = new organizer.vm(raws);
 
       /* Test */
-      model.addNew();
+      viewModel.addNew();
 
       /* Assert */
-      expect(model.shorties()[3].isCurrent()).to.be.true;
+      expect(viewModel.shorties()[3].isCurrent()).to.be.true;
     });
   });
 
@@ -165,37 +166,37 @@ describe("The 'organizer'", () => {
 
     it("Should be false if one new shorties and no attempt to create new", () => {
       /* Setup */
-      raws.push(new shortie.RedirectModel('', ''));
-      var model = new organizer.vm(raws);
+      raws.push(new model.RedirectModel('', ''));
+      var viewModel = new organizer.vm(raws);
 
       /* Assert */
-      expect(model.spamWarning()).to.be.false;
+      expect(viewModel.spamWarning()).to.be.false;
     });
 
     it("Should be true if one new shorties and attempt to create new is performed", () => {
       /* Setup */
-      raws.push(new shortie.RedirectModel('', ''));
-      var model = new organizer.vm(raws);
+      raws.push(new model.RedirectModel('', ''));
+      var viewModel = new organizer.vm(raws);
 
       /* Test */
-      model.addNew();
+      viewModel.addNew();
 
       /* Assert */
-      expect(model.spamWarning()).to.be.true;
+      expect(viewModel.spamWarning()).to.be.true;
     });
 
     it("Should be false again if new slug gets values", () => {
       /* Setup */
-      raws.push(new shortie.RedirectModel('', ''));
-      var model = new organizer.vm(raws);
-      model.addNew();
+      raws.push(new model.RedirectModel('', ''));
+      var viewModel = new organizer.vm(raws);
+      viewModel.addNew();
 
       /* Test */
-      model.shorties()[3].slug('newSlug');
-      model.shorties()[3].fullUrl('newUrl');
+      viewModel.shorties()[3].slug('newSlug');
+      viewModel.shorties()[3].fullUrl('newUrl');
 
       /* Assert */
-      expect(model.spamWarning()).to.be.false;
+      expect(viewModel.spamWarning()).to.be.false;
     });
   });
 });
