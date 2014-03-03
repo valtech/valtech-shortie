@@ -5626,6 +5626,8 @@ var AdminViewModel = (function () {
         });
     }
     AdminViewModel.prototype.select = function (shortie) {
+        if (!_.contains(this.shorties(), shortie))
+            return;
         this.shorties().forEach(function (s) {
             return s.isCurrent(false);
         });

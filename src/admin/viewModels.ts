@@ -48,7 +48,9 @@ export class AdminViewModel {
     this.spamWarning = ko.computed(() => this.spamAttemped() && this.containsEmpties());
   }
 
-  public select(shortie: RedirectViewModel) : void {
+  public select(shortie: RedirectViewModel): void {
+    if (!_.contains(this.shorties(), shortie))
+      return;
     this.shorties().forEach(s=> s.isCurrent(false));
     shortie.isCurrent(true);
   }

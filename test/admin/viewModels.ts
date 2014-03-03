@@ -15,50 +15,51 @@ var assert: Assert = chai.assert;
 var expect: ExpectStatic = chai.expect;
 var sinon: SinonStatic = sinonModule;
 
-describe("The 'viewModels'", function() {
-  var raws: Array<model.RedirectModel>;
+describe("AdminViewModel", function() {
+  var models: Array<model.RedirectModel>;
 
   beforeEach(function() {
-    raws = [
+    models = [
       new model.RedirectModel("lilla-anna", "http://sv.wikipedia.org/wiki/Lilla_Anna_och_Langa_farbrorn"),
       new model.RedirectModel("go-shorty", "http://rapgenius.com/50-cent-in-da-club-lyrics"),
       new model.RedirectModel("i-wish", "http://open.spotify.com/track/74WFSCXc8yHY7HDXREiLpM")
     ];
   });
 
-  it("Should create vms for all raw shories in constructor", function() {
-    /* Setup */
-    var spy = sinon.spy(viewModels.RedirectViewModel);
+  describe('constructor()', function () {
+    it("should create RedirectViewModels for all RedirectModels", function () {
+      //var spy = sinon.spy(viewModels.RedirectViewModel);
 
-    /* Test */
-    var model = new viewModels.AdminViewModel(raws);
+      var viewModel = new viewModels.AdminViewModel(models);
 
-    /* Assert */
-    //sinon.assert.callCount(spy, 3); // TODO: make this work.
-    assert.equal(model.shorties().length, 3);
+      //sinon.assert.callCount(spy, 3); // TODO: make this work.
+      assert.equal(viewModel.shorties().length, 3);
+    });
   });
 
-  describe("The 'select' method", function() {
+  describe("select()", function() {
     var viewModel: viewModels.AdminViewModel;
 
     beforeEach(function() {
-      viewModel = new viewModels.AdminViewModel(raws);
+      viewModel = new viewModels.AdminViewModel(models);
     });
 
-    it("Should do nothing if shortie not part of collection", function() {
+    it("should not deselect previous shortie if passed shortie is not part of collection", function () {
       /* Setup */
-      var rougeShortie = new viewModels.RedirectViewModel(new model.RedirectModel("rouge", "rougheUrl"));
+      var rogueShortie = new viewModels.RedirectViewModel(new model.RedirectModel("rouge", "rougheUrl"));
+      var currentShortie = viewModel.shorties()[0];
+      currentShortie.isCurrent(true);
 
       /* Test */
-      viewModel.select(rougeShortie);
+      viewModel.select(rogueShortie);
 
       /* Assert */
       _.each(viewModel.shorties(), vm=> {
-        expect(vm.isCurrent()).to.be.false;
+        expect(currentShortie.isCurrent()).to.be.true;
       });
     });
 
-    it("Should select shortie if part of collection", function() {
+    it("should select shortie if it is part of collection", function() {
       /* Setup */
       var current = viewModel.shorties()[0];
 
@@ -69,7 +70,7 @@ describe("The 'viewModels'", function() {
       expect(current.isCurrent()).to.be.true;
     });
 
-    it("Should deselect the previous shortie", function() {
+    it("should deselect the previous shortie", function() {
       /* Setup */
       var previous = viewModel.shorties()[0];
       var next = viewModel.shorties()[1];
@@ -83,80 +84,55 @@ describe("The 'viewModels'", function() {
     });
   });
 
-  describe("The 'addNew' method", function() {
-    it("Should add a new shortie to the list", function() {
-      /* Setup */
-      var initialCount = raws.length;
-      var model = new viewModels.AdminViewModel(raws);
+  describe("addNew()", function() {
+    var viewModel: viewModels.AdminViewModel;
 
-      /* Test */
-      model.addNew();
-
-      /* Assert */
-      expect(model.shorties().length).to.be.equal(initialCount + 1);
+    beforeEach(function () {
+      viewModel = new viewModels.AdminViewModel(models);
     });
 
-    it("Should set the newst shortie as current", function() {
-      /* Setup */
-      var model = new viewModels.AdminViewModel(raws);
-
-      /* Test */
-      model.addNew();
-
-      /* Assert */
-      expect(model.shorties()[3].isCurrent()).to.be.true;
-    });
-
-    it("Should prevent creation of multiple empty shorties", function() {
-      /* Setup */
-      var initialCount = raws.length;
-      var model = new viewModels.AdminViewModel(raws);
-
-      /* Test */
-      model.addNew();
-      model.addNew(); //spam
-      model.addNew(); //spam
-      model.addNew(); //spam
-
-      /* Assert */
-      expect(model.shorties().length).to.be.equal(initialCount + 1);
-    });
-
-    it("Should set empty shortie in focus if present", function() {
-      /* Setup */
-      raws.push(new model.RedirectModel('', ''));
-      var viewModel = new viewModels.AdminViewModel(raws);
-
-      /* Test */
+    it("should add a new shortie", function() {
       viewModel.addNew();
+      expect(viewModel.shorties().length).to.be.equal(4);
+    });
 
-      /* Assert */
+    it("should set the newest shortie as current", function() {
+      viewModel.addNew();
       expect(viewModel.shorties()[3].isCurrent()).to.be.true;
+    });
+
+    it("should prevent creation of multiple empty shorties", function() {
+      viewModel.addNew();
+      viewModel.addNew();
+      expect(viewModel.shorties().length).to.be.equal(4);
     });
   });
 
-  describe("The 'save' method", function() {
-    it('Should reset current on all slugs', function() {
-      /* Setup */
-      var model = new viewModels.AdminViewModel(raws);
-      var current = model.shorties()[0]
+  describe("save()", function () {
+    var viewModel: viewModels.AdminViewModel;
+
+    beforeEach(function () {
+      viewModel = new viewModels.AdminViewModel(models);
+    });
+
+    it('should deselect all shorties', function() {
+      var current = viewModel.shorties()[0]
 			current.isCurrent(true);
 
       /* Test */
-      model.save(current);
+      viewModel.save(current);
 
       /* Assert */
-      _.each(model.shorties(), vm=> {
+      _.each(viewModel.shorties(), vm => {
         expect(vm.isCurrent()).to.be.false;
       });
-
     });
   });
 
   describe("The 'spamWarning' property", function() {
     it("Should be false if all shorties have value", function() {
       /* Setup */
-      var model = new viewModels.AdminViewModel(raws);
+      var model = new viewModels.AdminViewModel(models);
 
       /* Assert */
       expect(model.spamWarning()).to.be.false;
@@ -164,8 +140,8 @@ describe("The 'viewModels'", function() {
 
     it("Should be false if one new shorties and no attempt to create new", function() {
       /* Setup */
-      raws.push(new model.RedirectModel('', ''));
-      var viewModel = new viewModels.AdminViewModel(raws);
+      models.push(new model.RedirectModel('', ''));
+      var viewModel = new viewModels.AdminViewModel(models);
 
       /* Assert */
       expect(viewModel.spamWarning()).to.be.false;
@@ -173,8 +149,8 @@ describe("The 'viewModels'", function() {
 
     it("Should be true if one new shorties and attempt to create new is performed", function() {
       /* Setup */
-      raws.push(new model.RedirectModel('', ''));
-      var viewModel = new viewModels.AdminViewModel(raws);
+      models.push(new model.RedirectModel('', ''));
+      var viewModel = new viewModels.AdminViewModel(models);
 
       /* Test */
       viewModel.addNew();
@@ -185,8 +161,8 @@ describe("The 'viewModels'", function() {
 
     it("Should be false again if new slug gets values", function() {
       /* Setup */
-      raws.push(new model.RedirectModel('', ''));
-      var viewModel = new viewModels.AdminViewModel(raws);
+      models.push(new model.RedirectModel('', ''));
+      var viewModel = new viewModels.AdminViewModel(models);
       viewModel.addNew();
 
       /* Test */
