@@ -3,12 +3,14 @@ html
   head
     title= title
     meta(name="viewport", content="width=device-width, initial-scale=1, maximum-scale=1")
-    link(rel="stylesheet", href="bootstrap/css/bootstrap.css")
-    link(rel="stylesheet", href="bootstrap/css/bootstrap-theme.css")
+    link(rel="stylesheet", href="bootstrap/css/bootstrap.css", type="text/css")
+    link(rel="stylesheet", href="bootstrap/css/bootstrap-theme.css", type="text/css")
+    link(rel="stylesheet", href="//fonts.googleapis.com/css?family=Open+Sans:400,600,800", type="text/css")
     style.
       body {
         padding: 50px;
-        font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        font-family: 'Lucida Grande', Arial, sans-serif;
       }
 
       a {
@@ -16,6 +18,20 @@ html
       }
       small {
         font-size: 55%;
+      }
+
+      table.table > thead > tr > th.slug {
+        width: 25%;
+      }
+      table.table > thead > tr > th.url {
+        width: 75%;
+      }
+
+      table.table > tbody > tr > td > div {
+        padding: 7px 12px 6px 13px;
+      }
+      table.table > thead > tr > th {
+        padding-left: 21px;
       }
   body
     block content
