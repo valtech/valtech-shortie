@@ -7,15 +7,14 @@
 import request = require('supertest');
 import express = require('express');
 import _ = require('underscore');
+import app = require('../../src/app');
 
-process.env['env'] = 'test';
-
-var app = require('../../src/app').App;
+var shortieApp: express.Express = app.App;
 
 _.each(['GET', 'POST'], function(verb) {
   describe(verb + ' /non-existing-resource', function() {
     it('should return html for requests that accept html', function(done) {
-      request(app)
+      request(shortieApp)
         [verb.toLowerCase()]('/non-existing-resource')
         .set('Accept', 'text/html')
         .expect('Content-Type', /text\/html/)
@@ -23,7 +22,7 @@ _.each(['GET', 'POST'], function(verb) {
         .expect(404, done);
     });
     it('should return json for requests that accept json', function(done) {
-      request(app)
+      request(shortieApp)
         [verb.toLowerCase()]('/non-existing-resource')
         .set('Accept', 'appliction/json')
         .expect('Content-Type', /application\/json/)
