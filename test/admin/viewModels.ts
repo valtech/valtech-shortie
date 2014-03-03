@@ -166,7 +166,7 @@ describe("AdminViewModel", function() {
 
       /* Test */
       viewModel.shorties()[3].slug('newSlug');
-      viewModel.shorties()[3].fullUrl('newUrl');
+      viewModel.shorties()[3].url('newUrl');
 
       /* Assert */
       expect(viewModel.spamWarning()).to.be.false;

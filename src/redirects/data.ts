@@ -1,5 +1,7 @@
 ﻿/// <reference path="../../.types/node/node.d.ts" />
 
+import model = require('./model');
+
 export class RedirectRepository {
     private db : any;
 
@@ -9,14 +11,14 @@ export class RedirectRepository {
       this.db.ensureIndex({ fieldName: 'slug', unique: true });
     }
 
-    public addRedirect(redirect: any, callback? : (err : string, doc : any) => void) : void {
+    public addRedirect(redirect: model.RedirectModel, callback? : (err : string, doc? : model.RedirectModel) => void) : void {
         if (callback)
             this.db.insert(redirect, callback);
         else
             this.db.insert(redirect);
     }
 
-    public getRedirectBySlug(slug : string, callback : (err : string, doc : any) => void) : void {
+    public getRedirectBySlug(slug : string, callback : (err : string, doc : model.RedirectModel) => void) : void {
         this.db.findOne({ slug: slug }, callback);
     }
     

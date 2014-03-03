@@ -5598,11 +5598,11 @@ var RedirectViewModel = (function () {
         this.raw = shortie;
         this.isCurrent = ko.observable(false);
         this.slug = ko.observable();
-        this.fullUrl = ko.observable();
+        this.url = ko.observable();
 
         if (shortie) {
             this.slug(shortie.slug);
-            this.fullUrl(shortie.fullUrl);
+            this.url(shortie.url);
         }
     }
     return RedirectViewModel;
@@ -5661,7 +5661,7 @@ exports.AdminViewModel = AdminViewModel;
 
 function containsEmptyShorties(shorties) {
     var hasEmpties = _.any(shorties, function (shortie) {
-        return !shortie.slug() || !shortie.fullUrl();
+        return !shortie.slug() || !shortie.url();
     });
 
     return hasEmpties;
@@ -5672,7 +5672,7 @@ function selectFirstEmptyShorties(shorties) {
         return s.isCurrent(false);
     });
     var firstEmpty = _.find(shorties, function (shortie) {
-        if (!shortie.slug() || !shortie.fullUrl())
+        if (!shortie.slug() || !shortie.url())
             return true;
         return false;
     });
@@ -5683,9 +5683,9 @@ function selectFirstEmptyShorties(shorties) {
 
 },{"knockout":1,"underscore":2}],5:[function(require,module,exports){
 var RedirectModel = (function () {
-    function RedirectModel(slug, fullUrl) {
+    function RedirectModel(slug, url) {
         this.slug = slug;
-        this.fullUrl = fullUrl;
+        this.url = url;
     }
     return RedirectModel;
 })();

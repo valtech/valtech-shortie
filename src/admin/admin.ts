@@ -13,7 +13,7 @@ import model = require('../redirects/model');
 
 // temporary shorties
 var raws = [
-	new model.RedirectModel("fun", "http://9gag.com/trending"),
+  new model.RedirectModel("fun", "http://9gag.com/trending"),
   new model.RedirectModel("funner", "http://9gag.com/hot"),
   new model.RedirectModel("funniest", "http://money.cnn.com/data/markets/")
 ];

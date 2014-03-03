@@ -1,4 +1,4 @@
 ﻿export class RedirectModel {
-  constructor(public slug: string, public fullUrl: string) { }
+  constructor(public slug: string, public url: string) { }
 }
 

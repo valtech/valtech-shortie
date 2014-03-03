@@ -7,7 +7,7 @@ import data = require('../../src/redirects/data');
 var assert = require('chai').assert;
 
 describe('RedirectRepository', function() {
-  var repo, db;
+  var repo : data.RedirectRepository, db;
   beforeEach(function(done) {
     DbFactory.create('nedb', {}, function(err, db_) {
       db = db_;

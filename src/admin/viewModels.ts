@@ -15,18 +15,18 @@ export class RedirectViewModel {
   private raw: model.RedirectModel;
 
   public slug: KnockoutObservable<string>;
-  public fullUrl: KnockoutObservable<string>;
+  public url: KnockoutObservable<string>;
   public isCurrent: KnockoutObservable<boolean>;
 
   constructor(shortie?: model.RedirectModel) {
     this.raw = shortie;
     this.isCurrent = ko.observable(false);
     this.slug = ko.observable<string>();
-    this.fullUrl = ko.observable<string>();
+    this.url = ko.observable<string>();
 
     if (shortie) {
       this.slug(shortie.slug);
-      this.fullUrl(shortie.fullUrl);
+      this.url(shortie.url);
     }
   }
 }
@@ -78,7 +78,7 @@ export class AdminViewModel {
 
 function containsEmptyShorties(shorties: Array<RedirectViewModel>): boolean {
   var hasEmpties = _.any<RedirectViewModel>(shorties,
-    shortie => { return !shortie.slug() || !shortie.fullUrl(); }
+    shortie => { return !shortie.slug() || !shortie.url(); }
     );
 
   return hasEmpties;
@@ -87,7 +87,7 @@ function containsEmptyShorties(shorties: Array<RedirectViewModel>): boolean {
 function selectFirstEmptyShorties(shorties: Array<RedirectViewModel>): void {
   shorties.forEach(s=> s.isCurrent(false));
   var firstEmpty = _.find<RedirectViewModel>(shorties, shortie=> {
-    if (!shortie.slug() || !shortie.fullUrl())
+    if (!shortie.slug() || !shortie.url())
       return true;
     return false;
   });
