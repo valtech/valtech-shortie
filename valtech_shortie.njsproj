@@ -58,9 +58,10 @@
     <Content Include=".types\knockout.d.ts" />
     <Content Include=".types\sinon.d.ts" />
     <Content Include="src\admin\viewModels.ts" />
+    <Content Include="src\public\robots.txt" />
     <Content Include="src\redirects\model.ts" />
     <Content Include="src\views\includes\ko.jade" />
-    <Content Include="test\admin\organizer.ts" />
+    <Content Include="test\admin\viewModels.ts" />
     <Content Include="test\lib\SlugGenerator.ts" />
     <Content Include="test\redirects\data.ts" />
     <Content Include=".types\express.d.ts" />
