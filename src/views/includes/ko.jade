@@ -1,26 +1,14 @@
 ﻿script(type='text/template', id='shortie-main')
-  tr(data-bind="template : {name : 'shortie-edit', data: $data}, visible:isCurrent")
-  tr(data-bind="template : {name : 'shortie-normal', data: $data}, visible:!isCurrent()")
-
-
-script(type='text/template', id='shortie-edit')
-  td
-    input.form-control(type='text', placeholder='rly shrt', data-bind="value:slug")
-  td
-    input.form-control(type='text', placeholder='really looong', data-bind='value: fullUrl')
-  td
-    .btn-group.pull-right
-      button.btn.btn-default.btn-xs(data-bind='click: $parents[1].save.bind($parents[1])')
-        span.glyphicon.glyphicon-plus
-        span.small save
-
-script(type='text/template', id='shortie-normal')
-  td
-    div(data-bind='text:slug')
-  td
-    div(data-bind='text:fullUrl')
-  td
-    .btn-group.pull-right
-      button.btn.btn-default.btn-xs(data-bind='click: $parents[1].select.bind($parents[1])')
-        span.glyphicon.glyphicon-plus
-        span.small edit
+  tr(data-bind="click: $root.select.bind($root), css: { selected: isCurrent(), notSelected: !isCurrent() }")
+    td
+      input.form-control(type='text', placeholder='rly shrt', data-bind="value: slug, event: { focus: $parent.select.bind($parent) }")
+    td
+      input.form-control(type='text', placeholder='really long', data-bind="value: fullUrl, event: { focus: $parent.select.bind($parent) }")
+    td
+      .btn-group.pull-right
+        button.btn.btn-default.btn-xs(data-bind='click: $parent.save.bind($parent)')
+          span.glyphicon.glyphicon-save
+          span.small save
+        button.btn.btn-danger.btn-xs(data-bind='click: $parent.remove.bind($parent)')
+          span.glyphicon.glyphicon-remove
+          span.small &nbsp;delete

@@ -49,12 +49,8 @@ export class AdminViewModel {
   }
 
   public select(shortie: RedirectViewModel) : void {
-    var current = _.find<RedirectViewModel>(this.shorties(), s=> s == shortie);
-    if (!current)
-      return;
-
     this.shorties().forEach(s=> s.isCurrent(false));
-    current.isCurrent(true);
+    shortie.isCurrent(true);
   }
 
   public addNew() : void {
@@ -71,6 +67,10 @@ export class AdminViewModel {
 
   public save(shortie: RedirectViewModel) : void {
     this.shorties().forEach(s=> s.isCurrent(false));
+  }
+
+  public remove(shortie: RedirectViewModel): void {
+    this.shorties.remove(shortie);
   }
 }
 
