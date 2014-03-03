@@ -1,4 +1,5 @@
-﻿var Datastore = require('nedb');
+﻿/// <reference path="../../.types/node/node.d.ts" />
+var Datastore = require('nedb');
 
 function create(type, options, callback) {
     switch (type) {

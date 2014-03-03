@@ -1,4 +1,5 @@
-﻿var RedirectRepository = (function () {
+﻿/// <reference path="../../.types/node/node.d.ts" />
+var RedirectRepository = (function () {
     function RedirectRepository(db) {
         this.db = db;
     }

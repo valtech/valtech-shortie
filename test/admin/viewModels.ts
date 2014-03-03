@@ -1,5 +1,5 @@
-﻿/// <reference path="../../.types/mocha.d.ts"/>
-/// <reference path="../../.types/sinon.d.ts"/>
+﻿/// <reference path="../../.types/mocha/mocha.d.ts"/>
+/// <reference path="../../.types/sinon/sinon.d.ts"/>
 /// <reference path="../../.types/my-chai.d.ts"/>
 /// <reference path="../../src/admin/viewModels.ts"/>
 

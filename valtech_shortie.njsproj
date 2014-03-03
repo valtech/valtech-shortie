@@ -34,6 +34,16 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Folder Include=".types\express\" />
+    <Folder Include=".types\jquery\" />
+    <Folder Include=".types\knockout\" />
+    <Folder Include=".types\mocha\" />
+    <Folder Include=".types\my-chai\" />
+    <Folder Include=".types\superagent\" />
+    <Folder Include=".types\node\" />
+    <Folder Include=".types\sinon\" />
+    <Folder Include=".types\supertest\" />
+    <Folder Include=".types\underscore\" />
     <Folder Include="src\views\includes\" />
     <Folder Include="test\lib\" />
     <Folder Include="test\admin\" />
@@ -53,10 +63,16 @@
     <Folder Include="src\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include=".types\jquery.d.ts" />
-    <Content Include=".types\my-chai.d.ts" />
-    <Content Include=".types\knockout.d.ts" />
-    <Content Include=".types\sinon.d.ts" />
+    <Content Include=".types\express\express.d.ts" />
+    <Content Include=".types\jquery\jquery.d.ts" />
+    <Content Include=".types\knockout\knockout.d.ts" />
+    <Content Include=".types\mocha\mocha.d.ts" />
+    <Content Include=".types\my-chai\my-chai.d.ts" />
+    <Content Include=".types\node\node.d.ts" />
+    <Content Include=".types\sinon\sinon.d.ts" />
+    <Content Include=".types\superagent\superagent.d.ts" />
+    <Content Include=".types\supertest\supertest.d.ts" />
+    <Content Include=".types\underscore\underscore.d.ts" />
     <Content Include="src\admin\viewModels.ts" />
     <Content Include="src\public\robots.txt" />
     <Content Include="src\redirects\model.ts" />
@@ -64,11 +80,6 @@
     <Content Include="test\admin\viewModels.ts" />
     <Content Include="test\lib\SlugGenerator.ts" />
     <Content Include="test\redirects\data.ts" />
-    <Content Include=".types\express.d.ts" />
-    <Content Include=".types\mocha.d.ts" />
-    <Content Include=".types\node.d.ts" />
-    <Content Include=".types\supertest.d.ts" />
-    <Content Include=".types\underscore.d.ts" />
     <Content Include="src\admin\admin.ts" />
     <Content Include="src\app.ts" />
     <Content Include="src\auth\middleware.ts" />
@@ -91,6 +102,7 @@
   <ItemGroup>
     <Compile Include="src\public\bundle.js" />
     <Compile Include="src\server.js" />
+    <Compile Include="test\redirects\routes.ts" />
     <Compile Include="test\routes\static.js" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />

@@ -1,4 +1,4 @@
-﻿/// <reference path="../../.types/mocha.d.ts" />
+﻿/// <reference path="../../.types/mocha/mocha.d.ts" />
 
 import DbFactory = require('../../src/lib/DbFactory');
 import data = require('../../src/redirects/data');

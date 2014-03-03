@@ -1,6 +1,6 @@
-﻿/// <reference path="../../.types/underscore.d.ts"/>
-/// <reference path="../../.types/node.d.ts"/>
-/// <reference path="../../.types/knockout.d.ts"/>
+﻿/// <reference path="../../.types/underscore/underscore.d.ts"/>
+/// <reference path="../../.types/node/node.d.ts"/>
+/// <reference path="../../.types/knockout/knockout.d.ts"/>
 
 import knockout = require('knockout');
 import underscore = require('underscore');
