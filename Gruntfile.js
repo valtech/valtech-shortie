@@ -31,6 +31,7 @@ module.exports = function (grunt) {
                     src: [
                       'Gruntfile.js',
                       'src/**/*.js',
+                      '!src/public/bootstrap/**/*.js',
                       '!src/public/bundle.js'
                     ]
                 }
