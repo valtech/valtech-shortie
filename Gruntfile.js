@@ -40,7 +40,9 @@ module.exports = function (grunt) {
         browserify: {
             dist: {
                 files: {
-                    'src/public/bundle.js': ['src/admin/admin.js']
+                    'src/public/bundle.js': [
+                        'src/admin/admin.js'
+                    ]
                 }
             }
         },

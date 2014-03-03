@@ -9,10 +9,16 @@ script(type='text/template', id='shortie-edit')
   td
     input(type='text', placeholder='really looong', data-bind='value: fullUrl')
   td
-    input(type='button', value='save', data-bind='click: $parents[1].save')
+    .btn-group.pull-right
+      button.btn.btn-default.btn-xs(data-bind='click: $parents[1].save')
+        span.glyphicon.glyphicon-plus
+        span.small save
 
 script(type='text/template', id='shortie-normal')
   td(data-bind='text:slug')
   td(data-bind='text:fullUrl')
   td
-    input(type='button', value='edit', data-bind='click: $parents[1].select')
+    .btn-group.pull-right
+      button.btn.btn-default.btn-xs(data-bind='click: $parents[1].select')
+        span.glyphicon.glyphicon-plus
+        span.small edit
