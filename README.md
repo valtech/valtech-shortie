@@ -4,12 +4,13 @@ Valtech URL shortening service. Runs on Heroku.
 
 ## TODO
 
-* UI tests
-* UI
-* Choose your Database! Mongo? (or Postgres? :-()
-* OAuth for signin
-* Cookie authorization for API with CSRF token to prevent illicit usage
-* Auth for external applications (static auth tokens)
+1. Connect UI with backend API
+2. Implement RedirectRepository
+3. Integrate with Mongo
+4. Write UI tests (CasperJS?)
+5. Set up TeamCity build config
+6. Remove generated files from repo (compiled JS/CSS/etc)
+7. Auth for external applications (static auth tokens)
 
 
 # API
