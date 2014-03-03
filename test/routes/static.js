@@ -1,13 +1,13 @@
-﻿var request = require('supertest'),
-    express = require('express');
+﻿var request = require('supertest');
 
-var app = require('../../src/app').App;
+var app = require('../../src/app');
 
-describe('GET /', function() {
-  it('should return html', function(done) {
-    request(app)
-      .get('/')
-      .expect('Content-Type', /text\/html/)
-      .expect(200, done);
-  });
+var shortieApp = app.App;
+
+describe('static routes', function () {
+    describe('GET /', function () {
+        it('should return html', function (done) {
+            request(shortieApp).get('/').expect('Content-Type', /text\/html/).expect(200, done);
+        });
+    });
 });
