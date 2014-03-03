@@ -6,11 +6,10 @@
 import viewModels = require('../../src/admin/viewModels');
 import model = require('../../src/redirects/model');
 
-import underscore = require('underscore');
+import _ = require('underscore');
 import chai = require('chai');
 import sinonModule = require('sinon');
 
-var _: UnderscoreStatic = underscore;
 var assert: Assert = chai.assert;
 var expect: ExpectStatic = chai.expect;
 var sinon: SinonStatic = sinonModule;

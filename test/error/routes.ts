@@ -1,6 +1,12 @@
-var request = require('supertest'),
-    express = require('express'),
-    _ = require('underscore');
+/// <reference path="../../.types/node/node.d.ts" />
+/// <reference path="../../.types/express/express.d.ts" />
+/// <reference path="../../.types/underscore/underscore.d.ts" />
+/// <reference path="../../.types/mocha/mocha.d.ts" />
+/// <reference path="../../.types/supertest/supertest.d.ts" />
+
+import request = require('supertest');
+import express = require('express');
+import _ = require('underscore');
 
 process.env['env'] = 'test';
 

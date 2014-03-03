@@ -24,7 +24,7 @@
     <OutputPath>.</OutputPath>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
-    <ProjectView>ShowAllFiles</ProjectView>
+    <ProjectView>ProjectFiles</ProjectView>
     <NodejsPort>3000</NodejsPort>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -47,8 +47,9 @@
     <Folder Include="src\views\includes\" />
     <Folder Include="test\lib\" />
     <Folder Include="test\admin\" />
+    <Folder Include="test\error\" />
     <Folder Include="test\redirects\" />
-    <Folder Include="test\routes\" />
+    <Folder Include="test\static\" />
     <Folder Include=".types\" />
     <Folder Include="src\admin\" />
     <Folder Include="src\auth\" />
@@ -110,7 +111,8 @@
     <Compile Include="src\public\bundle.js" />
     <Compile Include="src\server.js" />
     <Compile Include="test\redirects\routes.ts" />
-    <Compile Include="test\routes\static.js" />
+    <Compile Include="test\error\routes.ts" />
+    <Compile Include="test\static\routes.ts" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />
   <ProjectExtensions>
