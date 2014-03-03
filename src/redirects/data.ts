@@ -22,7 +22,7 @@ export class RedirectRepository {
         this.db.findOne({ slug: slug }, callback);
     }
     
-    public getRedirectsByUrl(url : string, callback : (err : string, doc : any) => void) {
+    public getRedirectsByUrl(url : string, callback : (err : string, doc : Array<model.RedirectModel>) => void) {
         return this.db.find({ url: url }, callback);
     }
 }
