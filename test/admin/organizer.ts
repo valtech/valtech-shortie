@@ -1,11 +1,9 @@
 ﻿/// <reference path="../../.types/mocha.d.ts"/>
 /// <reference path="../../.types/sinon.d.ts"/>
 /// <reference path="../../.types/my-chai.d.ts"/>
-/// <reference path="../../src/admin/shortie.ts"/>
-/// <reference path="../../src/admin/organizer.ts"/>
+/// <reference path="../../src/admin/viewModels.ts"/>
 
-import shortie = require('../../src/admin/shortie');
-import organizer = require('../../src/admin/organizer');
+import viewModels = require('../../src/admin/viewModels');
 import model = require('../../src/redirects/model');
 
 import underscore = require('underscore');
@@ -17,7 +15,7 @@ var assert: Assert = chai.assert;
 var expect: ExpectStatic = chai.expect;
 var sinon: SinonStatic = sinonModule;
 
-describe("The 'organizer'", () => {
+describe("The 'viewModels'", () => {
   var raws: Array<model.RedirectModel>;
 
   beforeEach(() => {
@@ -30,10 +28,10 @@ describe("The 'organizer'", () => {
 
   it("Should create vms for all raw shories in constructor", () => {
     /* Setup */
-    var spy = sinon.spy(shortie.RedirectViewModel);
+    var spy = sinon.spy(viewModels.RedirectViewModel);
 
     /* Test */
-    var model = new organizer.vm(raws);
+    var model = new viewModels.AdminViewModel(raws);
 
     /* Assert */
     //sinon.assert.callCount(spy, 3); // TODO: make this work.
@@ -41,15 +39,15 @@ describe("The 'organizer'", () => {
   });
 
   describe("The 'select' method", () => {
-    var viewModel: organizer.vm;
+    var viewModel: viewModels.AdminViewModel;
 
     beforeEach(() => {
-      viewModel = new organizer.vm(raws);
+      viewModel = new viewModels.AdminViewModel(raws);
     });
 
     it("Should do nothing if shortie not part of collection", () => {
       /* Setup */
-      var rougeShortie = new shortie.RedirectViewModel(new model.RedirectModel("rouge", "rougheUrl"));
+      var rougeShortie = new viewModels.RedirectViewModel(new model.RedirectModel("rouge", "rougheUrl"));
 
       /* Test */
       viewModel.select(rougeShortie);
@@ -89,7 +87,7 @@ describe("The 'organizer'", () => {
     it("Should add a new shortie to the list", () => {
       /* Setup */
       var initialCount = raws.length;
-      var model = new organizer.vm(raws);
+      var model = new viewModels.AdminViewModel(raws);
 
       /* Test */
       model.addNew();
@@ -100,7 +98,7 @@ describe("The 'organizer'", () => {
 
     it("Should set the newst shortie as current", () => {
       /* Setup */
-      var model = new organizer.vm(raws);
+      var model = new viewModels.AdminViewModel(raws);
 
       /* Test */
       model.addNew();
@@ -112,7 +110,7 @@ describe("The 'organizer'", () => {
     it("Should prevent creation of multiple empty shorties", () => {
       /* Setup */
       var initialCount = raws.length;
-      var model = new organizer.vm(raws);
+      var model = new viewModels.AdminViewModel(raws);
 
       /* Test */
       model.addNew();
@@ -127,7 +125,7 @@ describe("The 'organizer'", () => {
     it("Should set empty shortie in focus if present", () => {
       /* Setup */
       raws.push(new model.RedirectModel('', ''));
-      var viewModel = new organizer.vm(raws);
+      var viewModel = new viewModels.AdminViewModel(raws);
 
       /* Test */
       viewModel.addNew();
@@ -140,7 +138,7 @@ describe("The 'organizer'", () => {
   describe("The 'save' method", () => {
     it('Should reset current on all slugs', () => {
       /* Setup */
-      var model = new organizer.vm(raws);
+      var model = new viewModels.AdminViewModel(raws);
       var current = model.shorties()[0]
 			current.isCurrent(true);
 
@@ -158,7 +156,7 @@ describe("The 'organizer'", () => {
   describe("The 'spamWarning' property", () => {
     it("Should be false if all shorties have value", () => {
       /* Setup */
-      var model = new organizer.vm(raws);
+      var model = new viewModels.AdminViewModel(raws);
 
       /* Assert */
       expect(model.spamWarning()).to.be.false;
@@ -167,7 +165,7 @@ describe("The 'organizer'", () => {
     it("Should be false if one new shorties and no attempt to create new", () => {
       /* Setup */
       raws.push(new model.RedirectModel('', ''));
-      var viewModel = new organizer.vm(raws);
+      var viewModel = new viewModels.AdminViewModel(raws);
 
       /* Assert */
       expect(viewModel.spamWarning()).to.be.false;
@@ -176,7 +174,7 @@ describe("The 'organizer'", () => {
     it("Should be true if one new shorties and attempt to create new is performed", () => {
       /* Setup */
       raws.push(new model.RedirectModel('', ''));
-      var viewModel = new organizer.vm(raws);
+      var viewModel = new viewModels.AdminViewModel(raws);
 
       /* Test */
       viewModel.addNew();
@@ -188,7 +186,7 @@ describe("The 'organizer'", () => {
     it("Should be false again if new slug gets values", () => {
       /* Setup */
       raws.push(new model.RedirectModel('', ''));
-      var viewModel = new organizer.vm(raws);
+      var viewModel = new viewModels.AdminViewModel(raws);
       viewModel.addNew();
 
       /* Test */

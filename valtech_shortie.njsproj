@@ -57,9 +57,10 @@
     <Content Include=".types\my-chai.d.ts" />
     <Content Include=".types\knockout.d.ts" />
     <Content Include=".types\sinon.d.ts" />
-    <Content Include="src\admin\organizer.ts" />
-    <Content Include="src\admin\shortie.ts" />
+    <Content Include="src\admin\viewModels.ts" />
+    <Content Include="src\redirects\model.ts" />
     <Content Include="src\views\includes\ko.jade" />
+    <Content Include="test\admin\organizer.ts" />
     <Content Include="test\lib\SlugGenerator.ts" />
     <Content Include="test\redirects\data.ts" />
     <Content Include=".types\express.d.ts" />
@@ -85,8 +86,6 @@
     <Content Include="src\views\admin.jade" />
     <Content Include="src\views\index.jade" />
     <Content Include="src\views\layouts\layout.jade" />
-    <Content Include="test\admin\organizer.ts" />
-    <Content Include="test\admin\shortie.ts" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\public\bundle.js" />

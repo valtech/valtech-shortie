@@ -1,15 +1,14 @@
 /// <reference path="../../.types/node.d.ts" />
 /// <reference path="../../.types/underscore.d.ts" />
 /// <reference path="../../.types/jquery.d.ts" />
-/// <reference path="shortie.ts" />
 
 // This is for frontend logic
 
 import ko = require('knockout');
 import _ = require('underscore');
 import $ = require('jquery');
-import shortie = require('./shortie');
-import organizer = require('./organizer');
+
+import viewModels = require('./viewModels');
 import model = require('../redirects/model');
 
 // temporary shorties
@@ -19,7 +18,7 @@ var raws = [
   new model.RedirectModel("funniest", "http://money.cnn.com/data/markets/")
 ];
 
-var o = new organizer.vm(raws);
+var o = new viewModels.AdminViewModel(raws);
 
 
 ko.applyBindings(o, document.getElementById('organizer'))
