@@ -3,18 +3,18 @@
 
 import ko = require('knockout');
 
-export class obj {
-	constructor(public slug: string, public fullUrl: string) { }
+export class RedirectModel {
+  constructor(public slug: string, public fullUrl: string) { }
 }
 
-export class vm {
-	private raw: obj;
+export class RedirectViewModel {
+  private raw: RedirectModel;
 
 	public slug: KnockoutObservable<string>;
-	public fullUrl: KnockoutObservable<string>
-	public isCurrent: KnockoutObservable<boolean>
+  public fullUrl: KnockoutObservable<string>;
+  public isCurrent: KnockoutObservable<boolean>;
 	
-	constructor(shortie? : obj) {
+  constructor(shortie?: RedirectModel) {
 		this.raw = shortie;
 		this.isCurrent = ko.observable(false);
 		this.slug = ko.observable<string>();

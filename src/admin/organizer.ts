@@ -13,15 +13,15 @@ var ko: KnockoutStatic = knockout;
 import shortie = require('./shortie');
 
 export class vm {
-  public shorties: KnockoutObservableArray<shortie.vm>;
-  public currentShortie: KnockoutObservable<shortie.vm>;
+  public shorties: KnockoutObservableArray<shortie.RedirectViewModel>;
+  public currentShortie: KnockoutObservable<shortie.RedirectViewModel>;
   public spamWarning: KnockoutComputed<boolean>;
 
   private spamAttemped: KnockoutObservable<boolean>;
   private containsEmpties: KnockoutComputed<boolean>;
 
-  constructor(raws: Array<shortie.obj>) {
-    var arrayOfVms = _.map(raws, raw => new shortie.vm(raw));
+  constructor(raws: Array<shortie.RedirectModel>) {
+    var arrayOfVms = _.map(raws, raw => new shortie.RedirectViewModel(raw));
     this.shorties = ko.observableArray(arrayOfVms);
 
     this.spamAttemped = ko.observable(false);
@@ -29,8 +29,8 @@ export class vm {
     this.spamWarning = ko.computed(() => this.spamAttemped() && this.containsEmpties());
   }
 
-  public select(shortie: shortie.vm) : void {
-    var current = _.find<shortie.vm>(this.shorties(), s=> s == shortie);
+  public select(shortie: shortie.RedirectViewModel) : void {
+    var current = _.find<shortie.RedirectViewModel>(this.shorties(), s=> s == shortie);
     if (!current)
       return;
 
@@ -45,27 +45,27 @@ export class vm {
       return;
     }
 
-    var newShortie = new shortie.vm();
+    var newShortie = new shortie.RedirectViewModel();
     this.shorties.push(newShortie);
     this.select(newShortie);
   }
 
-  public save(shortie: shortie.vm) : void {
+  public save(shortie: shortie.RedirectViewModel) : void {
     this.shorties().forEach(s=> s.isCurrent(false));
   }
 }
 
-function containsEmptyShorties(shorties: Array<shortie.vm>): boolean {
-  var hasEmpties = _.any<shortie.vm>(shorties,
+function containsEmptyShorties(shorties: Array<shortie.RedirectViewModel>): boolean {
+  var hasEmpties = _.any<shortie.RedirectViewModel>(shorties,
     shortie => { return !shortie.slug() || !shortie.fullUrl(); }
     );
 
   return hasEmpties;
 }
 
-function selectFirstEmptyShorties(shorties: Array<shortie.vm>): void {
+function selectFirstEmptyShorties(shorties: Array<shortie.RedirectViewModel>): void {
   shorties.forEach(s=> s.isCurrent(false));
-  var firstEmpty = _.find<shortie.vm>(shorties, shortie=> {
+  var firstEmpty = _.find<shortie.RedirectViewModel>(shorties, shortie=> {
     if (!shortie.slug() || !shortie.fullUrl())
       return true;
     return false;

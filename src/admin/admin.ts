@@ -13,9 +13,9 @@ import organizer = require('./organizer');
 
 // temporary shorties
 var raws = [
-	new shortie.obj("fun", "http://9gag.com/trending"),
-	new shortie.obj("funner", "http://9gag.com/hot"),
-	new shortie.obj("funniest", "http://money.cnn.com/data/markets/")
+	new shortie.RedirectModel("fun", "http://9gag.com/trending"),
+  new shortie.RedirectModel("funner", "http://9gag.com/hot"),
+  new shortie.RedirectModel("funniest", "http://money.cnn.com/data/markets/")
 ];
 
 var o = new organizer.vm(raws);

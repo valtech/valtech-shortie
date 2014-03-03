@@ -12,7 +12,7 @@ var expect = chai.expect;
 describe('The shortie-vm', () => {
 	it("Should not be selected by default", ()=> {
 		/* Setup */
-		var model = new shortie.vm();
+    var model = new shortie.RedirectViewModel();
 		
 		/* Assert */
 		assert.isNotNull(model);
@@ -20,10 +20,10 @@ describe('The shortie-vm', () => {
 
 	it("Should initialize properties from constructor", ()=> {
 		/* Setup */
-		var raw = new shortie.obj("not-that-tall", "http://www.thetallestmanonearth.com/");
+		var raw = new shortie.RedirectModel("not-that-tall", "http://www.thetallestmanonearth.com/");
 
 		/* Test */
-		var model = new shortie.vm(raw);
+		var model = new shortie.RedirectViewModel(raw);
 
 		/* Assert */
 		expect(model.fullUrl()).to.equal(raw.fullUrl);
