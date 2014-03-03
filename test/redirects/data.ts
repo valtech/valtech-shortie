@@ -52,6 +52,12 @@ describe('RedirectRepository', function() {
         done();
       });
     });
+    it('should return null for non-existing Redirect', function(done) {
+      repo.getRedirectBySlug('dogs', function(err, doc) {
+        assert.isNull(doc);
+        done();
+      });
+    });
   });
 
 });
