@@ -2,10 +2,10 @@
 /// <reference path="../.types/express/express.d.ts" />
 
 import express = require('express');
-
 var sessions = require('client-sessions');
 var path = require('path');
 
+import config = require('./config');
 import redirectRoutes = require('./redirects/routes');
 import authRoutes = require('./auth/routes');
 import staticRoutes = require('./static/routes');
@@ -38,7 +38,7 @@ if (process.env.NODE_ENV == 'development') {
 
 staticRoutes.setup(app);
 authRoutes.setup(app);
-redirectRoutes.setup(app);
+redirectRoutes.setup(app, config.current());
 errorRoutes.setup(app);
 
 app.use(app.router);

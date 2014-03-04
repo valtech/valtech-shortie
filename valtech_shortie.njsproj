@@ -81,6 +81,9 @@
     <Content Include="Procfile" />
     <Content Include="README.md" />
     <Content Include="src\admin\viewModels.ts" />
+    <Content Include="src\configurations.ts" />
+    <Content Include="src\config.d.ts" />
+    <Content Include="src\config.ts" />
     <Content Include="src\public\robots.txt" />
     <Content Include="src\redirects\model.ts" />
     <Content Include="src\views\includes\ko.jade" />
