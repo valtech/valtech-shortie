@@ -24,6 +24,7 @@
     "nedb": "~0.10.4",
     "supertest": "~0.9.0",
     "grunt": "~0.4.2",
+    "grunt-cli": "^0.1.13",
     "grunt-contrib-jshint": "~0.8.0",
     "grunt-mocha-test": "~0.9.3",
     "jshint": "~2.4.4",
