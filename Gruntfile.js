@@ -77,4 +77,13 @@ module.exports = function (grunt) {
     grunt.registerTask('test', ['mochaTest']);
     grunt.registerTask('build', ['typescript']);
     grunt.registerTask('default', ['npm-install', 'build', 'browserify', 'test', 'jshint']);
+
+    grunt.registerTask('teamcity', [], function() {
+      grunt.task.run('build');
+      grunt.task.run('browserify');
+      // Change mocha runner one emitting results for TeamCity
+      grunt.config.set('mochaTest.test.options.reporter', 'mocha-teamcity-reporter');
+      grunt.task.run('test');
+      grunt.task.run('jshint');
+    });
 };
