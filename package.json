@@ -8,7 +8,7 @@
     "email": "christian.palmstierna@valtech.se"
   },
   "engines": {
-    "node": "0.10.26"
+    "node": "0.10.24"
   },
   "private": true,
   "dependencies": {
