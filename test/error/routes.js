@@ -1,8 +1,3 @@
-/// <reference path="../../.types/node/node.d.ts" />
-/// <reference path="../../.types/express/express.d.ts" />
-/// <reference path="../../.types/underscore/underscore.d.ts" />
-/// <reference path="../../.types/mocha/mocha.d.ts" />
-/// <reference path="../../.types/supertest/supertest.d.ts" />
 var request = require('supertest');
 
 var _ = require('underscore');
@@ -19,5 +14,4 @@ _.each(['GET', 'POST'], function (verb) {
             request(shortieApp)[verb.toLowerCase()]('/non-existing-resource').set('Accept', 'appliction/json').expect('Content-Type', /application\/json/).expect({ error: 'not found' }).expect(404, done);
         });
     });
-    // TODO: Test 500 responses as well, but it is more difficult
 });

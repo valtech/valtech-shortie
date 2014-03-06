@@ -1,5 +1,4 @@
-﻿/// <reference path="../../.types/node/node.d.ts" />
-var Datastore = require('nedb');
+﻿var Datastore = require('nedb');
 
 function create(type, options, callback) {
     var db;

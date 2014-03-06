@@ -1,10 +1,6 @@
-﻿/// <reference path="../../.types/underscore/underscore.d.ts"/>
-/// <reference path="../../.types/node/node.d.ts"/>
-/// <reference path="../../.types/knockout/knockout.d.ts"/>
-var knockout = require('knockout');
+﻿var knockout = require('knockout');
 var underscore = require('underscore');
 
-// this is a hack for better intellisence in vs2013
 var _ = underscore;
 var ko = knockout;
 
