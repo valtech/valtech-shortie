@@ -4,6 +4,8 @@ Valtech URL shortening service. Runs on Heroku.
 
 ## TODO
 
+### Epics
+
 1. Connect UI with backend API
 2. Implement RedirectRepository
 3. Integrate with Mongo
@@ -12,6 +14,9 @@ Valtech URL shortening service. Runs on Heroku.
 6. Remove generated files from repo (compiled JS/CSS/etc)
 7. Auth for external applications (static auth tokens)
 
+### Small fixes
+
+1. Rename all 'redirect' types/functions to 'shortie'
 
 # API
 
