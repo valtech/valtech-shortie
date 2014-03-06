@@ -64,8 +64,6 @@
     <Folder Include="src\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include=".gitattributes" />
-    <Content Include=".gitignore" />
     <Content Include=".jshintrc" />
     <Content Include=".types\express\express.d.ts" />
     <Content Include=".types\jquery\jquery.d.ts" />
