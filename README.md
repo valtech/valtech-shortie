@@ -1,6 +1,6 @@
 # valtech\_shortie - valte.ch
 
-Valtech URL shortening service. Runs on Azure.
+Valtech URL shortening service.
 
 ## TODO
 
@@ -26,6 +26,9 @@ TODO. Will require an "application key + secret". POST, PUT and DELETE. JSON dat
 
 Go to `/admin` and login using vauth. You can administer existing URLs and add new ones.
 
+# Deployment
+
+TODO. Write stuff about TeamCity + Azure
 
 # Dev
 
