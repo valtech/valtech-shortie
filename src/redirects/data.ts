@@ -4,10 +4,11 @@ import model = require('./model');
 
 export class RedirectRepository {
   private db: any;
+  private pageSize: number;
 
-  constructor(db) {
+  constructor(db, options: RedirectRepoOptions = {pageSize : 20}) {
     this.db = db;
-
+    this.pageSize = options.pageSize;
     this.db.ensureIndex({ fieldName: 'slug', unique: true });
   }
 
@@ -25,4 +26,31 @@ export class RedirectRepository {
   public getRedirectsByUrl(url: string, callback: (err: string, doc: Array<model.RedirectModel>) => void) {
     return this.db.find({ url: url }, callback);
   }
+
+  public getAllShorties(callback: (err: string, doc: Array<model.RedirectModel>) => void, options?: ShortieGetOptions) {
+    var dbQuery = this.db.find({});
+
+    if (!options) 
+      return dbQuery.exec(callback);
+
+    if (options.page !== undefined)
+      dbQuery.skip(this.pageSize * options.page).limit(this.pageSize);
+    
+    if (options.sort)
+      dbQuery.sort(options.sort);
+
+    return dbQuery.exec(callback);
+  }
 }
+
+
+export interface ShortieGetOptions {
+  page?: number;
+  sort? : any;
+}
+
+export interface RedirectRepoOptions {
+  pageSize? : number;
+}
+
+
