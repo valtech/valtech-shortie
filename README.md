@@ -13,9 +13,8 @@ Valtech URL shortening service.
 2. Implement RedirectRepository
 3. Integrate with Mongo
 4. Write UI tests (CasperJS?)
-5. Set up TeamCity build config
-6. Remove generated files from repo (compiled JS/CSS/etc)
-7. Auth for external applications (static auth tokens)
+5. Remove generated files from repo (compiled JS/CSS/etc)
+6. Auth for external applications (static auth tokens)
 
 
 ### Small fixes

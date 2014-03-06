@@ -1,7 +1,20 @@
-﻿extends layouts/layout
+extends layouts/layout
+
+block styles
+  //-link(rel="stylesheet", href="//fonts.googleapis.com/css?family=Open+Sans:400,600,800", type="text/css")
+  link(rel="stylesheet", href="/css/admin.css", type="text/css")
 
 block content
-  h1 valte.ch admin
-  #admin-main
+  .container
+    .page-header
+      h1 valte.ch <small> the valtech url shortener</small>
+    .alert.alert-warning
+      span a work in progress. 
+      a(href="/cats") /cats
+      span  is funny.
 
-  script(src='/bundle.js')
+    include includes/organizer
+
+block scripts
+  script(src="bundle.js")
+

@@ -1,37 +1,5 @@
-extends layouts/layout
+﻿extends layouts/layout
 
 block content
-  .container
-    .page-header
-      h1 valte.ch <small> the valtech url shortener</small>
-    .alert.alert-warning
-      span a work in progress. 
-      a(href="/cats") /cats
-      span  is funny.
-  
-    div(id='organizer')
-      h3 Shorties
-      
-      .alert.alert-warning(data-bind='visible: spamWarning')
-        b Spam warning! 
-        span Enter value for empty shorty before adding a new one.
-    
-      table.table.table-striped
-        thead
-          tr
-            th.slug
-              div Slug
-            th.url
-              div Full Url
-            th.buttons 
-              .btn-group.pull-right
-                button.btn.btn-default.btn-xs(data-bind='click: addNew')
-                  span.glyphicon.glyphicon-plus
-                  span.small add redirect
-        tbody(data-bind="template : {name : 'shortie-main', foreach: shorties}")
-   
-  include includes/ko
-
-block scripts
-  script(src="bundle.js")
-
+  h1 valte.ch
+  script(src='/bundle.js')

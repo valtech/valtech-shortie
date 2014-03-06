@@ -12,3 +12,24 @@
         button.btn.btn-danger.btn-xs(data-bind='click: $parent.remove.bind($parent)')
           span.glyphicon.glyphicon-remove
           span.small &nbsp;delete
+
+div(id='organizer')
+  h3 Shorties
+
+  .alert.alert-warning(data-bind='visible: spamWarning')
+    b Spam warning! 
+    span Enter value for empty shorty before adding a new one.
+
+  table.table.table-striped
+    thead
+      tr
+        th.slug
+          div Slug
+        th.url
+          div Full Url
+        th.buttons 
+          .btn-group.pull-right
+            button.btn.btn-default.btn-xs(data-bind='click: addNew')
+              span.glyphicon.glyphicon-plus
+              span.small add redirect
+    tbody(data-bind="template : {name : 'shortie-main', foreach: shorties}")

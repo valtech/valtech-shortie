@@ -44,9 +44,9 @@
     <Folder Include=".types\sinon\" />
     <Folder Include=".types\supertest\" />
     <Folder Include=".types\underscore\" />
-    <Folder Include="src\public\bootstrap\" />
-    <Folder Include="src\public\bootstrap\css\" />
-    <Folder Include="src\public\bootstrap\fonts\" />
+    <Folder Include="src\css\" />
+    <Folder Include="src\css\bootstrap\" />
+    <Folder Include="src\public\fonts\" />
     <Folder Include="src\views\includes\" />
     <Folder Include="test\lib\" />
     <Folder Include="test\admin\" />
@@ -82,19 +82,16 @@
     <Content Include="Procfile" />
     <Content Include="README.md" />
     <Content Include="src\admin\viewModels.ts" />
-    <Content Include="src\public\bootstrap\css\bootstrap-theme.css" />
-    <Content Include="src\public\bootstrap\css\bootstrap-theme.css.map" />
-    <Content Include="src\public\bootstrap\css\bootstrap-theme.min.css" />
-    <Content Include="src\public\bootstrap\css\bootstrap.css" />
-    <Content Include="src\public\bootstrap\css\bootstrap.css.map" />
-    <Content Include="src\public\bootstrap\css\bootstrap.min.css" />
-    <Content Include="src\public\bootstrap\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="src\public\bootstrap\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="src\public\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="src\public\bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="src\css\admin-main.css" />
+    <Content Include="src\css\bootstrap\bootstrap-theme.css" />
+    <Content Include="src\css\bootstrap\bootstrap.css" />
+    <Content Include="src\public\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="src\public\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="src\public\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="src\public\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="src\public\robots.txt" />
     <Content Include="src\redirects\model.ts" />
-    <Content Include="src\views\includes\ko.jade" />
+    <Content Include="src\views\includes\organizer.jade" />
     <Content Include="test\admin\viewModels.ts" />
     <Content Include="test\lib\SlugGenerator.ts" />
     <Content Include="test\redirects\data.ts" />
@@ -113,8 +110,8 @@
     <Content Include="src\static\routes.ts" />
     <Content Include="src\views\404.jade" />
     <Content Include="src\views\500.jade" />
-    <Content Include="src\views\admin.jade" />
     <Content Include="src\views\index.jade" />
+    <Content Include="src\views\admin.jade" />
     <Content Include="src\views\layouts\layout.jade" />
   </ItemGroup>
   <ItemGroup>
