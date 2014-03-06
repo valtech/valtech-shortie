@@ -44,6 +44,9 @@
     <Folder Include=".types\sinon\" />
     <Folder Include=".types\supertest\" />
     <Folder Include=".types\underscore\" />
+    <Folder Include="src\public\bootstrap\" />
+    <Folder Include="src\public\bootstrap\css\" />
+    <Folder Include="src\public\bootstrap\fonts\" />
     <Folder Include="src\views\includes\" />
     <Folder Include="test\lib\" />
     <Folder Include="test\admin\" />
@@ -82,6 +85,16 @@
     <Content Include="src\configurations.ts" />
     <Content Include="src\config.d.ts" />
     <Content Include="src\config.ts" />
+    <Content Include="src\public\bootstrap\css\bootstrap-theme.css" />
+    <Content Include="src\public\bootstrap\css\bootstrap-theme.css.map" />
+    <Content Include="src\public\bootstrap\css\bootstrap-theme.min.css" />
+    <Content Include="src\public\bootstrap\css\bootstrap.css" />
+    <Content Include="src\public\bootstrap\css\bootstrap.css.map" />
+    <Content Include="src\public\bootstrap\css\bootstrap.min.css" />
+    <Content Include="src\public\bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="src\public\bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="src\public\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="src\public\bootstrap\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="src\public\robots.txt" />
     <Content Include="src\redirects\model.ts" />
     <Content Include="src\views\includes\ko.jade" />
