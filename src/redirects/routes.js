@@ -1,6 +1,4 @@
-﻿var dbConfig;
-
-function getHandler(req, res, next) {
+﻿function getHandler(req, res, next) {
     if (req.params.slug == 'cats') {
         res.redirect('http://icanhazcheezburger.com/');
         return;
@@ -19,12 +17,10 @@ function putHandler(req, res, next) {
 function deleteHandler(req, res, next) {
 }
 
-function setup(app, config) {
+function setup(app) {
     app.get('/:slug', exports.getHandler);
     app.post('/', postHandler);
     app.put('/:slug', putHandler);
     app.del('/:slug', deleteHandler);
-    if (config)
-        dbConfig = config.db;
 }
 exports.setup = setup;

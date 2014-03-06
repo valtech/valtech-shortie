@@ -82,9 +82,6 @@
     <Content Include="Procfile" />
     <Content Include="README.md" />
     <Content Include="src\admin\viewModels.ts" />
-    <Content Include="src\configurations.ts" />
-    <Content Include="src\config.d.ts" />
-    <Content Include="src\config.ts" />
     <Content Include="src\public\bootstrap\css\bootstrap-theme.css" />
     <Content Include="src\public\bootstrap\css\bootstrap-theme.css.map" />
     <Content Include="src\public\bootstrap\css\bootstrap-theme.min.css" />

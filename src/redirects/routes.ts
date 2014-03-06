@@ -1,9 +1,7 @@
 ﻿/// <reference path="../../.types/express/express.d.ts" />
-/// <reference path="../config.d.ts" />
 
 import express = require('express');
 
-var dbConfig: config.DbConfig;
 
 export function getHandler(req, res, next) {
   if (req.params.slug == 'cats') {
@@ -34,11 +32,9 @@ function deleteHandler(req, res, next) {
   // only returns 200 or 404
 }
 
-export function setup(app: express.Application, config: config.Config): void {
+export function setup(app: express.Application): void {
   app.get('/:slug', getHandler);
   app.post('/', postHandler);
   app.put('/:slug', putHandler);
   app.del('/:slug', deleteHandler);
-  if (config)
-    dbConfig = config.db;
 }
