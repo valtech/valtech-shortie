@@ -1,7 +1,7 @@
 *.orig
 
 # All scripts should be type script
-*.js
+# *.js
 
 # User-specific files
 *.suo

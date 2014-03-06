@@ -10,14 +10,14 @@ import authMiddleware = require('./middleware');
 var request = require('request');
 
 var VAUTH_CONSUMER_KEY = 'wix6Iz249hFjMsXI7QcfUTKl8oXVH4CfYNSE7cED',
-    VAUTH_CONSUMER_SECRET = 'L76UBmoGjx3Veq8MLi622yAUZMwAMgchikIEJeI2';
+  VAUTH_CONSUMER_SECRET = 'L76UBmoGjx3Veq8MLi622yAUZMwAMgchikIEJeI2';
 
 var VAUTH_HOST = 'vauth.valtech.se',
-    VAUTH_REQUEST_TOKEN_URL = util.format('https://%s/oauth/request_token', VAUTH_HOST),
-    VAUTH_ACCESS_TOKEN_URL = util.format('https://%s/oauth/access_token', VAUTH_HOST),
-    VAUTH_AUTHORIZE_URL = util.format('https://%s/oauth/authorize', VAUTH_HOST),
-    VAUTH_PROFILE_URL = util.format('https://%s/users/me', VAUTH_HOST),
-    VAUTH_USERS_URL = util.format('https://%s/users/', VAUTH_HOST);
+  VAUTH_REQUEST_TOKEN_URL = util.format('https://%s/oauth/request_token', VAUTH_HOST),
+  VAUTH_ACCESS_TOKEN_URL = util.format('https://%s/oauth/access_token', VAUTH_HOST),
+  VAUTH_AUTHORIZE_URL = util.format('https://%s/oauth/authorize', VAUTH_HOST),
+  VAUTH_PROFILE_URL = util.format('https://%s/users/me', VAUTH_HOST),
+  VAUTH_USERS_URL = util.format('https://%s/users/', VAUTH_HOST);
 
 function login(req, res, next) {
   if (req.authSession.signed_in === true) {
@@ -29,7 +29,7 @@ function login(req, res, next) {
     consumer_secret: VAUTH_CONSUMER_SECRET,
     callback: abs_url(req, '/login/authenticated')
   };
-  request.post({ url: VAUTH_REQUEST_TOKEN_URL, oauth: oauth_body }, function(vauthErr, vauthRes, vauthBody) {
+  request.post({ url: VAUTH_REQUEST_TOKEN_URL, oauth: oauth_body }, function (vauthErr, vauthRes, vauthBody) {
     var err = parse_vauth_err(vauthErr, vauthRes, vauthBody);
     if (err) return next(err);
 
@@ -40,7 +40,7 @@ function login(req, res, next) {
       console.log('will redirect after login to', redirect);
       req.authSession.redirectAfterLogin = redirect;
     }
-    console.log('sucessfully got a request token',  request_token);
+    console.log('sucessfully got a request token', request_token);
 
     var authorize_url = util.format('%s?oauth_token=%s', VAUTH_AUTHORIZE_URL, request_token.oauth_token);
     res.redirect(authorize_url);
@@ -69,14 +69,14 @@ function authenticated(req, res, next) {
     token_secret: token.oauth_token_secret,
     verifier: token.oauth_verifier
   };
-  request.post({ url: VAUTH_ACCESS_TOKEN_URL, oauth: oauth_body }, function(vauthErr, vauthRes, vauthBody) {
+  request.post({ url: VAUTH_ACCESS_TOKEN_URL, oauth: oauth_body }, function (vauthErr, vauthRes, vauthBody) {
     var err = parse_vauth_err(vauthErr, vauthRes, vauthBody);
     if (err) return next(err);
 
     var token = qs.parse(vauthBody);
-    console.log('sucessfully got an access token',  token);
+    console.log('sucessfully got an access token', token);
 
-    load_profile(token, function(err, profile) {
+    load_profile(token, function (err, profile) {
       if (err) return next(err);
 
       req.authSession.profile = profile;
@@ -109,7 +109,7 @@ function parse_vauth_err(err, res, body) {
   }
 }
 
-function load_profile(token, callback : (err, json? : any) => void) {
+function load_profile(token, callback: (err, json?: any) => void) {
   var oauth_body = {
     consumer_key: VAUTH_CONSUMER_KEY,
     consumer_secret: VAUTH_CONSUMER_SECRET,
@@ -119,7 +119,7 @@ function load_profile(token, callback : (err, json? : any) => void) {
   var headers = {
     'Accept': '*/*'
   };
-  request.get({ url: VAUTH_PROFILE_URL, oauth: oauth_body, json: true, headers: headers }, function(vauthErr, vauthRes, vauthBody) {
+  request.get({ url: VAUTH_PROFILE_URL, oauth: oauth_body, json: true, headers: headers }, function (vauthErr, vauthRes, vauthBody) {
     var err = parse_vauth_err(vauthErr, vauthRes, vauthBody);
     if (err) return callback(err);
 
@@ -127,9 +127,9 @@ function load_profile(token, callback : (err, json? : any) => void) {
   });
 }
 
-export function setup(app : express.Application) : void {
-    app.get('/login', login);
-    app.get('/login/authenticated', authenticated);
-    app.get('/logout', logout);
-    app.get('/me', authMiddleware.requireAuth, viewSession);
+export function setup(app: express.Application): void {
+  app.get('/login', login);
+  app.get('/login/authenticated', authenticated);
+  app.get('/logout', logout);
+  app.get('/me', authMiddleware.requireAuth, viewSession);
 }

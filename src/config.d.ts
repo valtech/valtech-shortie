@@ -8,5 +8,5 @@
     db: DbConfig;
   }
 
-  function current(): Config;  
+  function current(): Config;
 }

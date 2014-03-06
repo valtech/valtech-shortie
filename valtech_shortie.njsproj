@@ -17,7 +17,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>8d2ee7ff-e667-4fa4-bf45-ce99421d7df1</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>src\server.js</StartupFile>
+    <StartupFile>server.js</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.\src</WorkingDirectory>
@@ -112,7 +112,7 @@
     <Content Include="src\public\favicon.ico" />
     <Content Include="src\redirects\data.ts" />
     <Content Include="src\redirects\routes.ts" />
-    <Content Include="src\server.ts" />
+    <Content Include="server.ts" />
     <Content Include="src\static\routes.ts" />
     <Content Include="src\views\404.jade" />
     <Content Include="src\views\500.jade" />
@@ -123,7 +123,6 @@
   <ItemGroup>
     <Compile Include="Gruntfile.js" />
     <Compile Include="src\public\bundle.js" />
-    <Compile Include="src\server.js" />
     <Compile Include="test\redirects\routes.ts" />
     <Compile Include="test\error\routes.ts" />
     <Compile Include="test\static\routes.ts" />

@@ -1,8 +1,10 @@
 # valtech\_shortie - valte.ch
 
-Valtech URL shortening service. Runs on Heroku.
+Valtech URL shortening service.
 
 ## TODO
+
+### Epics
 
 1. Connect UI with backend API
 2. Implement RedirectRepository
@@ -12,6 +14,9 @@ Valtech URL shortening service. Runs on Heroku.
 6. Remove generated files from repo (compiled JS/CSS/etc)
 7. Auth for external applications (static auth tokens)
 
+### Small fixes
+
+1. Rename all 'redirect' types/functions to 'shortie'
 
 # API
 
@@ -21,6 +26,9 @@ TODO. Will require an "application key + secret". POST, PUT and DELETE. JSON dat
 
 Go to `/admin` and login using vauth. You can administer existing URLs and add new ones.
 
+# Deployment
+
+TODO. Write stuff about TeamCity + Azure.
 
 # Dev
 

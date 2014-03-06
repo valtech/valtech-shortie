@@ -14,10 +14,10 @@ var assert: Assert = chai.assert;
 var expect: ExpectStatic = chai.expect;
 var sinon: SinonStatic = sinonModule;
 
-describe("AdminViewModel", function() {
+describe("AdminViewModel", function () {
   var models: Array<model.RedirectModel>;
 
-  beforeEach(function() {
+  beforeEach(function () {
     models = [
       new model.RedirectModel("lilla-anna", "http://sv.wikipedia.org/wiki/Lilla_Anna_och_Langa_farbrorn"),
       new model.RedirectModel("go-shorty", "http://rapgenius.com/50-cent-in-da-club-lyrics"),
@@ -36,10 +36,10 @@ describe("AdminViewModel", function() {
     });
   });
 
-  describe("select()", function() {
+  describe("select()", function () {
     var viewModel: viewModels.AdminViewModel;
 
-    beforeEach(function() {
+    beforeEach(function () {
       viewModel = new viewModels.AdminViewModel(models);
     });
 
@@ -58,7 +58,7 @@ describe("AdminViewModel", function() {
       });
     });
 
-    it("should select shortie if it is part of collection", function() {
+    it("should select shortie if it is part of collection", function () {
       /* Setup */
       var current = viewModel.shorties()[0];
 
@@ -69,7 +69,7 @@ describe("AdminViewModel", function() {
       expect(current.isCurrent()).to.be.true;
     });
 
-    it("should deselect the previous shortie", function() {
+    it("should deselect the previous shortie", function () {
       /* Setup */
       var previous = viewModel.shorties()[0];
       var next = viewModel.shorties()[1];
@@ -83,24 +83,24 @@ describe("AdminViewModel", function() {
     });
   });
 
-  describe("addNew()", function() {
+  describe("addNew()", function () {
     var viewModel: viewModels.AdminViewModel;
 
     beforeEach(function () {
       viewModel = new viewModels.AdminViewModel(models);
     });
 
-    it("should add a new shortie", function() {
+    it("should add a new shortie", function () {
       viewModel.addNew();
       expect(viewModel.shorties().length).to.be.equal(4);
     });
 
-    it("should set the newest shortie as current", function() {
+    it("should set the newest shortie as current", function () {
       viewModel.addNew();
       expect(viewModel.shorties()[3].isCurrent()).to.be.true;
     });
 
-    it("should prevent creation of multiple empty shorties", function() {
+    it("should prevent creation of multiple empty shorties", function () {
       viewModel.addNew();
       viewModel.addNew();
       expect(viewModel.shorties().length).to.be.equal(4);
@@ -114,7 +114,7 @@ describe("AdminViewModel", function() {
       viewModel = new viewModels.AdminViewModel(models);
     });
 
-    it('should deselect all shorties', function() {
+    it('should deselect all shorties', function () {
       var current = viewModel.shorties()[0]
 			current.isCurrent(true);
 
@@ -128,8 +128,8 @@ describe("AdminViewModel", function() {
     });
   });
 
-  describe("The 'spamWarning' property", function() {
-    it("Should be false if all shorties have value", function() {
+  describe("The 'spamWarning' property", function () {
+    it("Should be false if all shorties have value", function () {
       /* Setup */
       var model = new viewModels.AdminViewModel(models);
 
@@ -137,7 +137,7 @@ describe("AdminViewModel", function() {
       expect(model.spamWarning()).to.be.false;
     });
 
-    it("Should be false if one new shorties and no attempt to create new", function() {
+    it("Should be false if one new shorties and no attempt to create new", function () {
       /* Setup */
       models.push(new model.RedirectModel('', ''));
       var viewModel = new viewModels.AdminViewModel(models);
@@ -146,7 +146,7 @@ describe("AdminViewModel", function() {
       expect(viewModel.spamWarning()).to.be.false;
     });
 
-    it("Should be true if one new shorties and attempt to create new is performed", function() {
+    it("Should be true if one new shorties and attempt to create new is performed", function () {
       /* Setup */
       models.push(new model.RedirectModel('', ''));
       var viewModel = new viewModels.AdminViewModel(models);
@@ -158,7 +158,7 @@ describe("AdminViewModel", function() {
       expect(viewModel.spamWarning()).to.be.true;
     });
 
-    it("Should be false again if new slug gets values", function() {
+    it("Should be false again if new slug gets values", function () {
       /* Setup */
       models.push(new model.RedirectModel('', ''));
       var viewModel = new viewModels.AdminViewModel(models);
@@ -170,21 +170,21 @@ describe("AdminViewModel", function() {
 
       /* Assert */
       expect(viewModel.spamWarning()).to.be.false;
-	});
+    });
 
-	  it("Should not be true just because a new shortie is added after previous spamWarning", function () {
-		  /* Setup */
-		  models.push(new model.RedirectModel('', ''));
-		  var viewModel = new viewModels.AdminViewModel(models);
-		  viewModel.addNew();
-		  viewModel.shorties()[3].slug('newSlug');
-		  viewModel.shorties()[3].url('newUrl');
+    it("Should not be true just because a new shortie is added after previous spamWarning", function () {
+      /* Setup */
+      models.push(new model.RedirectModel('', ''));
+      var viewModel = new viewModels.AdminViewModel(models);
+      viewModel.addNew();
+      viewModel.shorties()[3].slug('newSlug');
+      viewModel.shorties()[3].url('newUrl');
 
-		  /* Test */
-		  viewModel.addNew();
+      /* Test */
+      viewModel.addNew();
 
-		  /* Assert */
-		  expect(viewModel.spamWarning()).to.be.false;
-	  });
+      /* Assert */
+      expect(viewModel.spamWarning()).to.be.false;
+    });
   });
 });

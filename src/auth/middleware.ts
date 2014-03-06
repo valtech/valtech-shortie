@@ -1,7 +1,7 @@
 /// <reference path="../../.types/node/node.d.ts" />
 
 var util = require('util'),
-    qs = require('querystring');
+  qs = require('querystring');
 
 export function requireAuth(req, res, next) {
   if (req.authSession.signed_in !== true) {
