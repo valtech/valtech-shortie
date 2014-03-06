@@ -1,6 +1,10 @@
-﻿var knockout = require('knockout');
+﻿/// <reference path="../../.types/underscore/underscore.d.ts"/>
+/// <reference path="../../.types/node/node.d.ts"/>
+/// <reference path="../../.types/knockout/knockout.d.ts"/>
+var knockout = require('knockout');
 var underscore = require('underscore');
 
+// this is a hack for better intellisence in vs2013
 var _ = underscore;
 var ko = knockout;
 
@@ -34,6 +38,10 @@ var AdminViewModel = (function () {
         });
         this.spamWarning = ko.computed(function () {
             return _this.spamAttemped() && _this.containsEmpties();
+        });
+        this.containsEmpties.subscribe(function (newValue) {
+            if (newValue === false)
+                _this.spamAttemped(false);
         });
     }
     AdminViewModel.prototype.select = function (shortie) {

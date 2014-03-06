@@ -11,22 +11,22 @@ import app = require('../../src/app');
 
 var shortieApp: express.Express = app.App;
 
-_.each(['GET', 'POST'], function(verb) {
-  describe(verb + ' /non-existing-resource', function() {
-    it('should return html for requests that accept html', function(done) {
+_.each(['GET', 'POST'], function (verb) {
+  describe(verb + ' /non-existing-resource', function () {
+    it('should return html for requests that accept html', function (done) {
       request(shortieApp)
-        [verb.toLowerCase()]('/non-existing-resource')
+      [verb.toLowerCase()]('/non-existing-resource')
         .set('Accept', 'text/html')
         .expect('Content-Type', /text\/html/)
         .expect(/not found/)
         .expect(404, done);
     });
-    it('should return json for requests that accept json', function(done) {
+    it('should return json for requests that accept json', function (done) {
       request(shortieApp)
-        [verb.toLowerCase()]('/non-existing-resource')
+      [verb.toLowerCase()]('/non-existing-resource')
         .set('Accept', 'appliction/json')
         .expect('Content-Type', /application\/json/)
-        .expect({error: 'not found'})
+        .expect({ error: 'not found' })
         .expect(404, done);
     });
   });

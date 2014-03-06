@@ -1,4 +1,8 @@
-﻿var request = require('supertest');
+﻿/// <reference path="../../.types/node/node.d.ts" />
+/// <reference path="../../.types/express/express.d.ts" />
+/// <reference path="../../.types/mocha/mocha.d.ts" />
+/// <reference path="../../.types/supertest/supertest.d.ts" />
+var request = require('supertest');
 
 var app = require('../../src/app');
 var shortieApp = app.App;

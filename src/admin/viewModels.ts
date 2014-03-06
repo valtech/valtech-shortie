@@ -46,10 +46,10 @@ export class AdminViewModel {
     this.spamAttemped = ko.observable(false);
     this.containsEmpties = ko.computed(() => containsEmptyShorties(this.shorties()));
     this.spamWarning = ko.computed(() => this.spamAttemped() && this.containsEmpties());
-	this.containsEmpties.subscribe(newValue=> {
-		if (newValue === false)
-			this.spamAttemped(false);
-	});
+    this.containsEmpties.subscribe(newValue=> {
+      if (newValue === false)
+        this.spamAttemped(false);
+    });
   }
 
   public select(shortie: RedirectViewModel): void {
@@ -59,7 +59,7 @@ export class AdminViewModel {
     shortie.isCurrent(true);
   }
 
-  public addNew() : void {
+  public addNew(): void {
     if (this.containsEmpties()) {
       this.spamAttemped(true);
       selectFirstEmptyShorties(this.shorties());
@@ -71,7 +71,7 @@ export class AdminViewModel {
     this.select(newShortie);
   }
 
-  public save(shortie: RedirectViewModel) : void {
+  public save(shortie: RedirectViewModel): void {
     this.shorties().forEach(s=> s.isCurrent(false));
   }
 

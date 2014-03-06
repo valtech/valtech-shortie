@@ -1,4 +1,6 @@
-﻿var SlugGenerator = require('../../src/lib/SlugGenerator');
+﻿/// <reference path="../../.types/mocha/mocha.d.ts" />
+/// <reference path="../../.types/underscore/underscore.d.ts" />
+var SlugGenerator = require('../../src/lib/SlugGenerator');
 var _ = require('underscore');
 var chai = require('chai');
 var assert = chai.assert;

@@ -1,4 +1,6 @@
-﻿var _ = require('underscore');
+﻿/// <reference path="../../.types/mocha/mocha.d.ts" />
+/// <reference path="../../.types/underscore/underscore.d.ts" />
+var _ = require('underscore');
 var DbFactory = require('../../src/lib/DbFactory');
 var data = require('../../src/redirects/data');
 var assert = require('chai').assert;

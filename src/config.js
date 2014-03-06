@@ -1,4 +1,5 @@
-﻿var configurations = require('./configurations');
+﻿/// <reference path="config.d.ts" />
+var configurations = require('./configurations');
 
 function current() {
     switch (process.env.NODE_ENV) {
