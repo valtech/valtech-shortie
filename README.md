@@ -1,6 +1,6 @@
 # valtech\_shortie - valte.ch
 
-Valtech URL shortening service. Runs on Heroku.
+Valtech URL shortening service. Runs on Azure.
 
 ## TODO
 
