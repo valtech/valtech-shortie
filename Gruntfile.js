@@ -42,6 +42,16 @@ module.exports = function(grunt) {
       }
     },
 
+    concat: {
+      dist: {
+        src: [
+          'src/css/bootstrap/*.css',
+          'src/css/admin-*.css'
+        ],
+        dest: 'src/public/css/admin.css'
+      }
+    },
+
     browserify: {
       dist: {
         files: {
@@ -77,10 +87,20 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-npm-install');
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-concat');
 
   grunt.registerTask('test', ['mochaTest']);
-  grunt.registerTask('build', ['typescript']);
-  grunt.registerTask('default', ['npm-install', 'build', 'browserify', 'test', 'jshint']);
+  grunt.registerTask('build', [
+    'typescript',
+    'browserify',
+    'concat'
+  ]);
+  grunt.registerTask('default', [
+    'npm-install',
+    'build',
+    'test',
+    'jshint'
+  ]);
 
   grunt.registerTask('teamcity', [], function() {
     grunt.task.run('build');
