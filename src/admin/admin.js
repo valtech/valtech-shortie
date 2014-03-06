@@ -1,12 +1,12 @@
 var ko = require('knockout');
 
 var viewModels = require('./viewModels');
-var model = require('../redirects/model');
+var model = require('../shorties/model');
 
 var raws = [
-    new model.RedirectModel("fun", "http://9gag.com/trending"),
-    new model.RedirectModel("funner", "http://9gag.com/hot"),
-    new model.RedirectModel("funniest", "http://money.cnn.com/data/markets/")
+    new model.Shortie("fun", "http://9gag.com/trending"),
+    new model.Shortie("funner", "http://9gag.com/hot"),
+    new model.Shortie("funniest", "http://money.cnn.com/data/markets/")
 ];
 
 var o = new viewModels.AdminViewModel(raws);

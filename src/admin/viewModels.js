@@ -4,8 +4,8 @@ var underscore = require('underscore');
 var _ = underscore;
 var ko = knockout;
 
-var RedirectViewModel = (function () {
-    function RedirectViewModel(shortie) {
+var ShortieViewModel = (function () {
+    function ShortieViewModel(shortie) {
         this.raw = shortie;
         this.isCurrent = ko.observable(false);
         this.slug = ko.observable();
@@ -16,15 +16,15 @@ var RedirectViewModel = (function () {
             this.url(shortie.url);
         }
     }
-    return RedirectViewModel;
+    return ShortieViewModel;
 })();
-exports.RedirectViewModel = RedirectViewModel;
+exports.ShortieViewModel = ShortieViewModel;
 
 var AdminViewModel = (function () {
     function AdminViewModel(raws) {
         var _this = this;
         var arrayOfVms = _.map(raws, function (raw) {
-            return new RedirectViewModel(raw);
+            return new ShortieViewModel(raw);
         });
         this.shorties = ko.observableArray(arrayOfVms);
 
@@ -56,7 +56,7 @@ var AdminViewModel = (function () {
             return;
         }
 
-        var newShortie = new RedirectViewModel();
+        var newShortie = new ShortieViewModel();
         this.shorties.push(newShortie);
         this.select(newShortie);
     };

@@ -1,26 +1,26 @@
-﻿var RedirectRepository = (function () {
-    function RedirectRepository(db, options) {
+﻿var ShortieRepository = (function () {
+    function ShortieRepository(db, options) {
         if (typeof options === "undefined") { options = { pageSize: 20 }; }
         this.db = db;
         this.pageSize = options.pageSize;
         this.db.ensureIndex({ fieldName: 'slug', unique: true });
     }
-    RedirectRepository.prototype.addRedirect = function (redirect, callback) {
+    ShortieRepository.prototype.addShortie = function (shortie, callback) {
         if (callback)
-            this.db.insert(redirect, callback);
+            this.db.insert(shortie, callback);
         else
-            this.db.insert(redirect);
+            this.db.insert(shortie);
     };
 
-    RedirectRepository.prototype.getRedirectBySlug = function (slug, callback) {
+    ShortieRepository.prototype.getShortieBySlug = function (slug, callback) {
         this.db.findOne({ slug: slug }, callback);
     };
 
-    RedirectRepository.prototype.getRedirectsByUrl = function (url, callback) {
+    ShortieRepository.prototype.getShortiesByUrl = function (url, callback) {
         return this.db.find({ url: url }, callback);
     };
 
-    RedirectRepository.prototype.getAllShorties = function (callback, options) {
+    ShortieRepository.prototype.getAllShorties = function (callback, options) {
         var dbQuery = this.db.find({});
 
         if (!options)
@@ -34,6 +34,6 @@
 
         return dbQuery.exec(callback);
     };
-    return RedirectRepository;
+    return ShortieRepository;
 })();
-exports.RedirectRepository = RedirectRepository;
+exports.ShortieRepository = ShortieRepository;

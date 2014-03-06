@@ -62,7 +62,7 @@ interface JQueryAjaxSettings {
      */
     converters?: { [key: string]: any; };
     /**
-     * If you wish to force a crossDomain request (such as JSONP) on the same domain, set the value of crossDomain to true. This allows, for example, server-side redirection to another domain. (version added: 1.5)
+     * If you wish to force a crossDomain request (such as JSONP) on the same domain, set the value of crossDomain to true. This allows, for example, server-side shortieion to another domain. (version added: 1.5)
      */
     crossDomain?: boolean;
     /**
@@ -122,7 +122,7 @@ interface JQueryAjaxSettings {
      */
     scriptCharset?: string;
     /**
-     * An object of numeric HTTP codes and functions to be called when the response has the corresponding code. f the request is successful, the status code functions take the same parameters as the success callback; if it results in an error (including 3xx redirect), they take the same parameters as the error callback. (version added: 1.5)
+     * An object of numeric HTTP codes and functions to be called when the response has the corresponding code. f the request is successful, the status code functions take the same parameters as the success callback; if it results in an error (including 3xx shortie), they take the same parameters as the error callback. (version added: 1.5)
      */
     statusCode?: { [key: string]: any; };
     /**

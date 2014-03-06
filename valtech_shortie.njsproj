@@ -51,7 +51,7 @@
     <Folder Include="test\lib\" />
     <Folder Include="test\admin\" />
     <Folder Include="test\error\" />
-    <Folder Include="test\redirects\" />
+    <Folder Include="test\shorties\" />
     <Folder Include="test\static\" />
     <Folder Include=".types\" />
     <Folder Include="src\admin\" />
@@ -59,7 +59,7 @@
     <Folder Include="src\error\" />
     <Folder Include="src\lib\" />
     <Folder Include="src\public\" />
-    <Folder Include="src\redirects\" />
+    <Folder Include="src\shorties\" />
     <Folder Include="src\static\" />
     <Folder Include="src\views\" />
     <Folder Include="src\views\layouts\" />
@@ -81,6 +81,7 @@
     <Content Include="package.json" />
     <Content Include="Procfile" />
     <Content Include="README.md" />
+    <Content Include="src\admin\apiClient.ts" />
     <Content Include="src\admin\viewModels.ts" />
     <Content Include="src\css\admin-main.css" />
     <Content Include="src\css\bootstrap\bootstrap-theme.css" />
@@ -90,11 +91,11 @@
     <Content Include="src\public\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="src\public\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="src\public\robots.txt" />
-    <Content Include="src\redirects\model.ts" />
+    <Content Include="src\shorties\model.ts" />
     <Content Include="src\views\includes\organizer.jade" />
     <Content Include="test\admin\viewModels.ts" />
     <Content Include="test\lib\SlugGenerator.ts" />
-    <Content Include="test\redirects\data.ts" />
+    <Content Include="test\shorties\data.ts" />
     <Content Include="src\admin\admin.ts" />
     <Content Include="src\app.ts" />
     <Content Include="src\auth\middleware.ts" />
@@ -104,8 +105,8 @@
     <Content Include="src\lib\DbFactory.ts" />
     <Content Include="src\lib\SlugGenerator.ts" />
     <Content Include="src\public\favicon.ico" />
-    <Content Include="src\redirects\data.ts" />
-    <Content Include="src\redirects\routes.ts" />
+    <Content Include="src\shorties\data.ts" />
+    <Content Include="src\shorties\routes.ts" />
     <Content Include="server.ts" />
     <Content Include="src\static\routes.ts" />
     <Content Include="src\views\404.jade" />
@@ -117,7 +118,7 @@
   <ItemGroup>
     <Compile Include="Gruntfile.js" />
     <Compile Include="src\public\bundle.js" />
-    <Compile Include="test\redirects\routes.ts" />
+    <Compile Include="test\shorties\routes.ts" />
     <Compile Include="test\error\routes.ts" />
     <Compile Include="test\static\routes.ts" />
   </ItemGroup>

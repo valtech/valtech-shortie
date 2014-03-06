@@ -5,7 +5,7 @@ import express = require('express');
 var sessions = require('client-sessions');
 var path = require('path');
 
-import redirectRoutes = require('./redirects/routes');
+import shortieRoutes = require('./shorties/routes');
 import authRoutes = require('./auth/routes');
 import staticRoutes = require('./static/routes');
 import errorRoutes = require('./error/routes');
@@ -37,7 +37,7 @@ if (process.env.NODE_ENV == 'development') {
 
 staticRoutes.setup(app);
 authRoutes.setup(app);
-redirectRoutes.setup(app);
+shortieRoutes.setup(app);
 errorRoutes.setup(app);
 
 app.use(app.router);

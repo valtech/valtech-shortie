@@ -1,5 +1,5 @@
 ﻿var viewModels = require('../../src/admin/viewModels');
-var model = require('../../src/redirects/model');
+var model = require('../../src/shorties/model');
 
 var _ = require('underscore');
 var chai = require('chai');
@@ -14,14 +14,14 @@ describe("AdminViewModel", function () {
 
     beforeEach(function () {
         models = [
-            new model.RedirectModel("lilla-anna", "http://sv.wikipedia.org/wiki/Lilla_Anna_och_Langa_farbrorn"),
-            new model.RedirectModel("go-shorty", "http://rapgenius.com/50-cent-in-da-club-lyrics"),
-            new model.RedirectModel("i-wish", "http://open.spotify.com/track/74WFSCXc8yHY7HDXREiLpM")
+            new model.Shortie("lilla-anna", "http://sv.wikipedia.org/wiki/Lilla_Anna_och_Langa_farbrorn"),
+            new model.Shortie("go-shorty", "http://rapgenius.com/50-cent-in-da-club-lyrics"),
+            new model.Shortie("i-wish", "http://open.spotify.com/track/74WFSCXc8yHY7HDXREiLpM")
         ];
     });
 
     describe('constructor()', function () {
-        it("should create RedirectViewModels for all RedirectModels", function () {
+        it("should create ShortieViewModels for all Shorties", function () {
             var viewModel = new viewModels.AdminViewModel(models);
 
             assert.equal(viewModel.shorties().length, 3);
@@ -36,7 +36,7 @@ describe("AdminViewModel", function () {
         });
 
         it("should not deselect previous shortie if passed shortie is not part of collection", function () {
-            var rogueShortie = new viewModels.RedirectViewModel(new model.RedirectModel("rouge", "rougheUrl"));
+            var rogueShortie = new viewModels.ShortieViewModel(new model.Shortie("rouge", "rougheUrl"));
             var currentShortie = viewModel.shorties()[0];
             currentShortie.isCurrent(true);
 
@@ -117,14 +117,14 @@ describe("AdminViewModel", function () {
         });
 
         it("Should be false if one new shorties and no attempt to create new", function () {
-            models.push(new model.RedirectModel('', ''));
+            models.push(new model.Shortie('', ''));
             var viewModel = new viewModels.AdminViewModel(models);
 
             expect(viewModel.spamWarning()).to.be.false;
         });
 
         it("Should be true if one new shorties and attempt to create new is performed", function () {
-            models.push(new model.RedirectModel('', ''));
+            models.push(new model.Shortie('', ''));
             var viewModel = new viewModels.AdminViewModel(models);
 
             viewModel.addNew();
@@ -133,7 +133,7 @@ describe("AdminViewModel", function () {
         });
 
         it("Should be false again if new slug gets values", function () {
-            models.push(new model.RedirectModel('', ''));
+            models.push(new model.Shortie('', ''));
             var viewModel = new viewModels.AdminViewModel(models);
             viewModel.addNew();
 
@@ -144,7 +144,7 @@ describe("AdminViewModel", function () {
         });
 
         it("Should not be true just because a new shortie is added after previous spamWarning", function () {
-            models.push(new model.RedirectModel('', ''));
+            models.push(new model.Shortie('', ''));
             var viewModel = new viewModels.AdminViewModel(models);
             viewModel.addNew();
             viewModel.shorties()[3].slug('newSlug');

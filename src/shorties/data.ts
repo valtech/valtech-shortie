@@ -2,32 +2,32 @@
 
 import model = require('./model');
 
-export class RedirectRepository {
+export class ShortieRepository {
   private db: any;
   private pageSize: number;
 
-  constructor(db, options: RedirectRepoOptions = {pageSize : 20}) {
+  constructor(db, options: ShortieRepositoryOptions = {pageSize : 20}) {
     this.db = db;
     this.pageSize = options.pageSize;
     this.db.ensureIndex({ fieldName: 'slug', unique: true });
   }
 
-  public addRedirect(redirect: model.RedirectModel, callback?: (err: string, doc?: model.RedirectModel) => void): void {
+  public addShortie(shortie: model.Shortie, callback?: (err: string, doc?: model.Shortie) => void): void {
     if (callback)
-      this.db.insert(redirect, callback);
+      this.db.insert(shortie, callback);
     else
-      this.db.insert(redirect);
+      this.db.insert(shortie);
   }
 
-  public getRedirectBySlug(slug: string, callback: (err: string, doc: model.RedirectModel) => void): void {
+  public getShortieBySlug(slug: string, callback: (err: string, doc: model.Shortie) => void): void {
     this.db.findOne({ slug: slug }, callback);
   }
 
-  public getRedirectsByUrl(url: string, callback: (err: string, doc: Array<model.RedirectModel>) => void) {
+  public getShortiesByUrl(url: string, callback: (err: string, doc: Array<model.Shortie>) => void) {
     return this.db.find({ url: url }, callback);
   }
 
-  public getAllShorties(callback: (err: string, doc: Array<model.RedirectModel>) => void, options?: ShortieGetOptions) {
+  public getAllShorties(callback: (err: string, doc: Array<model.Shortie>) => void, options?: ShortieGetOptions) {
     var dbQuery = this.db.find({});
 
     if (!options) 
@@ -49,7 +49,7 @@ export interface ShortieGetOptions {
   sort? : any;
 }
 
-export interface RedirectRepoOptions {
+export interface ShortieRepositoryOptions {
   pageSize? : number;
 }
 

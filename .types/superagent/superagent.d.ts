@@ -17,7 +17,7 @@ declare module "superagent" {
     statusType: number;
     info: boolean;
     ok: boolean;
-    redirect: boolean;
+    shortie: boolean;
     clientError: boolean;
     serverError: boolean;
     error: any;
@@ -33,7 +33,7 @@ declare module "superagent" {
 
   export interface Request {
     attach(field: string, file: string, filename: string): Request;
-    redirects(n: number): Request;
+    shorties(n: number): Request;
     part(): Request;
     set(field: string, val: string): Request;
     set(field: Object): Request;

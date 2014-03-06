@@ -821,7 +821,7 @@ declare module "express" {
              * Set the location header to `url`.
              *
              * The given `url` can also be the name of a mapped url, for
-             * example by default express supports "back" which redirects
+             * example by default express supports "back" which shorties
              * to the _Referrer_ or _Referer_ headers or "/".
              *
              * Examples:
@@ -848,7 +848,7 @@ declare module "express" {
             location(url: string): Response;
 
             /**
-             * Redirect to the given `url` with optional response `status`
+             * Shortie to the given `url` with optional response `status`
              * defaulting to 302.
              *
              * The resulting `url` is determined by `res.location()`, so
@@ -857,17 +857,17 @@ declare module "express" {
              *
              * Examples:
              *
-             *    res.redirect('/foo/bar');
-             *    res.redirect('http://example.com');
-             *    res.redirect(301, 'http://example.com');
-             *    res.redirect('http://example.com', 301);
-             *    res.redirect('../login'); // /blog/post/1 -> /blog/login
+             *    res.shortie('/foo/bar');
+             *    res.shortie('http://example.com');
+             *    res.shortie(301, 'http://example.com');
+             *    res.shortie('http://example.com', 301);
+             *    res.shortie('../login'); // /blog/post/1 -> /blog/login
              */
-            redirect(url: string): void;
+            shortie(url: string): void;
 
-            redirect(status: number, url: string): void;
+            shortie(status: number, url: string): void;
 
-            redirect(url: string, status: number): void;
+            shortie(url: string, status: number): void;
 
             /**
              * Render `view` with the given `options` and optional callback `fn`.
@@ -1422,7 +1422,7 @@ declare module "express" {
          *
          *    - `maxAge`     Browser cache maxAge in milliseconds. defaults to 0
          *    - `hidden`     Allow transfer of hidden files. defaults to false
-         *    - `redirect`   Redirect to trailing "/" when the pathname is a dir. defaults to true
+         *    - `shortie`   Shortie to trailing "/" when the pathname is a dir. defaults to true
          *
          * @param root
          * @param options

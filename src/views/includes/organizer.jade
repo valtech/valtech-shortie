@@ -18,7 +18,7 @@ div(id='organizer')
 
   .alert.alert-warning(data-bind='visible: spamWarning')
     b Spam warning! 
-    span Enter value for empty shorty before adding a new one.
+    span Enter value for empty shortie before adding a new one.
 
   table.table.table-striped
     thead
@@ -31,5 +31,5 @@ div(id='organizer')
           .btn-group.pull-right
             button.btn.btn-default.btn-xs(data-bind='click: addNew')
               span.glyphicon.glyphicon-plus
-              span.small add redirect
+              span.small add shortie
     tbody(data-bind="template : {name : 'shortie-main', foreach: shorties}")

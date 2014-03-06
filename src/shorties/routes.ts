@@ -13,22 +13,22 @@ export function getHandler(req, res, next) {
 
 function postHandler(req, res, next) {
   // require auth
-  // add new redirect with generated slug
-  // return 200 and redirect entity in body on success
+  // add new shortie with generated slug
+  // return 200 and shortie entity in body on success
   // return 400 on invalid data
   next();
 }
 
 function putHandler(req, res, next) {
   // require auth
-  // update slug or add redirect with specified slug
+  // update slug or add shortie with specified slug
   // return 400 on slug/shortUrl mismatch
-  // return redirect entity in body on success
+  // return shortie entity in body on success
 }
 
 function deleteHandler(req, res, next) {
   // require auth
-  // delete redirect
+  // delete shortie
   // only returns 200 or 404
 }
 

@@ -10,16 +10,11 @@ Valtech URL shortening service.
 ### Epics
 
 1. Connect UI with backend API
-2. Implement RedirectRepository
+2. Implement ShortieRepository
 3. Integrate with Mongo
 4. Write UI tests (CasperJS?)
 5. Remove generated files from repo (compiled JS/CSS/etc)
 6. Auth for external applications (static auth tokens)
-
-
-### Small fixes
-
-1. Rename all 'redirect' types/functions to 'shortie'
 
 # API
 

@@ -8,7 +8,7 @@ import express = require('express');
 import app = require('../../src/app');
 var shortieApp: express.Express = app.App;
 
-describe('redirects routes', function () {
+describe('shorties/routes', function () {
   describe('GET /:slug', function () {
     it('should redirect if shortie exists', function (done) {
       request(shortieApp)

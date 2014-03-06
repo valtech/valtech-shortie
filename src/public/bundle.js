@@ -5574,27 +5574,27 @@ ko.exportSymbol('nativeTemplateEngine', ko.nativeTemplateEngine);
 var ko = require('knockout');
 
 var viewModels = require('./viewModels');
-var model = require('../redirects/model');
+var model = require('../shorties/model');
 
 var raws = [
-    new model.RedirectModel("fun", "http://9gag.com/trending"),
-    new model.RedirectModel("funner", "http://9gag.com/hot"),
-    new model.RedirectModel("funniest", "http://money.cnn.com/data/markets/")
+    new model.Shortie("fun", "http://9gag.com/trending"),
+    new model.Shortie("funner", "http://9gag.com/hot"),
+    new model.Shortie("funniest", "http://money.cnn.com/data/markets/")
 ];
 
 var o = new viewModels.AdminViewModel(raws);
 
 ko.applyBindings(o, document.getElementById('organizer'));
 
-},{"../redirects/model":5,"./viewModels":4,"knockout":1}],4:[function(require,module,exports){
+},{"../shorties/model":5,"./viewModels":4,"knockout":1}],4:[function(require,module,exports){
 var knockout = require('knockout');
 var underscore = require('underscore');
 
 var _ = underscore;
 var ko = knockout;
 
-var RedirectViewModel = (function () {
-    function RedirectViewModel(shortie) {
+var ShortieViewModel = (function () {
+    function ShortieViewModel(shortie) {
         this.raw = shortie;
         this.isCurrent = ko.observable(false);
         this.slug = ko.observable();
@@ -5605,15 +5605,15 @@ var RedirectViewModel = (function () {
             this.url(shortie.url);
         }
     }
-    return RedirectViewModel;
+    return ShortieViewModel;
 })();
-exports.RedirectViewModel = RedirectViewModel;
+exports.ShortieViewModel = ShortieViewModel;
 
 var AdminViewModel = (function () {
     function AdminViewModel(raws) {
         var _this = this;
         var arrayOfVms = _.map(raws, function (raw) {
-            return new RedirectViewModel(raw);
+            return new ShortieViewModel(raw);
         });
         this.shorties = ko.observableArray(arrayOfVms);
 
@@ -5645,7 +5645,7 @@ var AdminViewModel = (function () {
             return;
         }
 
-        var newShortie = new RedirectViewModel();
+        var newShortie = new ShortieViewModel();
         this.shorties.push(newShortie);
         this.select(newShortie);
     };
@@ -5686,13 +5686,13 @@ function selectFirstEmptyShorties(shorties) {
 }
 
 },{"knockout":1,"underscore":2}],5:[function(require,module,exports){
-var RedirectModel = (function () {
-    function RedirectModel(slug, url) {
+var Shortie = (function () {
+    function Shortie(slug, url) {
         this.slug = slug;
         this.url = url;
     }
-    return RedirectModel;
+    return Shortie;
 })();
-exports.RedirectModel = RedirectModel;
+exports.Shortie = Shortie;
 
 },{}]},{},[3])

@@ -9,16 +9,16 @@ import underscore = require('underscore');
 var _: UnderscoreStatic = underscore;
 var ko: KnockoutStatic = knockout;
 
-import model = require('../redirects/model');
+import model = require('../shorties/model');
 
-export class RedirectViewModel {
-  private raw: model.RedirectModel;
+export class ShortieViewModel {
+  private raw: model.Shortie;
 
   public slug: KnockoutObservable<string>;
   public url: KnockoutObservable<string>;
   public isCurrent: KnockoutObservable<boolean>;
 
-  constructor(shortie?: model.RedirectModel) {
+  constructor(shortie?: model.Shortie) {
     this.raw = shortie;
     this.isCurrent = ko.observable(false);
     this.slug = ko.observable<string>();
@@ -32,15 +32,15 @@ export class RedirectViewModel {
 }
 
 export class AdminViewModel {
-  public shorties: KnockoutObservableArray<RedirectViewModel>;
-  public currentShortie: KnockoutObservable<RedirectViewModel>;
+  public shorties: KnockoutObservableArray<ShortieViewModel>;
+  public currentShortie: KnockoutObservable<ShortieViewModel>;
   public spamWarning: KnockoutComputed<boolean>;
 
   private spamAttemped: KnockoutObservable<boolean>;
   private containsEmpties: KnockoutComputed<boolean>;
 
-  constructor(raws: Array<model.RedirectModel>) {
-    var arrayOfVms = _.map(raws, raw => new RedirectViewModel(raw));
+  constructor(raws: Array<model.Shortie>) {
+    var arrayOfVms = _.map(raws, raw => new ShortieViewModel(raw));
     this.shorties = ko.observableArray(arrayOfVms);
 
     this.spamAttemped = ko.observable(false);
@@ -52,7 +52,7 @@ export class AdminViewModel {
     });
   }
 
-  public select(shortie: RedirectViewModel): void {
+  public select(shortie: ShortieViewModel): void {
     if (!_.contains(this.shorties(), shortie))
       return;
     this.shorties().forEach(s=> s.isCurrent(false));
@@ -66,31 +66,31 @@ export class AdminViewModel {
       return;
     }
 
-    var newShortie = new RedirectViewModel();
+    var newShortie = new ShortieViewModel();
     this.shorties.push(newShortie);
     this.select(newShortie);
   }
 
-  public save(shortie: RedirectViewModel): void {
+  public save(shortie: ShortieViewModel): void {
     this.shorties().forEach(s=> s.isCurrent(false));
   }
 
-  public remove(shortie: RedirectViewModel): void {
+  public remove(shortie: ShortieViewModel): void {
     this.shorties.remove(shortie);
   }
 }
 
-function containsEmptyShorties(shorties: Array<RedirectViewModel>): boolean {
-  var hasEmpties = _.any<RedirectViewModel>(shorties,
+function containsEmptyShorties(shorties: Array<ShortieViewModel>): boolean {
+  var hasEmpties = _.any<ShortieViewModel>(shorties,
     shortie => { return !shortie.slug() || !shortie.url(); }
     );
 
   return hasEmpties;
 }
 
-function selectFirstEmptyShorties(shorties: Array<RedirectViewModel>): void {
+function selectFirstEmptyShorties(shorties: Array<ShortieViewModel>): void {
   shorties.forEach(s=> s.isCurrent(false));
-  var firstEmpty = _.find<RedirectViewModel>(shorties, shortie=> {
+  var firstEmpty = _.find<ShortieViewModel>(shorties, shortie=> {
     if (!shortie.slug() || !shortie.url())
       return true;
     return false;
