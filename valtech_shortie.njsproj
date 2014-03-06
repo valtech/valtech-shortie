@@ -94,7 +94,7 @@
     <Content Include="src\public\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="src\public\robots.txt" />
     <Content Include="src\redirects\model.ts" />
-    <Content Include="src\views\includes\ko.jade" />
+    <Content Include="src\views\includes\organizer.jade" />
     <Content Include="test\admin\viewModels.ts" />
     <Content Include="test\lib\SlugGenerator.ts" />
     <Content Include="test\redirects\data.ts" />
@@ -113,8 +113,8 @@
     <Content Include="src\static\routes.ts" />
     <Content Include="src\views\404.jade" />
     <Content Include="src\views\500.jade" />
-    <Content Include="src\views\admin.jade" />
     <Content Include="src\views\index.jade" />
+    <Content Include="src\views\admin.jade" />
     <Content Include="src\views\layouts\layout.jade" />
   </ItemGroup>
   <ItemGroup>
