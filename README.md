@@ -2,6 +2,9 @@
 
 Valtech URL shortening service.
 
+ * Production: http://valte.ch
+ * Stage: http://stage.valte.ch
+
 ## TODO
 
 ### Epics
@@ -13,6 +16,7 @@ Valtech URL shortening service.
 5. Remove generated files from repo (compiled JS/CSS/etc)
 6. Auth for external applications (static auth tokens)
 
+
 ### Small fixes
 
 1. Rename all 'redirect' types/functions to 'shortie'
@@ -21,13 +25,20 @@ Valtech URL shortening service.
 
 TODO. Will require an "application key + secret". POST, PUT and DELETE. JSON data.
 
+
 # Admin
 
 Go to `/admin` and login using vauth. You can administer existing URLs and add new ones.
 
+
 # Deployment
 
-TODO. Write stuff about TeamCity + Azure
+valtech\_shortie is deployed with our internal TeamCity instance:
+http://bob.valtech.se.
+
+ * Branch `master` is automatically deployed to production.
+ * Branch `develop` is automatically deployed to stage.
+
 
 # Dev
 

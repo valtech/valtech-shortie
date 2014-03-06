@@ -6,15 +6,16 @@ import DbFactory = require('../../src/lib/DbFactory');
 import data = require('../../src/redirects/data');
 var assert = require('chai').assert;
 
-describe('RedirectRepository', function () {
+describe('RedirectRepository', function() {
   var repo: data.RedirectRepository, db;
-  beforeEach(function (done) {
-    DbFactory.create('nedb', {}, function (err, db_) {
+  beforeEach(function(done) {
+    DbFactory.create('nedb', {}, function(err, db_) {
       db = db_;
-      repo = new data.RedirectRepository(db_);
+      repo = new data.RedirectRepository(db_, { pageSize: 1 });
       done();
     });
   });
+
   describe('addRedirect()', function () {
     it('should add a new Redirect', function (done) {
       var redirect = {
@@ -41,6 +42,7 @@ describe('RedirectRepository', function () {
       });
     });
   });
+
   describe('getRedirectBySlug()', function () {
     beforeEach(function (done) {
       db.insert({ url: 'http://icanhazcheezburger.com/', slug: 'cats' }, done);
@@ -61,6 +63,7 @@ describe('RedirectRepository', function () {
       });
     });
   });
+
   describe('getRedirectsByUrl()', function () {
     beforeEach(function (done) {
       db.insert([
@@ -73,7 +76,7 @@ describe('RedirectRepository', function () {
         assert.isNull(err);
         assert.isNotNull(docs);
         assert.equal(docs.length, 2);
-        docs = _.sortBy(docs, function (doc: any) { return doc.slug; })
+        docs = _.sortBy(docs, function(doc : any) { return doc.slug; })
         assert.equal(docs[0].slug, 'cats');
         assert.equal(docs[1].slug, 'moar_cats');
         done();
@@ -88,5 +91,40 @@ describe('RedirectRepository', function () {
     });
   });
 
+  describe("getAllShorties()", ()=> {
+    beforeEach((done)=> {
+      db.insert([
+        { url: 'http://icanhazcheezburger.com/', slug: 'cats' },
+        { url: 'http://icanhazcheezburger.com/', slug: 'moar_cats' }
+      ], done);
+    });
+
+    it('should return all shorties if not invoked with any arguments', (done) => {
+      repo.getAllShorties((err, docs)=> {
+        assert.isNull(err);
+        assert.isNotNull(docs);
+        assert.equal(docs.length, 2);
+        done();
+      });
+    });
+
+    it("should return first page if specified", (done) => {
+      repo.getAllShorties((err, docs) => {
+        assert.isNull(err);
+        assert.equal(docs.length, 1);
+        assert.equal(docs[0].slug, 'cats');
+        done();
+      }, { page: 0, sort : {slug : 1} });
+    });
+
+    it("should return second page if specified", (done) => {
+      repo.getAllShorties((err, docs) => {
+        assert.isNull(err);
+        assert.equal(docs.length, 1);
+        assert.equal(docs[0].slug, 'moar_cats');
+        done();
+      }, { page: 1, sort: { 'slug': 1 } });
+    });
+  });
 });
 
