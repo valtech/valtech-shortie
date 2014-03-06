@@ -28,7 +28,7 @@ Go to `/admin` and login using vauth. You can administer existing URLs and add n
 
 # Deployment
 
-TODO. Write stuff about TeamCity + Azure
+TODO. Write stuff about TeamCity + Azure.
 
 # Dev
 
