@@ -9,7 +9,11 @@ module.exports = function (grunt) {
                 removeComments: true
             },
             dist: {
-            src: ['src/**/*.ts','test/**/*.ts']
+            src: [
+	    	'server.ts',
+	    	'src/**/*.ts',
+		'test/**/*.ts'
+	    ]
             }
         },
 
