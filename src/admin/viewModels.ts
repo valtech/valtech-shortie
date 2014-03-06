@@ -46,6 +46,10 @@ export class AdminViewModel {
     this.spamAttemped = ko.observable(false);
     this.containsEmpties = ko.computed(() => containsEmptyShorties(this.shorties()));
     this.spamWarning = ko.computed(() => this.spamAttemped() && this.containsEmpties());
+	this.containsEmpties.subscribe(newValue=> {
+		if (newValue === false)
+			this.spamAttemped(false);
+	});
   }
 
   public select(shortie: RedirectViewModel): void {

@@ -170,6 +170,21 @@ describe("AdminViewModel", function() {
 
       /* Assert */
       expect(viewModel.spamWarning()).to.be.false;
-    });
+	});
+
+	  it("Should not be true just because a new shortie is added after previous spamWarning", function () {
+		  /* Setup */
+		  models.push(new model.RedirectModel('', ''));
+		  var viewModel = new viewModels.AdminViewModel(models);
+		  viewModel.addNew();
+		  viewModel.shorties()[3].slug('newSlug');
+		  viewModel.shorties()[3].url('newUrl');
+
+		  /* Test */
+		  viewModel.addNew();
+
+		  /* Assert */
+		  expect(viewModel.spamWarning()).to.be.false;
+	  });
   });
 });

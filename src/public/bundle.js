@@ -5624,6 +5624,10 @@ var AdminViewModel = (function () {
         this.spamWarning = ko.computed(function () {
             return _this.spamAttemped() && _this.containsEmpties();
         });
+        this.containsEmpties.subscribe(function (newValue) {
+            if (newValue === false)
+                _this.spamAttemped(false);
+        });
     }
     AdminViewModel.prototype.select = function (shortie) {
         if (!_.contains(this.shorties(), shortie))
