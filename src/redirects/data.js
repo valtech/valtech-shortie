@@ -1,5 +1,4 @@
-﻿/// <reference path="../../.types/node/node.d.ts" />
-var RedirectRepository = (function () {
+﻿var RedirectRepository = (function () {
     function RedirectRepository(db, options) {
         if (typeof options === "undefined") { options = { pageSize: 20 }; }
         this.db = db;
