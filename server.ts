@@ -9,6 +9,6 @@ var log = logentries.logger({
 });
 
 http.createServer(app.App).listen(app.App.get('port'), function () {
-  log.log('Express server listening on port ' + app.App.get('port'));
+  log.info('Express server listening on port ' + app.App.get('port'));
 });
 
