@@ -30,9 +30,18 @@ export class ApiClient {
       type: request.verb.toString(),
       data: request.data,
       success: (data, textStatus, jqXHR) => {
-        callback({
-          status: jqXHR.status,
-          data: data
+        tryParseJSON<TData>(data, function (obj, success) {
+          if (success) {
+            callback({
+              status: jqXHR.status,
+              data: data
+            });
+          } else {
+            callback({
+              status: -1,
+              data: data
+            });
+          }
         });
       },
       error: (jqXHR, textStatus, errorThrow) => {
@@ -44,6 +53,17 @@ export class ApiClient {
     });
   }
 }
+
+function tryParseJSON<T>(data: string, callback: (obj: T, success: boolean) => void) {
+  try {
+    var obj = JSON.parse(data);
+    callback(obj, true);
+  }
+  catch (e) {
+    callback(null, false);
+  }
+}
+
 
 function buildUrl(path: string): string {
   return '/shorties' + path;
