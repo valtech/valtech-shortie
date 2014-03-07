@@ -24,7 +24,7 @@
     <OutputPath>.</OutputPath>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
-    <ProjectView>ProjectFiles</ProjectView>
+    <ProjectView>ShowAllFiles</ProjectView>
     <NodejsPort>3000</NodejsPort>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -38,6 +38,7 @@
     <Folder Include=".types\jquery\" />
     <Folder Include=".types\knockout\" />
     <Folder Include=".types\mocha\" />
+    <Folder Include=".types\mongodb\" />
     <Folder Include=".types\my-chai\" />
     <Folder Include=".types\superagent\" />
     <Folder Include=".types\node\" />
@@ -72,6 +73,7 @@
     <Content Include=".types\jquery\jquery.d.ts" />
     <Content Include=".types\knockout\knockout.d.ts" />
     <Content Include=".types\mocha\mocha.d.ts" />
+    <Content Include=".types\mongodb\mongodb.d.ts" />
     <Content Include=".types\my-chai\my-chai.d.ts" />
     <Content Include=".types\node\node.d.ts" />
     <Content Include=".types\sinon\sinon.d.ts" />
