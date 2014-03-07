@@ -41,10 +41,9 @@ export class AdminViewModel {
   private containsEmpties: KnockoutComputed<boolean>;
   private apiClient: api.ApiClient;
 
-  constructor(raws: Array<model.Shortie>, apiClient: api.ApiClient) {
+  constructor(apiClient: api.ApiClient) {
     this.apiClient = apiClient;
-    var arrayOfVms = _.map(raws, raw => new ShortieViewModel(raw));
-    this.shorties = ko.observableArray(arrayOfVms);
+    this.shorties = <KnockoutObservableArray<ShortieViewModel>>ko.observableArray();
     this.spamAttemped = ko.observable(false);
 
     this.containsEmpties = ko.computed(() => containsEmptyShorties(this.shorties()));

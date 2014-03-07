@@ -26,7 +26,7 @@ describe("AdminViewModel", function () {
                 callback({ status: 200, data: models });
             }
         };
-        adminViewModel = new viewModels.AdminViewModel(null, apiClient);
+        adminViewModel = new viewModels.AdminViewModel(apiClient);
     });
 
     describe('constructor()', function () {

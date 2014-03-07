@@ -14696,7 +14696,7 @@ var raws = [
     new model.Shortie("funniest", "http://money.cnn.com/data/markets/")
 ];
 
-var o = new viewModels.AdminViewModel(raws, new api.ApiClient());
+var o = new viewModels.AdminViewModel(new api.ApiClient());
 
 ko.applyBindings(o, document.getElementById('organizer'));
 
@@ -14768,13 +14768,10 @@ var ShortieViewModel = (function () {
 exports.ShortieViewModel = ShortieViewModel;
 
 var AdminViewModel = (function () {
-    function AdminViewModel(raws, apiClient) {
+    function AdminViewModel(apiClient) {
         var _this = this;
         this.apiClient = apiClient;
-        var arrayOfVms = _.map(raws, function (raw) {
-            return new ShortieViewModel(raw);
-        });
-        this.shorties = ko.observableArray(arrayOfVms);
+        this.shorties = ko.observableArray();
         this.spamAttemped = ko.observable(false);
 
         this.containsEmpties = ko.computed(function () {

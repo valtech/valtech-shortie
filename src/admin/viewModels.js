@@ -23,13 +23,10 @@ var ShortieViewModel = (function () {
 exports.ShortieViewModel = ShortieViewModel;
 
 var AdminViewModel = (function () {
-    function AdminViewModel(raws, apiClient) {
+    function AdminViewModel(apiClient) {
         var _this = this;
         this.apiClient = apiClient;
-        var arrayOfVms = _.map(raws, function (raw) {
-            return new ShortieViewModel(raw);
-        });
-        this.shorties = ko.observableArray(arrayOfVms);
+        this.shorties = ko.observableArray();
         this.spamAttemped = ko.observable(false);
 
         this.containsEmpties = ko.computed(function () {
