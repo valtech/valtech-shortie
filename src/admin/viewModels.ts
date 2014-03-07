@@ -52,8 +52,6 @@ export class AdminViewModel {
       if (newValue === false)
         this.spamAttemped(false);
     });
-
-    this.getAll();
   }
 
   public select(shortie: ShortieViewModel): void {
@@ -83,7 +81,7 @@ export class AdminViewModel {
     this.shorties.remove(shortie);
   }
 
-  private getAll() {
+  public loadShorties() {
     this.apiClient.sendRequest<Array<model.Shortie>>({ path: '/', verb: api.HttpVerb.GET }, (response) => {
       if (response.status == 200) {
         var arrayOfVms = _.map(response.data, item => new ShortieViewModel(item));

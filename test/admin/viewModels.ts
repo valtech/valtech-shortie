@@ -27,20 +27,27 @@ describe("AdminViewModel", function () {
       new model.Shortie("i-wish", "http://open.spotify.com/track/74WFSCXc8yHY7HDXREiLpM")
     ];
     apiClient = {
-      sendRequest: function (request, callback) {
-        callback({ status: 200, data: models });
-      }
+      sendRequest: function () {}
     };
     adminViewModel = new viewModels.AdminViewModel(apiClient);
   });
 
-  describe('constructor()', function () {
+  describe('loadShorties()', function () {
     it("should create ShortieViewModels for all Shorties", function () {
+      apiClient.sendRequest = function (request, callback) {
+        callback({ status: 200, data: models });
+      };
+
+      adminViewModel.loadShorties();
+
       assert.equal(adminViewModel.shorties().length, 3);
     });
   });
 
   describe("select()", function () {
+    beforeEach(function () {
+      adminViewModel.shorties(_.map(models, m=> new viewModels.ShortieViewModel(m)));
+    });
     it("should not deselect previous shortie if passed shortie is not part of collection", function () {
       /* Setup */
       var rogueShortie = new viewModels.ShortieViewModel(new model.Shortie("rouge", "rougheUrl"));
@@ -82,27 +89,36 @@ describe("AdminViewModel", function () {
   });
 
   describe("addNew()", function () {
-    it("should add a new shortie", function () {
+    beforeEach(function () {
+    });
+    it("should add a new ShortieViewModel if request is OK", function () {
       adminViewModel.addNew();
-      expect(adminViewModel.shorties().length).to.be.equal(4);
+
+      expect(adminViewModel.shorties().length).to.be.equal(1);
     });
 
-    it("should set the newest shortie as current", function () {
+    it("should set newly added ShortieViewModel as current", function () {
       adminViewModel.addNew();
-      expect(adminViewModel.shorties()[3].isCurrent()).to.be.true;
+      expect(adminViewModel.shorties()[0].isCurrent()).to.be.true;
     });
 
     it("should prevent creation of multiple empty shorties", function () {
       adminViewModel.addNew();
       adminViewModel.addNew();
-      expect(adminViewModel.shorties().length).to.be.equal(4);
+      expect(adminViewModel.shorties().length).to.be.equal(1);
     });
   });
 
   describe("save()", function () {
+    var sendRequestSpy: SinonSpy;
+    beforeEach(function () {
+      adminViewModel.shorties(_.map(models, m=> new viewModels.ShortieViewModel(m)));
+      apiClient.sendRequest = sendRequestSpy = sinon.spy();
+    });
+
     it('should deselect all shorties', function () {
       var current = adminViewModel.shorties()[0]
-			current.isCurrent(true);
+      current.isCurrent(true);
 
       /* Test */
       adminViewModel.save(current);
@@ -111,6 +127,14 @@ describe("AdminViewModel", function () {
       _.each(adminViewModel.shorties(), vm => {
         expect(vm.isCurrent()).to.be.false;
       });
+    });
+    it('should save the Shortie', function () {
+      var shortie = adminViewModel.shorties()[1];
+      shortie.isCurrent(true);
+
+      adminViewModel.save(shortie);
+
+      sendRequestSpy.calledWith({ path: '/go-shorty', verb: 'PUT', data: shortie[1] });
     });
   });
 
@@ -137,8 +161,8 @@ describe("AdminViewModel", function () {
       models.push(new model.Shortie('', ''));
 
       adminViewModel.addNew();
-      adminViewModel.shorties()[3].slug('newSlug');
-      adminViewModel.shorties()[3].url('newUrl');
+      adminViewModel.shorties()[0].slug('newSlug');
+      adminViewModel.shorties()[0].url('newUrl');
 
       expect(adminViewModel.spamWarning()).to.be.false;
     });

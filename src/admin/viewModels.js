@@ -39,8 +39,6 @@ var AdminViewModel = (function () {
             if (newValue === false)
                 _this.spamAttemped(false);
         });
-
-        this.getAll();
     }
     AdminViewModel.prototype.select = function (shortie) {
         if (!_.contains(this.shorties(), shortie))
@@ -73,7 +71,7 @@ var AdminViewModel = (function () {
         this.shorties.remove(shortie);
     };
 
-    AdminViewModel.prototype.getAll = function () {
+    AdminViewModel.prototype.loadShorties = function () {
         var _this = this;
         this.apiClient.sendRequest({ path: '/', verb: 0 /* GET */ }, function (response) {
             if (response.status == 200) {
