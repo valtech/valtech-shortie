@@ -134,7 +134,7 @@ describe("AdminViewModel", function () {
 
       adminViewModel.save(shortie);
 
-      sendRequestSpy.calledWith({ path: '/go-shorty', verb: api.HttpVerb.PUT, data: shortie[1] });
+      sinon.assert.calledWith(sendRequestSpy, { path: '/go-shorty', verb: api.HttpVerb.PUT, data: shortie[1] });
     });
     it('should send PUT request to save new Shortie', function () {
       var shortie = new viewModels.ShortieViewModel();
