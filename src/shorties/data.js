@@ -1,5 +1,4 @@
-﻿/// <reference path="../../.types/node/node.d.ts" />
-var ShortieRepository = (function () {
+﻿var ShortieRepository = (function () {
     function ShortieRepository(db, options) {
         if (typeof options === "undefined") { options = { pageSize: 20 }; }
         this.db = db;
