@@ -24,14 +24,14 @@ export class ShortieRepository {
   }
 
   public getShortiesByUrl(url: string, callback: (err: string, doc: Array<model.Shortie>) => void) {
-    return this.db.find({ url: url }, callback);
+    return this.db.find({ url: url }).toArray(callback);
   }
 
   public getAllShorties(callback: (err: string, doc: Array<model.Shortie>) => void, options?: ShortieGetOptions) {
     var dbQuery = this.db.find({});
 
     if (!options) 
-      return dbQuery.exec(callback);
+      return dbQuery.toArray(callback);
 
     if (options.page !== undefined)
       dbQuery.skip(this.pageSize * options.page).limit(this.pageSize);
@@ -39,7 +39,7 @@ export class ShortieRepository {
     if (options.sort)
       dbQuery.sort(options.sort);
 
-    return dbQuery.exec(callback);
+    dbQuery.toArray(callback);
   }
 }
 

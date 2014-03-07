@@ -17,14 +17,14 @@ var ShortieRepository = (function () {
     };
 
     ShortieRepository.prototype.getShortiesByUrl = function (url, callback) {
-        return this.db.find({ url: url }, callback);
+        return this.db.find({ url: url }).toArray(callback);
     };
 
     ShortieRepository.prototype.getAllShorties = function (callback, options) {
         var dbQuery = this.db.find({});
 
         if (!options)
-            return dbQuery.exec(callback);
+            return dbQuery.toArray(callback);
 
         if (options.page !== undefined)
             dbQuery.skip(this.pageSize * options.page).limit(this.pageSize);
@@ -32,7 +32,7 @@ var ShortieRepository = (function () {
         if (options.sort)
             dbQuery.sort(options.sort);
 
-        return dbQuery.exec(callback);
+        dbQuery.toArray(callback);
     };
     return ShortieRepository;
 })();
