@@ -78,8 +78,8 @@
     <Content Include=".types\superagent\superagent.d.ts" />
     <Content Include=".types\supertest\supertest.d.ts" />
     <Content Include=".types\underscore\underscore.d.ts" />
+    <Content Include="IISNode.yml" />
     <Content Include="package.json" />
-    <Content Include="Procfile" />
     <Content Include="README.md" />
     <Content Include="src\admin\api.ts" />
     <Content Include="src\admin\viewModels.ts" />
