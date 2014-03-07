@@ -1,5 +1,4 @@
-﻿/// <reference path="../../.types/jquery/jquery.d.ts" />
-var $ = require('jquery');
+﻿var $ = require('jquery');
 
 (function (HttpVerb) {
     HttpVerb[HttpVerb["GET"] = 0] = "GET";

@@ -1,5 +1,4 @@
-﻿/// <reference path="./.types/node/node.d.ts" />
-require('newrelic');
+﻿require('newrelic');
 
 var http = require('http');
 var app = require('./src/app');

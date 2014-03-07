@@ -14721,9 +14721,18 @@ var ApiClient = (function () {
             type: request.verb.toString(),
             data: request.data,
             success: function (data, textStatus, jqXHR) {
-                callback({
-                    status: jqXHR.status,
-                    data: data
+                tryParseJSON(data, function (obj, success) {
+                    if (success) {
+                        callback({
+                            status: jqXHR.status,
+                            data: data
+                        });
+                    } else {
+                        callback({
+                            status: -1,
+                            data: data
+                        });
+                    }
                 });
             },
             error: function (jqXHR, textStatus, errorThrow) {
@@ -14737,6 +14746,15 @@ var ApiClient = (function () {
     return ApiClient;
 })();
 exports.ApiClient = ApiClient;
+
+function tryParseJSON(data, callback) {
+    try  {
+        var obj = JSON.parse(data);
+        callback(obj, true);
+    } catch (e) {
+        callback(null, false);
+    }
+}
 
 function buildUrl(path) {
     return '/shorties' + path;
