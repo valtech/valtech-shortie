@@ -7,6 +7,7 @@ function create(type, options, callback) {
     switch (type) {
         case 'nedb':
             var inMemoryDb = new Datastore(options);
+            inMemoryDb.ensureIndex({ field: 'slug', unique: true });
             return callback(null, inMemoryDb);
         case 'mongodb':
             mongodb.MongoClient.connect('mongodb://127.0.0.1:27017/shortie?w=1', function (err, mongoDb) {
