@@ -3,6 +3,8 @@
 (function (HttpVerb) {
     HttpVerb[HttpVerb["GET"] = 0] = "GET";
     HttpVerb[HttpVerb["POST"] = 1] = "POST";
+    HttpVerb[HttpVerb["PUT"] = 2] = "PUT";
+    HttpVerb[HttpVerb["DELETE"] = 3] = "DELETE";
 })(exports.HttpVerb || (exports.HttpVerb = {}));
 var HttpVerb = exports.HttpVerb;
 

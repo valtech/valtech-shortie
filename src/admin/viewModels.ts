@@ -74,7 +74,15 @@ export class AdminViewModel {
   }
 
   public save(shortie: ShortieViewModel): void {
-    this.shorties().forEach(s=> s.isCurrent(false));
+    var self = this;
+    var saveRequest: api.ApiRequest = {
+      path: '/' + shortie.slug(),
+      verb: api.HttpVerb.PUT,
+      data: { longUrl: shortie.url() }
+    };
+    this.apiClient.sendRequest(saveRequest, function (response) {
+      self.shorties().forEach(s=> s.isCurrent(false));
+    });
   }
 
   public remove(shortie: ShortieViewModel): void {

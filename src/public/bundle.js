@@ -14706,6 +14706,8 @@ var $ = require('jquery');
 (function (HttpVerb) {
     HttpVerb[HttpVerb["GET"] = 0] = "GET";
     HttpVerb[HttpVerb["POST"] = 1] = "POST";
+    HttpVerb[HttpVerb["PUT"] = 2] = "PUT";
+    HttpVerb[HttpVerb["DELETE"] = 3] = "DELETE";
 })(exports.HttpVerb || (exports.HttpVerb = {}));
 var HttpVerb = exports.HttpVerb;
 
@@ -14825,8 +14827,16 @@ var AdminViewModel = (function () {
     };
 
     AdminViewModel.prototype.save = function (shortie) {
-        this.shorties().forEach(function (s) {
-            return s.isCurrent(false);
+        var self = this;
+        var saveRequest = {
+            path: '/' + shortie.slug(),
+            verb: 2 /* PUT */,
+            data: { longUrl: shortie.url() }
+        };
+        this.apiClient.sendRequest(saveRequest, function (response) {
+            self.shorties().forEach(function (s) {
+                return s.isCurrent(false);
+            });
         });
     };
 

@@ -1,5 +1,5 @@
 ﻿var viewModels = require('../../src/admin/viewModels');
-
+var api = require('../../src/admin/api');
 var model = require('../../src/shorties/model');
 
 var _ = require('underscore');
@@ -104,7 +104,9 @@ describe("AdminViewModel", function () {
             adminViewModel.shorties(_.map(models, function (m) {
                 return new viewModels.ShortieViewModel(m);
             }));
-            apiClient.sendRequest = sendRequestSpy = sinon.spy();
+            apiClient.sendRequest = sendRequestSpy = sinon.spy(function (request, callback) {
+                callback();
+            });
         });
 
         it('should deselect all shorties', function () {
@@ -117,13 +119,24 @@ describe("AdminViewModel", function () {
                 expect(vm.isCurrent()).to.be.false;
             });
         });
-        it('should save the Shortie', function () {
+        it('should send PUT request to save existing Shortie', function () {
             var shortie = adminViewModel.shorties()[1];
             shortie.isCurrent(true);
 
             adminViewModel.save(shortie);
 
-            sendRequestSpy.calledWith({ path: '/go-shorty', verb: 'PUT', data: shortie[1] });
+            sendRequestSpy.calledWith({ path: '/go-shorty', verb: 2 /* PUT */, data: shortie[1] });
+        });
+        it('should send PUT request to save new Shortie', function () {
+            var shortie = new viewModels.ShortieViewModel();
+            shortie.slug('foo');
+            shortie.url('http://foobar');
+            adminViewModel.shorties.push(shortie);
+
+            adminViewModel.save(shortie);
+
+            var expectedRequest = { path: '/foo', verb: 2 /* PUT */, data: { longUrl: 'http://foobar' } };
+            sinon.assert.calledWith(sendRequestSpy, sinon.match(expectedRequest));
         });
     });
 

@@ -1,6 +1,4 @@
-﻿/// <reference path="../../.types/node/node.d.ts" />
-/// <reference path="../../.types/mongodb/mongodb.d.ts" />
-var Datastore = require('nedb');
+﻿var Datastore = require('nedb');
 var mongodb = require('mongodb');
 
 function create(type, options, callback) {

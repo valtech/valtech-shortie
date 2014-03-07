@@ -5,7 +5,9 @@ import $ = require('jquery');
 
 export enum HttpVerb {
   GET,
-  POST
+  POST,
+  PUT,
+  DELETE
 }
 
 export interface ApiRequest {

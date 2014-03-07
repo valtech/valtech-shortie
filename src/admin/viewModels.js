@@ -62,8 +62,16 @@ var AdminViewModel = (function () {
     };
 
     AdminViewModel.prototype.save = function (shortie) {
-        this.shorties().forEach(function (s) {
-            return s.isCurrent(false);
+        var self = this;
+        var saveRequest = {
+            path: '/' + shortie.slug(),
+            verb: 2 /* PUT */,
+            data: { longUrl: shortie.url() }
+        };
+        this.apiClient.sendRequest(saveRequest, function (response) {
+            self.shorties().forEach(function (s) {
+                return s.isCurrent(false);
+            });
         });
     };
 
