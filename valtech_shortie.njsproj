@@ -117,6 +117,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Gruntfile.js" />
+    <Compile Include="newrelic.js" />
     <Compile Include="src\public\bundle.js" />
     <Compile Include="test\shorties\routes.ts" />
     <Compile Include="test\error\routes.ts" />

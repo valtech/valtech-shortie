@@ -14,3 +14,4 @@ http.createServer(app.App).listen(app.App.get('port'), function () {
   log.info('Express server listening on port ' + app.App.get('port'));
 });
 
+console.log(process.env);
