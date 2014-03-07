@@ -1,5 +1,7 @@
 ﻿/// <reference path="./.types/node/node.d.ts" />
 
+require('newrelic');
+
 import http = require('http');
 import app = require('./src/app');
 var logentries = require('node-logentries');

@@ -1,4 +1,7 @@
-﻿var http = require('http');
+﻿/// <reference path="./.types/node/node.d.ts" />
+require('newrelic');
+
+var http = require('http');
 var app = require('./src/app');
 var logentries = require('node-logentries');
 
