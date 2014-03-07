@@ -1,14 +1,29 @@
-﻿var _ = require('underscore');
+﻿/// <reference path="../../.types/mocha/mocha.d.ts" />
+/// <reference path="../../.types/underscore/underscore.d.ts" />
+var _ = require('underscore');
 var DbFactory = require('../../src/lib/DbFactory');
 var data = require('../../src/shorties/data');
 var assert = require('chai').assert;
 
 describe('ShortieRepository', function () {
     var repo, db;
-    beforeEach(function (done) {
-        DbFactory.create('nedb', {}, function (err, db_) {
+
+    before(function (done) {
+        DbFactory.create('mongodb', {}, function (err, db_) {
             db = db_;
-            repo = new data.ShortieRepository(db_, { pageSize: 1 });
+            done();
+        });
+    });
+
+    beforeEach(function (done) {
+        repo = new data.ShortieRepository(db, { pageSize: 1 });
+        done();
+    });
+
+    afterEach(function (done) {
+        db.remove({}, function (err) {
+            if (err)
+                throw err;
             done();
         });
     });
@@ -19,12 +34,13 @@ describe('ShortieRepository', function () {
                 url: 'http://icanhazcheezburger.com/',
                 slug: 'cats'
             };
-            repo.addShortie(shortie);
-            db.findOne({ slug: 'cats' }, function (err, doc) {
-                assert.isNull(err, err);
-                assert.isNotNull(doc);
-                assert.equal(doc.slug, 'cats');
-                done();
+            repo.addShortie(shortie, function () {
+                db.findOne({ slug: 'cats' }, function (err, doc) {
+                    assert.isNull(err, err);
+                    assert.isNotNull(doc);
+                    assert.equal(doc.slug, 'cats');
+                    done();
+                });
             });
         });
         it('should fail when adding a duplicate Shortie', function (done) {
@@ -32,10 +48,11 @@ describe('ShortieRepository', function () {
                 url: 'http://icanhazcheezburger.com/',
                 slug: 'cats'
             };
-            repo.addShortie(shortie);
-            repo.addShortie(shortie, function (err, doc) {
-                assert.isNotNull(err, err);
-                done();
+            repo.addShortie(shortie, function () {
+                repo.addShortie(shortie, function (err) {
+                    assert.isNotNull(err, err);
+                    done();
+                });
             });
         });
     });
@@ -62,7 +79,7 @@ describe('ShortieRepository', function () {
     });
 
     describe('getShortiesByUrl()', function () {
-        beforeEach(function (done) {
+        before(function (done) {
             db.insert([
                 { url: 'http://icanhazcheezburger.com/', slug: 'cats' },
                 { url: 'http://icanhazcheezburger.com/', slug: 'moar_cats' }
