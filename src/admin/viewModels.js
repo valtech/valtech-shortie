@@ -4,6 +4,8 @@ var underscore = require('underscore');
 var _ = underscore;
 var ko = knockout;
 
+var api = require('./api');
+
 var ShortieViewModel = (function () {
     function ShortieViewModel(shortie) {
         this.raw = shortie;
@@ -21,14 +23,15 @@ var ShortieViewModel = (function () {
 exports.ShortieViewModel = ShortieViewModel;
 
 var AdminViewModel = (function () {
-    function AdminViewModel(raws) {
+    function AdminViewModel(raws, apiClient) {
         var _this = this;
+        this.apiClient = apiClient;
         var arrayOfVms = _.map(raws, function (raw) {
             return new ShortieViewModel(raw);
         });
         this.shorties = ko.observableArray(arrayOfVms);
-
         this.spamAttemped = ko.observable(false);
+
         this.containsEmpties = ko.computed(function () {
             return containsEmptyShorties(_this.shorties());
         });
@@ -39,6 +42,8 @@ var AdminViewModel = (function () {
             if (newValue === false)
                 _this.spamAttemped(false);
         });
+
+        this.getAll();
     }
     AdminViewModel.prototype.select = function (shortie) {
         if (!_.contains(this.shorties(), shortie))
@@ -69,6 +74,18 @@ var AdminViewModel = (function () {
 
     AdminViewModel.prototype.remove = function (shortie) {
         this.shorties.remove(shortie);
+    };
+
+    AdminViewModel.prototype.getAll = function () {
+        var _this = this;
+        this.apiClient.sendRequest({ path: '/', verb: 0 /* GET */ }, function (response) {
+            if (response.status == 200) {
+                var arrayOfVms = _.map(response.data, function (item) {
+                    return new ShortieViewModel(item);
+                });
+                _this.shorties(arrayOfVms);
+            }
+        });
     };
     return AdminViewModel;
 })();

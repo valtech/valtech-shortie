@@ -81,7 +81,7 @@
     <Content Include="package.json" />
     <Content Include="Procfile" />
     <Content Include="README.md" />
-    <Content Include="src\admin\apiClient.ts" />
+    <Content Include="src\admin\api.ts" />
     <Content Include="src\admin\viewModels.ts" />
     <Content Include="src\css\admin-main.css" />
     <Content Include="src\css\bootstrap\bootstrap-theme.css" />

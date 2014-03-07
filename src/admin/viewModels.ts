@@ -10,6 +10,7 @@ var _: UnderscoreStatic = underscore;
 var ko: KnockoutStatic = knockout;
 
 import model = require('../shorties/model');
+import api = require('./api');
 
 export class ShortieViewModel {
   private raw: model.Shortie;
@@ -38,18 +39,22 @@ export class AdminViewModel {
 
   private spamAttemped: KnockoutObservable<boolean>;
   private containsEmpties: KnockoutComputed<boolean>;
+  private apiClient: api.ApiClient;
 
-  constructor(raws: Array<model.Shortie>) {
+  constructor(raws: Array<model.Shortie>, apiClient: api.ApiClient) {
+    this.apiClient = apiClient;
     var arrayOfVms = _.map(raws, raw => new ShortieViewModel(raw));
     this.shorties = ko.observableArray(arrayOfVms);
-
     this.spamAttemped = ko.observable(false);
+
     this.containsEmpties = ko.computed(() => containsEmptyShorties(this.shorties()));
     this.spamWarning = ko.computed(() => this.spamAttemped() && this.containsEmpties());
     this.containsEmpties.subscribe(newValue=> {
       if (newValue === false)
         this.spamAttemped(false);
     });
+
+    this.getAll();
   }
 
   public select(shortie: ShortieViewModel): void {
@@ -77,6 +82,15 @@ export class AdminViewModel {
 
   public remove(shortie: ShortieViewModel): void {
     this.shorties.remove(shortie);
+  }
+
+  private getAll() {
+    this.apiClient.sendRequest<Array<model.Shortie>>({ path: '/', verb: api.HttpVerb.GET }, (response) => {
+      if (response.status == 200) {
+        var arrayOfVms = _.map(response.data, item => new ShortieViewModel(item));
+        this.shorties(arrayOfVms);
+      }
+    });
   }
 }
 

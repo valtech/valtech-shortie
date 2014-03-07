@@ -4,6 +4,7 @@
 /// <reference path="../../src/admin/viewModels.ts"/>
 
 import viewModels = require('../../src/admin/viewModels');
+import api = require('../../src/admin/api');
 import model = require('../../src/shorties/model');
 
 import _ = require('underscore');
@@ -16,6 +17,8 @@ var sinon: SinonStatic = sinonModule;
 
 describe("AdminViewModel", function () {
   var models: Array<model.Shortie>;
+  var apiClient: api.ApiClient;
+  var adminViewModel: viewModels.AdminViewModel;
 
   beforeEach(function () {
     models = [
@@ -23,47 +26,42 @@ describe("AdminViewModel", function () {
       new model.Shortie("go-shorty", "http://rapgenius.com/50-cent-in-da-club-lyrics"),
       new model.Shortie("i-wish", "http://open.spotify.com/track/74WFSCXc8yHY7HDXREiLpM")
     ];
+    apiClient = {
+      sendRequest: function (request, callback) {
+        callback({ status: 200, data: models });
+      }
+    };
+    adminViewModel = new viewModels.AdminViewModel(null, apiClient);
   });
 
   describe('constructor()', function () {
     it("should create ShortieViewModels for all Shorties", function () {
-      //var spy = sinon.spy(viewModels.ShortieViewModel);
-
-      var viewModel = new viewModels.AdminViewModel(models);
-
-      //sinon.assert.callCount(spy, 3); // TODO: make this work.
-      assert.equal(viewModel.shorties().length, 3);
+      assert.equal(adminViewModel.shorties().length, 3);
     });
   });
 
   describe("select()", function () {
-    var viewModel: viewModels.AdminViewModel;
-
-    beforeEach(function () {
-      viewModel = new viewModels.AdminViewModel(models);
-    });
-
     it("should not deselect previous shortie if passed shortie is not part of collection", function () {
       /* Setup */
       var rogueShortie = new viewModels.ShortieViewModel(new model.Shortie("rouge", "rougheUrl"));
-      var currentShortie = viewModel.shorties()[0];
+      var currentShortie = adminViewModel.shorties()[0];
       currentShortie.isCurrent(true);
 
       /* Test */
-      viewModel.select(rogueShortie);
+      adminViewModel.select(rogueShortie);
 
       /* Assert */
-      _.each(viewModel.shorties(), vm=> {
+      _.each(adminViewModel.shorties(), vm=> {
         expect(currentShortie.isCurrent()).to.be.true;
       });
     });
 
     it("should select shortie if it is part of collection", function () {
       /* Setup */
-      var current = viewModel.shorties()[0];
+      var current = adminViewModel.shorties()[0];
 
       /* Test */
-      viewModel.select(current);
+      adminViewModel.select(current);
 
       /* Assert */
       expect(current.isCurrent()).to.be.true;
@@ -71,12 +69,12 @@ describe("AdminViewModel", function () {
 
     it("should deselect the previous shortie", function () {
       /* Setup */
-      var previous = viewModel.shorties()[0];
-      var next = viewModel.shorties()[1];
+      var previous = adminViewModel.shorties()[0];
+      var next = adminViewModel.shorties()[1];
       previous.isCurrent(true);
 
       /* Test */
-      viewModel.select(next);
+      adminViewModel.select(next);
 
       /* Assert */
       expect(previous.isCurrent()).to.be.false;
@@ -84,45 +82,33 @@ describe("AdminViewModel", function () {
   });
 
   describe("addNew()", function () {
-    var viewModel: viewModels.AdminViewModel;
-
-    beforeEach(function () {
-      viewModel = new viewModels.AdminViewModel(models);
-    });
-
     it("should add a new shortie", function () {
-      viewModel.addNew();
-      expect(viewModel.shorties().length).to.be.equal(4);
+      adminViewModel.addNew();
+      expect(adminViewModel.shorties().length).to.be.equal(4);
     });
 
     it("should set the newest shortie as current", function () {
-      viewModel.addNew();
-      expect(viewModel.shorties()[3].isCurrent()).to.be.true;
+      adminViewModel.addNew();
+      expect(adminViewModel.shorties()[3].isCurrent()).to.be.true;
     });
 
     it("should prevent creation of multiple empty shorties", function () {
-      viewModel.addNew();
-      viewModel.addNew();
-      expect(viewModel.shorties().length).to.be.equal(4);
+      adminViewModel.addNew();
+      adminViewModel.addNew();
+      expect(adminViewModel.shorties().length).to.be.equal(4);
     });
   });
 
   describe("save()", function () {
-    var viewModel: viewModels.AdminViewModel;
-
-    beforeEach(function () {
-      viewModel = new viewModels.AdminViewModel(models);
-    });
-
     it('should deselect all shorties', function () {
-      var current = viewModel.shorties()[0]
+      var current = adminViewModel.shorties()[0]
 			current.isCurrent(true);
 
       /* Test */
-      viewModel.save(current);
+      adminViewModel.save(current);
 
       /* Assert */
-      _.each(viewModel.shorties(), vm => {
+      _.each(adminViewModel.shorties(), vm => {
         expect(vm.isCurrent()).to.be.false;
       });
     });
@@ -130,61 +116,31 @@ describe("AdminViewModel", function () {
 
   describe("The 'spamWarning' property", function () {
     it("Should be false if all shorties have value", function () {
-      /* Setup */
-      var model = new viewModels.AdminViewModel(models);
-
-      /* Assert */
-      expect(model.spamWarning()).to.be.false;
+      expect(adminViewModel.spamWarning()).to.be.false;
     });
 
     it("Should be false if one new shorties and no attempt to create new", function () {
-      /* Setup */
       models.push(new model.Shortie('', ''));
-      var viewModel = new viewModels.AdminViewModel(models);
 
-      /* Assert */
-      expect(viewModel.spamWarning()).to.be.false;
+      expect(adminViewModel.spamWarning()).to.be.false;
     });
 
     it("Should be true if one new shorties and attempt to create new is performed", function () {
-      /* Setup */
-      models.push(new model.Shortie('', ''));
-      var viewModel = new viewModels.AdminViewModel(models);
+      adminViewModel.addNew();
 
-      /* Test */
-      viewModel.addNew();
+      adminViewModel.addNew();
 
-      /* Assert */
-      expect(viewModel.spamWarning()).to.be.true;
+      expect(adminViewModel.spamWarning()).to.be.true;
     });
 
     it("Should be false again if new slug gets values", function () {
-      /* Setup */
       models.push(new model.Shortie('', ''));
-      var viewModel = new viewModels.AdminViewModel(models);
-      viewModel.addNew();
 
-      /* Test */
-      viewModel.shorties()[3].slug('newSlug');
-      viewModel.shorties()[3].url('newUrl');
+      adminViewModel.addNew();
+      adminViewModel.shorties()[3].slug('newSlug');
+      adminViewModel.shorties()[3].url('newUrl');
 
-      /* Assert */
-      expect(viewModel.spamWarning()).to.be.false;
-    });
-
-    it("Should not be true just because a new shortie is added after previous spamWarning", function () {
-      /* Setup */
-      models.push(new model.Shortie('', ''));
-      var viewModel = new viewModels.AdminViewModel(models);
-      viewModel.addNew();
-      viewModel.shorties()[3].slug('newSlug');
-      viewModel.shorties()[3].url('newUrl');
-
-      /* Test */
-      viewModel.addNew();
-
-      /* Assert */
-      expect(viewModel.spamWarning()).to.be.false;
+      expect(adminViewModel.spamWarning()).to.be.false;
     });
   });
 });

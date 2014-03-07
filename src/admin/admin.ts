@@ -10,6 +10,7 @@ import $ = require('jquery');
 
 import viewModels = require('./viewModels');
 import model = require('../shorties/model');
+import api = require('./api');
 
 // temporary shorties
 var raws = [
@@ -18,6 +19,6 @@ var raws = [
   new model.Shortie("funniest", "http://money.cnn.com/data/markets/")
 ];
 
-var o = new viewModels.AdminViewModel(raws);
+var o = new viewModels.AdminViewModel(raws, new api.ApiClient());
 
 ko.applyBindings(o, document.getElementById('organizer'));
