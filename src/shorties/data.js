@@ -1,9 +1,9 @@
-﻿var ShortieRepository = (function () {
+﻿/// <reference path="../../.types/node/node.d.ts" />
+var ShortieRepository = (function () {
     function ShortieRepository(db, options) {
         if (typeof options === "undefined") { options = { pageSize: 20 }; }
         this.db = db;
         this.pageSize = options.pageSize;
-        this.db.ensureIndex({ fieldName: 'slug', unique: true });
     }
     ShortieRepository.prototype.addShortie = function (shortie, callback) {
         if (callback)

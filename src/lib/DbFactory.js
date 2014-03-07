@@ -4,17 +4,19 @@ var Datastore = require('nedb');
 var mongodb = require('mongodb');
 
 function create(type, options, callback) {
-    var db;
     switch (type) {
         case 'nedb':
-            db = new Datastore(options);
-            return callback(null, db);
+            var inMemoryDb = new Datastore(options);
+            return callback(null, inMemoryDb);
         case 'mongodb':
-            mongodb.MongoClient.connect('mongodb://127.0.0.1:27017/shortie?w=0', function (err, mongoDb) {
+            mongodb.MongoClient.connect('mongodb://127.0.0.1:27017/shortie?w=1', function (err, mongoDb) {
                 if (err)
                     throw err;
 
-                return callback(null, mongoDb.collection('test'));
+                var collection = mongoDb.collection('test');
+                collection.ensureIndex({ "slug": 1 }, { unique: true }, function () {
+                    callback(null, collection);
+                });
             });
             break;
     }

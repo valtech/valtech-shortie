@@ -9,7 +9,7 @@ export class ShortieRepository {
   constructor(db, options: ShortieRepositoryOptions = {pageSize : 20}) {
     this.db = db;
     this.pageSize = options.pageSize;
-    this.db.ensureIndex({ fieldName: 'slug', unique: true });
+   
   }
 
   public addShortie(shortie: model.Shortie, callback?: (err: string, doc?: model.Shortie) => void): void {
