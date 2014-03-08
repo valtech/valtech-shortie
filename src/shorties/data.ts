@@ -38,6 +38,10 @@ export class ShortieRepository {
 
     dbQuery.toArray(callback);
   }
+
+  public removeShortie(slug: string, callback: (err: any, num?: number) => void) {
+    this.db.remove({slug: slug}, callback);
+  }
 }
 
 

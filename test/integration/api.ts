@@ -45,6 +45,13 @@ describe('api', function() {
       .expect(404, done);
   });
 
+  it('DELETE /:slug should return 404 if shortie cannot be found', function(done) {
+    request(shortieApp)
+      .del('/catch-me-if-you-can')
+      .set('Accept', 'application/json')
+      .expect(404, done);
+  });
+
   it('POST / should insert a shortie that can be GET', function(done) {
     var url = 'http://www.imdb.com/title/tt0118276/'
     request(shortieApp)
@@ -147,17 +154,30 @@ describe('api', function() {
         .expect(201) // TODO: Return 200 when replacing?
         .end(function(err, res) {
           if (err) return done(err);
+          request(shortieApp)
+            .get('/shorties')
+            .set('Accept', 'application/json')
+            .expect(function(res) {
+              var count = res.body.length;
+              if (count != 3) return util.format('Response included %d shorties, expected %d', count, 3);
+            })
+            .expect(200, done);
         });
+    });
 
+    it('DELETE /:slug should', function(done) {
+      var resource = '/' + slug1;
       request(shortieApp)
-        .get('/shorties')
+        .del(resource)
         .set('Accept', 'application/json')
-        .expect(function(res) {
-          var count = res.body.length;
-          if (count != 3) return util.format('Response included %d shorties, expected %d', count, 3);
-        })
-        .expect(200, done);
+        .expect(200)
+        .end(function(err, res) {
+          if (err) return done(err);
+          request(shortieApp)
+            .get(resource)
+            .set('Accept', 'application/json')
+            .expect(404, done);
+        });
     });
   });
-
 });

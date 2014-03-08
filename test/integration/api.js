@@ -35,6 +35,10 @@ describe('api', function () {
         request(shortieApp).get('/catch-me-if-you-can').set('Accept', 'application/json').expect(404, done);
     });
 
+    it('DELETE /:slug should return 404 if shortie cannot be found', function (done) {
+        request(shortieApp).del('/catch-me-if-you-can').set('Accept', 'application/json').expect(404, done);
+    });
+
     it('POST / should insert a shortie that can be GET', function (done) {
         var url = 'http://www.imdb.com/title/tt0118276/';
         request(shortieApp).post('/').send({ url: url }).set('Accept', 'application/json').expect(201).end(onCreated);
@@ -104,13 +108,21 @@ describe('api', function () {
             request(shortieApp).put('/' + slug1).send({ url: url }).set('Accept', 'application/json').expect(201).end(function (err, res) {
                 if (err)
                     return done(err);
+                request(shortieApp).get('/shorties').set('Accept', 'application/json').expect(function (res) {
+                    var count = res.body.length;
+                    if (count != 3)
+                        return util.format('Response included %d shorties, expected %d', count, 3);
+                }).expect(200, done);
             });
+        });
 
-            request(shortieApp).get('/shorties').set('Accept', 'application/json').expect(function (res) {
-                var count = res.body.length;
-                if (count != 3)
-                    return util.format('Response included %d shorties, expected %d', count, 3);
-            }).expect(200, done);
+        it('DELETE /:slug should', function (done) {
+            var resource = '/' + slug1;
+            request(shortieApp).del(resource).set('Accept', 'application/json').expect(200).end(function (err, res) {
+                if (err)
+                    return done(err);
+                request(shortieApp).get(resource).set('Accept', 'application/json').expect(404, done);
+            });
         });
     });
 });

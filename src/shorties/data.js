@@ -32,6 +32,10 @@
 
         dbQuery.toArray(callback);
     };
+
+    ShortieRepository.prototype.removeShortie = function (slug, callback) {
+        this.db.remove({ slug: slug }, callback);
+    };
     return ShortieRepository;
 })();
 exports.ShortieRepository = ShortieRepository;

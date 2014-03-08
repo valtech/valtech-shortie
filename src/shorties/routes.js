@@ -57,6 +57,16 @@ function putHandler(req, res, next) {
 }
 
 function deleteHandler(req, res, next) {
+    var slug = req.params.slug;
+    if (isInvalidSlug(slug))
+        return res.send(400, 'Invalid slug in request body');
+    repo.removeShortie(slug, function (err, numRemoved) {
+        if (err)
+            return next(err);
+        if (numRemoved != 1)
+            return res.send(404, 'Shortie not found');
+        res.send(200, 'Shortie removed');
+    });
 }
 
 function isInvalidUrl(url) {
