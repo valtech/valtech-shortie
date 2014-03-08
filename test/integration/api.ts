@@ -3,7 +3,10 @@
 /// <reference path="../../.types/mocha/mocha.d.ts" />
 /// <reference path="../../.types/supertest/supertest.d.ts" />
 
-var mongoUrl = process.env.MONGO_URL = 'mongodb://127.0.0.1:27017/valtech_shorties_test?w=1';
+var mongoUrl = process.env.MONGO_URL;
+if (!mongoUrl) {
+  mongoUrl = process.env.MONGO_URL = 'mongodb://127.0.0.1:27017/valtech_shorties_test?w=1';
+}
 
 var request = require('supertest');
 var assert = require('chai').assert;
