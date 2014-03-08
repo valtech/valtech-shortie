@@ -11,6 +11,10 @@ import staticRoutes = require('./static/routes');
 import errorRoutes = require('./error/routes');
 import errorMiddleware = require('./error/middleware');
 
+import dbFactory = require('./lib/DbFactory');
+import shortiesData = require('./shorties/data');
+
+
 var app = express();
 
 app.set('port', process.env.PORT || 3000);
@@ -35,12 +39,26 @@ if (process.env.NODE_ENV == 'development') {
   app.use(express.errorHandler());
 }
 
-staticRoutes.setup(app);
-authRoutes.setup(app);
-shortieRoutes.setup(app);
-errorRoutes.setup(app);
-
 app.use(app.router);
 app.use(errorMiddleware.handleError);
+
+var db, shortiesRepo;
+
+export function setup(options, callback?) {
+  dbFactory.create(options.dbType, null, function(err, db) {
+    if (err) return console.error(err);
+    db = db;
+    shortiesRepo = new shortiesData.ShortieRepository(db);
+    setupRoutes();
+    if (callback) callback();
+  });
+}
+
+function setupRoutes() {
+  staticRoutes.setup(app);
+  authRoutes.setup(app);
+  shortieRoutes.setup(app, { shortiesRepo: shortiesRepo });
+  errorRoutes.setup(app);
+}
 
 export var App = app;

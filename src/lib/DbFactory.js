@@ -1,7 +1,7 @@
-﻿/// <reference path="../../.types/node/node.d.ts" />
-/// <reference path="../../.types/mongodb/mongodb.d.ts" />
-var Datastore = require('nedb');
+﻿var Datastore = require('nedb');
 var mongodb = require('mongodb');
+
+var MONGO_URL = 'mongodb://127.0.0.1:27017/valtech_shorties?w=1';
 
 function create(type, options, callback) {
     switch (type) {
@@ -10,14 +10,11 @@ function create(type, options, callback) {
             inMemoryDb.ensureIndex({ field: 'slug', unique: true });
             return callback(null, inMemoryDb);
         case 'mongodb':
-            mongodb.MongoClient.connect('mongodb://127.0.0.1:27017/shortie?w=1', function (err, mongoDb) {
+            mongodb.MongoClient.connect(MONGO_URL, function (err, db) {
                 if (err)
-                    throw err;
-
-                var collection = mongoDb.collection('test');
-                collection.ensureIndex({ "slug": 1 }, { unique: true }, function () {
-                    callback(null, collection);
-                });
+                    callback(err);
+                var shortiesCollection = db.collection('shorties');
+                callback(null, shortiesCollection);
             });
             break;
     }

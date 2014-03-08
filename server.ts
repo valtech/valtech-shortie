@@ -1,17 +1,25 @@
 ﻿/// <reference path="./.types/node/node.d.ts" />
 
-require('newrelic');
+var log;
+if (process.env.NODE_ENV == 'production') {
+  require('newrelic');
+  var logentries = require('node-logentries');
+  log = logentries.logger({
+    token: '9bb3dd10-4bfe-4fdb-b7ec-83c3b1fc26fc'
+  });
+}
 
 import http = require('http');
 import app = require('./src/app');
-var logentries = require('node-logentries');
 
-var log = logentries.logger({
-  token: '9bb3dd10-4bfe-4fdb-b7ec-83c3b1fc26fc'
-});
+app.setup({dbType: 'mongodb'});
 
 http.createServer(app.App).listen(app.App.get('port'), function () {
-  log.info('Express server listening on port ' + app.App.get('port'));
+  var msg = 'Express server listening on port ' + app.App.get('port');
+  console.log(msg);
+  if (process.env.NODE_ENV == 'production') {
+    log.info();
+  }
 });
 
 console.log(process.env);

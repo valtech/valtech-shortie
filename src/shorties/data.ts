@@ -9,7 +9,6 @@ export class ShortieRepository {
   constructor(db, options: ShortieRepositoryOptions = {pageSize : 20}) {
     this.db = db;
     this.pageSize = options.pageSize;
-   
   }
 
   public addShortie(shortie: model.Shortie, callback?: (err: string, doc?: model.Shortie) => void): void {
@@ -30,12 +29,12 @@ export class ShortieRepository {
   public getAllShorties(callback: (err: string, doc: Array<model.Shortie>) => void, options?: ShortieGetOptions) {
     var dbQuery = this.db.find({});
 
-    if (!options) 
+    if (!options)
       return dbQuery.toArray(callback);
 
     if (options.page !== undefined)
       dbQuery.skip(this.pageSize * options.page).limit(this.pageSize);
-    
+
     if (options.sort)
       dbQuery.sort(options.sort);
 
