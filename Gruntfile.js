@@ -89,7 +89,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-concat');
 
-  grunt.registerTask('test', ['mochaTest']);
+  grunt.registerTask('test', ['mochaTest:test']);
   grunt.registerTask('build', [
     'typescript',
     'browserify',
