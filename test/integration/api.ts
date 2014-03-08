@@ -22,6 +22,9 @@ var db, shortiesCollection;
 
 describe('api', function() {
   before(function(done) {
+    // bob -> mongohq connection is slow...
+    this.timeout(5000);
+
     // Setup test mongodb connection
     mongodb.MongoClient.connect(mongoUrl, (err, _db) => {
       if (err) return done(err);

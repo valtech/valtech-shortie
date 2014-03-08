@@ -17,6 +17,8 @@ var db, shortiesCollection;
 
 describe('api', function () {
     before(function (done) {
+        this.timeout(5000);
+
         mongodb.MongoClient.connect(mongoUrl, function (err, _db) {
             if (err)
                 return done(err);
