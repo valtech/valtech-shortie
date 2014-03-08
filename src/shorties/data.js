@@ -5,10 +5,9 @@
         this.pageSize = options.pageSize;
     }
     ShortieRepository.prototype.addShortie = function (shortie, callback) {
-        if (callback)
-            this.db.insert(shortie, callback);
-        else
-            this.db.insert(shortie);
+        callback = callback || function () {
+        };
+        this.db.update({ slug: shortie.slug }, shortie, { upsert: true }, callback);
     };
 
     ShortieRepository.prototype.getShortieBySlug = function (slug, callback) {

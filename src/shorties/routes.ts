@@ -13,6 +13,7 @@ function getHandler(req, res, next) {
 }
 
 function listHandler(req, res, next) {
+  // TODO: require auth
   repo.getAllShorties(function(err, shorties) {
     if (err) return next(err);
     res.send(200, shorties);
@@ -20,20 +21,17 @@ function listHandler(req, res, next) {
 }
 
 function postHandler(req, res, next) {
-  // require auth
-  // add new shortie with generated slug
-  // return 200 and shortie entity in body on success
+  // TODO: require auth
   // return 400 on invalid data
   var url = req.body.url;
-  if (!url || url.length === 0) {
-    return res.send(400, 'No URL in request body');
-  }
-
+  if (isInvalidUrl(url)) return res.send(400, 'Invalid URL in request body');
   var slug = slugGenerator.generate();
+
   var shortie = {
     slug: slug,
     url: url
   };
+
   repo.addShortie(shortie, function(err) {
     if (err) return next(err);
     res.send(201, shortie);
@@ -42,15 +40,38 @@ function postHandler(req, res, next) {
 
 function putHandler(req, res, next) {
   // require auth
-  // update slug or add shortie with specified slug
-  // return 400 on slug/shortUrl mismatch
-  // return shortie entity in body on success
+  var url = req.body.url;
+  if (isInvalidUrl(url)) return res.send(400, 'Invalid URL in request body');
+  var slug = req.params.slug;
+  if (isInvalidSlug(slug)) return res.send(400, 'Invalid slug in request body');
+
+  var shortie = {
+    slug: slug,
+    url: url
+  };
+
+  repo.addShortie(shortie, function(err) {
+    if (err) return next(err);
+    res.send(201, shortie);
+  });
 }
 
 function deleteHandler(req, res, next) {
   // require auth
   // delete shortie
   // only returns 200 or 404
+}
+
+function isInvalidUrl(url) {
+  // TODO: Write better validation
+  // TODO: Move somewhere?
+  if (!url || url.length === 0) return true;
+}
+
+function isInvalidSlug(url) {
+  // TODO: Write better validation. Slug cannot clash with routes
+  // TODO: Move somewhere
+  if (!url || url.length === 0) return true;
 }
 
 export function setup(app: express.Application, options: any): void {

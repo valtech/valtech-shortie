@@ -20,15 +20,15 @@ function listHandler(req, res, next) {
 
 function postHandler(req, res, next) {
     var url = req.body.url;
-    if (!url || url.length === 0) {
-        return res.send(400, 'No URL in request body');
-    }
-
+    if (isInvalidUrl(url))
+        return res.send(400, 'Invalid URL in request body');
     var slug = slugGenerator.generate();
+
     var shortie = {
         slug: slug,
         url: url
     };
+
     repo.addShortie(shortie, function (err) {
         if (err)
             return next(err);
@@ -37,9 +37,36 @@ function postHandler(req, res, next) {
 }
 
 function putHandler(req, res, next) {
+    var url = req.body.url;
+    if (isInvalidUrl(url))
+        return res.send(400, 'Invalid URL in request body');
+    var slug = req.params.slug;
+    if (isInvalidSlug(slug))
+        return res.send(400, 'Invalid slug in request body');
+
+    var shortie = {
+        slug: slug,
+        url: url
+    };
+
+    repo.addShortie(shortie, function (err) {
+        if (err)
+            return next(err);
+        res.send(201, shortie);
+    });
 }
 
 function deleteHandler(req, res, next) {
+}
+
+function isInvalidUrl(url) {
+    if (!url || url.length === 0)
+        return true;
+}
+
+function isInvalidSlug(url) {
+    if (!url || url.length === 0)
+        return true;
 }
 
 function setup(app, options) {

@@ -12,10 +12,8 @@ export class ShortieRepository {
   }
 
   public addShortie(shortie: model.Shortie, callback?: (err: string, doc?: model.Shortie) => void): void {
-    if (callback)
-      this.db.insert(shortie, callback);
-    else
-      this.db.insert(shortie);
+    callback = callback || function() {};
+    this.db.update({slug: shortie.slug}, shortie, { upsert: true }, callback);
   }
 
   public getShortieBySlug(slug: string, callback: (err: string, doc: model.Shortie) => void): void {
