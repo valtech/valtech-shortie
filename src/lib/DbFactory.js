@@ -1,8 +1,6 @@
 ﻿var Datastore = require('nedb');
 var mongodb = require('mongodb');
 
-var MONGO_URL = 'mongodb://127.0.0.1:27017/valtech_shorties?w=1';
-
 function create(type, options, callback) {
     switch (type) {
         case 'nedb':
@@ -13,7 +11,7 @@ function create(type, options, callback) {
             });
             break;
         case 'mongodb':
-            mongodb.MongoClient.connect(MONGO_URL, function (err, db) {
+            mongodb.MongoClient.connect(options.mongoUrl, function (err, db) {
                 if (err)
                     return callback(err);
                 var shortiesCollection = db.collection('shorties');

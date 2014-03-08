@@ -4,8 +4,6 @@
 var Datastore = require('nedb');
 import mongodb = require('mongodb');
 
-var MONGO_URL = 'mongodb://127.0.0.1:27017/valtech_shorties?w=1'
-
 export function create(type: string, options: any, callback: (err: any, db?: any) => void): void {
   switch (type) {
     case 'nedb':
@@ -17,7 +15,7 @@ export function create(type: string, options: any, callback: (err: any, db?: any
       });
       break;
     case 'mongodb':
-      mongodb.MongoClient.connect(MONGO_URL, (err, db) => {
+      mongodb.MongoClient.connect(options.mongoUrl, (err, db) => {
         if (err) return callback(err);
         var shortiesCollection = db.collection('shorties');
         callback(null, shortiesCollection);
