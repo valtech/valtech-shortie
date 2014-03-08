@@ -12,7 +12,7 @@ function create(type, options, callback) {
         case 'mongodb':
             mongodb.MongoClient.connect(MONGO_URL, function (err, db) {
                 if (err)
-                    callback(err);
+                    return callback(err);
                 var shortiesCollection = db.collection('shorties');
                 callback(null, shortiesCollection);
             });

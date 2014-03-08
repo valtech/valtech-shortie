@@ -43,7 +43,7 @@ var db, shortiesRepo;
 function setup(options, callback) {
     dbFactory.create(options.dbType, null, function (err, db) {
         if (err)
-            return console.error(err);
+            return callback(err);
         db = db;
         shortiesRepo = new shortiesData.ShortieRepository(db);
         setupRoutes();

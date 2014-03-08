@@ -14,7 +14,7 @@ export function create(type: string, options: any, callback: (err: any, db?: any
       return callback(null, inMemoryDb);
     case 'mongodb':
       mongodb.MongoClient.connect(MONGO_URL, (err, db) => {
-        if (err) callback(err);
+        if (err) return callback(err);
         var shortiesCollection = db.collection('shorties');
         callback(null, shortiesCollection);
       });

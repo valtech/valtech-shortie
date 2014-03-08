@@ -1,7 +1,9 @@
 ﻿/// <reference path="./.types/node/node.d.ts" />
 
+var mode = process.env.NODE_ENV || 'development';
+
 var log;
-if (process.env.NODE_ENV == 'production') {
+if (mode == 'production') {
   require('newrelic');
   var logentries = require('node-logentries');
   log = logentries.logger({
@@ -12,14 +14,15 @@ if (process.env.NODE_ENV == 'production') {
 import http = require('http');
 import app = require('./src/app');
 
-app.setup({dbType: 'mongodb'});
-
-http.createServer(app.App).listen(app.App.get('port'), function () {
-  var msg = 'Express server listening on port ' + app.App.get('port');
-  console.log(msg);
-  if (process.env.NODE_ENV == 'production') {
-    log.info();
-  }
+app.setup({dbType: 'mongodb'}, function(err) {
+  if (err) return console.log(err);
+  http.createServer(app.App).listen(app.App.get('port'), function () {
+    var msg = 'Express server listening in ' + mode + ' mode on port ' + app.App.get('port');
+    console.log(msg);
+    if (mode == 'production') {
+      log.info(mode);
+    }
+  });
 });
 
-console.log(process.env);
+

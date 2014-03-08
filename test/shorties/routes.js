@@ -7,6 +7,7 @@ describe('shorties/routes', function () {
     before(function (done) {
         app.setup({ dbType: 'nedb' }, done);
     });
+
     describe('GET /:slug', function () {
         it('should redirect if shortie exists', function (done) {
             request(shortieApp).get('/cats').expect(302, done);
