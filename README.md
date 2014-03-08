@@ -43,6 +43,10 @@ http://bob.valtech.se.
 
  * Node.js: http://nodejs.org/
  * Grunt: `npm install -g grunt grunt-cli`
+ * MongoDB
+   * Mac OS X: `brew install mongodb` and run it with `mongod`
+   * Windows: Download, unzip somewhere (e.g. `C:\mongodb`), and run from a terminal with something like `C:\mongodb\bin\mongod.exe --dbpath C:\mongodb\data --rest`
+
 
 ### For Windows development with Visual Studio
 
