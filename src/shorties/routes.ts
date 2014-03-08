@@ -39,7 +39,7 @@ function postHandler(req, res, next) {
 }
 
 function putHandler(req, res, next) {
-  // require auth
+  // TODO: require auth
   var url = req.body.url;
   if (isInvalidUrl(url)) return res.send(400, 'Invalid URL in request body');
   var slug = req.params.slug;
@@ -57,9 +57,10 @@ function putHandler(req, res, next) {
 }
 
 function deleteHandler(req, res, next) {
-  // require auth
+  // TODO: require auth
   var slug = req.params.slug;
   if (isInvalidSlug(slug)) return res.send(400, 'Invalid slug in request body');
+
   repo.removeShortie(slug, function(err, numRemoved) {
     if (err) return next(err);
     if (numRemoved != 1) return res.send(404, 'Shortie not found');

@@ -60,6 +60,7 @@ function deleteHandler(req, res, next) {
     var slug = req.params.slug;
     if (isInvalidSlug(slug))
         return res.send(400, 'Invalid slug in request body');
+
     repo.removeShortie(slug, function (err, numRemoved) {
         if (err)
             return next(err);
