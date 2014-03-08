@@ -1,16 +1,15 @@
-﻿var Datastore = require('nedb');
-var mongodb = require('mongodb');
-
-function create(type, options, callback) {
+﻿function create(type, options, callback) {
     switch (type) {
         case 'nedb':
+            var Nedb = require('nedb');
             process.nextTick(function () {
-                var inMemoryDb = new Datastore(options);
+                var inMemoryDb = new Nedb(options);
                 inMemoryDb.ensureIndex({ field: 'slug', unique: true });
                 callback(null, inMemoryDb);
             });
             break;
         case 'mongodb':
+            var mongodb = require('mongodb');
             mongodb.MongoClient.connect(options.mongoUrl, function (err, db) {
                 if (err)
                     return callback(err);
