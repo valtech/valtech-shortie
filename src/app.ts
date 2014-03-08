@@ -14,8 +14,7 @@ import errorMiddleware = require('./error/middleware');
 import dbFactory = require('./lib/DbFactory');
 import shortiesData = require('./shorties/data');
 
-
-var MONGO_URL = process.env.MONGO_URL
+var MONGO_URL = process.env.MONGO_URL;
 if (!MONGO_URL) {
   console.log('Using local mongodb instance');
   MONGO_URL = 'mongodb://127.0.0.1:27017/valtech_shorties?w=1';
