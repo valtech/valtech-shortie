@@ -5,6 +5,7 @@
 
 var mongoUrl = process.env.MONGO_URL;
 if (!mongoUrl) {
+  console.log('Using local mongodb instance');
   mongoUrl = process.env.MONGO_URL = 'mongodb://127.0.0.1:27017/valtech_shorties_test?w=1';
 }
 
