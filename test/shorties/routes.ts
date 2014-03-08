@@ -14,11 +14,6 @@ describe('shorties/routes', function () {
   });
 
   describe('GET /:slug', function () {
-    it('should redirect if shortie exists', function (done) {
-      request(shortieApp)
-        .get('/cats')
-        .expect(302, done);
-    });
     it('should return 404 if shortie does not exist', function (done) {
       request(shortieApp)
         .get('/dogs')

@@ -3,10 +3,6 @@
 var repo;
 
 function getHandler(req, res, next) {
-    if (req.params.slug == 'cats') {
-        res.redirect('http://icanhazcheezburger.com/');
-        return;
-    }
     repo.getShortieBySlug(req.params.slug, function (err, shortie) {
         if (err || !shortie)
             return next();
