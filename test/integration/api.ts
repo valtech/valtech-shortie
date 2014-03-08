@@ -39,6 +39,7 @@ describe('api', function() {
   });
 
   after(function(done) {
+    if (!db) return done();
     db.close(true, done);
   });
 
