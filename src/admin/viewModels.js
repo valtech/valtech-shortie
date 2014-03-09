@@ -77,10 +77,13 @@ var AdminViewModel = (function () {
             verb: 'PUT',
             data: shortieVm.shortie
         };
-        this.apiClient.sendRequest(saveRequest, function (response) {
-            self.shorties().forEach(function (s) {
-                return s.isCurrent(false);
-            });
+        this.apiClient.sendRequest(saveRequest, function (res) {
+            if (res.status >= 200 && res.status <= 299) {
+                self.shorties().forEach(function (s) {
+                    return s.isCurrent(false);
+                });
+            } else {
+            }
         });
     };
 
@@ -91,7 +94,10 @@ var AdminViewModel = (function () {
             verb: 'DELETE'
         };
         this.apiClient.sendRequest(deleteRequest, function (res) {
-            self.shorties.remove(shortieVm);
+            if (res.status == 200) {
+                self.shorties.remove(shortieVm);
+            } else {
+            }
         });
     };
 

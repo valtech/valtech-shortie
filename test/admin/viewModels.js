@@ -100,12 +100,14 @@ describe("AdminViewModel", function () {
 
     describe("save()", function () {
         var sendRequestSpy;
+
         beforeEach(function () {
             adminViewModel.shorties(_.map(models, function (m) {
                 return new viewModels.ShortieViewModel(m);
             }));
+            var apiOkResponse = { status: 200, data: {} };
             apiClient.sendRequest = sendRequestSpy = sinon.spy(function (request, callback) {
-                callback();
+                callback(apiOkResponse);
             });
         });
 
@@ -167,8 +169,9 @@ describe("AdminViewModel", function () {
             adminViewModel.shorties(_.map(models, function (m) {
                 return new viewModels.ShortieViewModel(m);
             }));
+            var apiOkResponse = { status: 200, data: {} };
             apiClient.sendRequest = sendRequestSpy = sinon.spy(function (request, callback) {
-                callback();
+                callback(apiOkResponse);
             });
             shortie = adminViewModel.shorties()[1];
         });
