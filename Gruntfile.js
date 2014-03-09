@@ -54,12 +54,21 @@ module.exports = function(grunt) {
     },
 
     concat: {
-      dist: {
+      admin: {
         src: [
           'src/css/bootstrap/*.css',
+          'src/css/common.css',
           'src/css/admin-*.css'
         ],
         dest: 'src/public/css/admin.css'
+      },
+      public: {
+        src: [
+          'src/css/bootstrap/*.css',
+          'src/css/common.css',
+          'src/css/public-*.css'
+        ],
+        dest: 'src/public/css/public.css'
       }
     },
 
@@ -75,7 +84,11 @@ module.exports = function(grunt) {
 
     watch: {
       build: {
-        files: ['<%= typescript.dist.src %>'],
+        files: [
+          '<%= typescript.dist.src %>',
+          '<%= concat.admin.src %>',
+          '<%= concat.public.src %>'
+        ],
         tasks: ['build']
       },
       browserify: {
