@@ -1,5 +1,7 @@
-﻿export function handleError(err, req, res, next) {
-  console.error(err);
+﻿var log = require('winston');
+
+export function handleError(err, req, res, next) {
+  log.error(err);
   if (req.accepts('html')) {
     res
       .status(500)

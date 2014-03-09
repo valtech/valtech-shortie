@@ -47,12 +47,12 @@ if (process.env.NODE_ENV == 'development') {
 app.use(app.router);
 app.use(errorMiddleware.handleError);
 
-var db, shortiesRepo;
+var shortiesRepo, log;
 
 export function setup(options, callback?) {
+  log = options.log;
   dbFactory.create(options.dbType, { mongoUrl: MONGO_URL }, function(err, db) {
     if (err) return callback(err);
-    db = db;
     shortiesRepo = new shortiesData.ShortieRepository(db);
     setupRoutes();
     if (callback) callback();
