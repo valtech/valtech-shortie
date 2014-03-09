@@ -34,7 +34,7 @@ describe('addShortie()', function () {
       url: 'http://icanhazcheezburger.com/',
       slug: 'cats'
     };
-    repo.addShortie(shortie, ()=> {
+    repo.addShortie(shortie.slug, shortie, ()=> {
       db.findOne({ slug: 'cats' }, (err, doc)=> {
         assert.isNull(err, err);
         assert.isNotNull(doc);
@@ -42,15 +42,16 @@ describe('addShortie()', function () {
         done();
       });
     });
-   
   });
+
   it.skip('should fail when adding a duplicate Shortie', function (done) {
     var shortie = {
       url: 'http://icanhazcheezburger.com/',
       slug: 'cats'
     };
-    repo.addShortie(shortie, ()=> {
-      repo.addShortie(shortie, (err)=> {
+
+    repo.addShortie(shortie.slug, shortie, ()=> {
+      repo.addShortie(shortie.slug, shortie, (err)=> {
         assert.isNotNull(err, err);
         done();
       });
