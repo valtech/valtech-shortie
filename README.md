@@ -2,8 +2,9 @@
 
 Valtech URL shortening service.
 
- * Production: http://valte.ch
- * Stage: http://stage.valte.ch
+ * Production: http://valte.ch - admin: http://valte.ch/admin
+ * Stage: http://stage.valte.ch - admin: http://stage.valte.ch/admin
+
 
 ## TODO
 
@@ -34,6 +35,13 @@ http://bob.valtech.se.
  * Branch `master` is automatically deployed to production.
  * Branch `develop` is automatically deployed to stage.
 
+The application is deployed to Azure. The azure-site-names are:
+
+ * Production: http://valtech-shortie.azurewebsites.net
+ * Stage: http://stage-valtech-shortie.azurewebsites.net
+
+The MongoDB databases are located at [MongoHQ](https://app.mongohq.com/). Ask IT for access.
+
 
 # Dev
 
@@ -41,8 +49,12 @@ http://bob.valtech.se.
 
 ### For all platforms
 
- * Node.js: http://nodejs.org/
+ * Node.js: http://nodejs.org/ (use official installer)
  * Grunt: `npm install -g grunt grunt-cli`
+ * MongoDB
+   * Mac OS X: `brew install mongodb` and run it with `mongod`
+   * Windows: Download, unzip somewhere (e.g. `C:\mongodb`), and run from a terminal with something like `C:\mongodb\bin\mongod.exe --dbpath C:\mongodb\data --rest`
+
 
 ### For Windows development with Visual Studio
 
@@ -79,7 +91,8 @@ Tab B:
 
 #### Running/debugging with Visual Studio 2013
 
-Just open valtech_shortie.sln, build and press F5! :-)
+Just open `valtech_shortie.sln?`, build and press F5! :-)
+
 
 ## Grunt tasks
 

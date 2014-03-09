@@ -3,13 +3,11 @@
         if (typeof options === "undefined") { options = { pageSize: 20 }; }
         this.db = db;
         this.pageSize = options.pageSize;
-        this.db.ensureIndex({ fieldName: 'slug', unique: true });
     }
     ShortieRepository.prototype.addShortie = function (shortie, callback) {
-        if (callback)
-            this.db.insert(shortie, callback);
-        else
-            this.db.insert(shortie);
+        callback = callback || function () {
+        };
+        this.db.update({ slug: shortie.slug }, shortie, { upsert: true }, callback);
     };
 
     ShortieRepository.prototype.getShortieBySlug = function (slug, callback) {
@@ -17,14 +15,14 @@
     };
 
     ShortieRepository.prototype.getShortiesByUrl = function (url, callback) {
-        return this.db.find({ url: url }, callback);
+        return this.db.find({ url: url }).toArray(callback);
     };
 
     ShortieRepository.prototype.getAllShorties = function (callback, options) {
         var dbQuery = this.db.find({});
 
         if (!options)
-            return dbQuery.exec(callback);
+            return dbQuery.toArray(callback);
 
         if (options.page !== undefined)
             dbQuery.skip(this.pageSize * options.page).limit(this.pageSize);
@@ -32,7 +30,11 @@
         if (options.sort)
             dbQuery.sort(options.sort);
 
-        return dbQuery.exec(callback);
+        dbQuery.toArray(callback);
+    };
+
+    ShortieRepository.prototype.removeShortie = function (slug, callback) {
+        this.db.remove({ slug: slug }, callback);
     };
     return ShortieRepository;
 })();

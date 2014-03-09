@@ -9,14 +9,11 @@ export class ShortieRepository {
   constructor(db, options: ShortieRepositoryOptions = {pageSize : 20}) {
     this.db = db;
     this.pageSize = options.pageSize;
-    this.db.ensureIndex({ fieldName: 'slug', unique: true });
   }
 
   public addShortie(shortie: model.Shortie, callback?: (err: string, doc?: model.Shortie) => void): void {
-    if (callback)
-      this.db.insert(shortie, callback);
-    else
-      this.db.insert(shortie);
+    callback = callback || function() {};
+    this.db.update({slug: shortie.slug}, shortie, { upsert: true }, callback);
   }
 
   public getShortieBySlug(slug: string, callback: (err: string, doc: model.Shortie) => void): void {
@@ -24,22 +21,26 @@ export class ShortieRepository {
   }
 
   public getShortiesByUrl(url: string, callback: (err: string, doc: Array<model.Shortie>) => void) {
-    return this.db.find({ url: url }, callback);
+    return this.db.find({ url: url }).toArray(callback);
   }
 
   public getAllShorties(callback: (err: string, doc: Array<model.Shortie>) => void, options?: ShortieGetOptions) {
     var dbQuery = this.db.find({});
 
-    if (!options) 
-      return dbQuery.exec(callback);
+    if (!options)
+      return dbQuery.toArray(callback);
 
     if (options.page !== undefined)
       dbQuery.skip(this.pageSize * options.page).limit(this.pageSize);
-    
+
     if (options.sort)
       dbQuery.sort(options.sort);
 
-    return dbQuery.exec(callback);
+    dbQuery.toArray(callback);
+  }
+
+  public removeShortie(slug: string, callback: (err: any, num?: number) => void) {
+    this.db.remove({slug: slug}, callback);
   }
 }
 

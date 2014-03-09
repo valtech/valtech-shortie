@@ -1,18 +1,20 @@
-﻿var Datastore = require('nedb');
-var mongodb = require('mongodb');
-
-function create(type, options, callback) {
-    var db;
+﻿function create(type, options, callback) {
     switch (type) {
         case 'nedb':
-            db = new Datastore(options);
-            return callback(null, db);
+            var Nedb = require('nedb');
+            process.nextTick(function () {
+                var inMemoryDb = new Nedb(options);
+                inMemoryDb.ensureIndex({ field: 'slug', unique: true });
+                callback(null, inMemoryDb);
+            });
+            break;
         case 'mongodb':
-            mongodb.MongoClient.connect('mongodb://127.0.0.1:27017/shortie?w=0', function (err, mongoDb) {
+            var mongodb = require('mongodb');
+            mongodb.MongoClient.connect(options.mongoUrl, function (err, db) {
                 if (err)
-                    throw err;
-
-                return callback(null, mongoDb.collection('test'));
+                    return callback(err);
+                var shortiesCollection = db.collection('shorties');
+                callback(null, shortiesCollection);
             });
             break;
     }
