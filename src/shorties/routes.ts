@@ -15,7 +15,6 @@ function getHandler(req, res, next) {
 function listHandler(req, res, next) {
   // TODO: require auth
   if (req.accepts('application/json')) {
-    console.log('returning all shorties as json');
     repo.getAllShorties(function (err, shorties) {
       if (err) return next(err);
       res.send(200, shorties);
@@ -23,7 +22,6 @@ function listHandler(req, res, next) {
     return;
   }
   else {
-    console.log('passing to next middleware');
     next();
   }
 }

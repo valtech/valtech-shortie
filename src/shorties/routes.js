@@ -12,7 +12,6 @@ function getHandler(req, res, next) {
 
 function listHandler(req, res, next) {
     if (req.accepts('application/json')) {
-        console.log('returning all shorties as json');
         repo.getAllShorties(function (err, shorties) {
             if (err)
                 return next(err);
@@ -20,7 +19,6 @@ function listHandler(req, res, next) {
         });
         return;
     } else {
-        console.log('passing to next middleware');
         next();
     }
 }
