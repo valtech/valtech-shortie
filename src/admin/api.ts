@@ -18,8 +18,10 @@ export interface ApiResponse<TData> {
 export class ApiClient {
   public sendRequest<TData>(request: ApiRequest, callback: (response: ApiResponse<TData>) => void): void {
     $.ajax({
-      accepts: 'application/json',
-      contentType: 'application/json',
+      headers: {
+        Accept: 'application/json',
+        "Content-Type": 'application/json'
+      },
       timeout: 60 * 1000,
       url: buildUrl(request.path),
       type: request.verb,
@@ -52,5 +54,5 @@ function tryParseJSON<T>(data: string, callback: (obj: T, success: boolean) => v
 
 
 function buildUrl(path: string): string {
-  return '/shorties' + path;
+  return '' + path;
 }

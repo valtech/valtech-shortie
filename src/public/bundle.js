@@ -14710,8 +14710,10 @@ var ApiClient = (function () {
     }
     ApiClient.prototype.sendRequest = function (request, callback) {
         $.ajax({
-            accepts: 'application/json',
-            contentType: 'application/json',
+            headers: {
+                Accept: 'application/json',
+                "Content-Type": 'application/json'
+            },
             timeout: 60 * 1000,
             url: buildUrl(request.path),
             type: request.verb,
@@ -14744,7 +14746,7 @@ function tryParseJSON(data, callback) {
 }
 
 function buildUrl(path) {
-    return '/shorties' + path;
+    return '' + path;
 }
 
 },{"jquery":1}],6:[function(require,module,exports){
