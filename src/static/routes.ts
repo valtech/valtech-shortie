@@ -3,8 +3,13 @@
 
 import express = require('express');
 
-function index(req, res) {
-  res.render('index');
+function index(req: express.Request, res: express.Response, next) {
+  if (req.accepts('text/html')) {
+    res.render('index');
+  }
+  else {
+    next();
+  }
 }
 function admin(req, res) {
   res.render('admin');

@@ -18,7 +18,8 @@ import mongodb = require('mongodb');
 import app = require('../../src/app');
 
 var shortieApp: express.Express = app.App;
-var db, shortiesCollection;
+var db: mongodb.Db;
+var shortiesCollection: mongodb.Collection;
 
 describe('api', function() {
   before(function(done) {
@@ -26,7 +27,7 @@ describe('api', function() {
     this.timeout(5000);
 
     // Setup test mongodb connection
-    mongodb.MongoClient.connect(mongoUrl, (err, _db) => {
+    mongodb.MongoClient.connect(mongoUrl, (err: Error, _db: mongodb.Db) => {
       if (err) return done(err);
       db = _db;
       shortiesCollection = db.collection('shorties');
@@ -36,9 +37,9 @@ describe('api', function() {
     });
   });
 
-  beforeEach(function(done) {
+  afterEach(function(done) {
     // Remove all shorties
-    shortiesCollection.remove({}, {w:1}, done);
+    shortiesCollection.remove({}, { w: 1 }, done);
   });
 
   after(function(done) {
@@ -101,7 +102,6 @@ describe('api', function() {
     };
   });
 
-
   describe('with data', function() {
     var url1 = 'http://1.example.com';
     var url2 = 'http://2.example.com';
@@ -142,9 +142,9 @@ describe('api', function() {
       });
     });
 
-    it('GET /shorties should return "all" shorties', function(done) {
+    it('GET / should return all shorties', function(done) {
       request(shortieApp)
-        .get('/shorties')
+        .get('/')
         .set('Accept', 'application/json')
         .expect(function(res) {
           var count = res.body.length;
@@ -163,7 +163,7 @@ describe('api', function() {
         .end(function(err, res) {
           if (err) return done(err);
           request(shortieApp)
-            .get('/shorties')
+            .get('/')
             .set('Accept', 'application/json')
             .expect(function(res) {
               var count = res.body.length;

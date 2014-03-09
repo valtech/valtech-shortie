@@ -6,10 +6,14 @@ import slugGenerator = require('../lib/SlugGenerator');
 var repo;
 
 function getHandler(req, res, next) {
-  repo.getShortieBySlug(req.params.slug, function(err, shortie) {
-    if (err || !shortie) return next();
-    res.redirect(shortie.url);
-  });
+  if (req.accepts('application/json')) {
+    repo.getShortieBySlug(req.params.slug, function (err, shortie) {
+      if (err || !shortie) return next();
+      res.redirect(shortie.url);
+    });
+    return;
+  }
+  next();
 }
 
 function listHandler(req, res, next) {
@@ -83,9 +87,9 @@ function isInvalidSlug(url) {
 export function setup(app: express.Application, options: any): void {
   repo = options.shortiesRepo;
 
-  app.get('/shorties', listHandler);
-  app.get('/shorties/:slug', getHandler);
-  app.post('/shorties', postHandler);
-  app.put('/shorties/:slug', putHandler);
-  app.del('/shorties/:slug', deleteHandler);
+  app.get('/', listHandler);
+  app.get('/:slug', getHandler);
+  app.post('/', postHandler);
+  app.put('/:slug', putHandler);
+  app.del('/:slug', deleteHandler);
 }

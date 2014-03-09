@@ -49,6 +49,7 @@
     <Folder Include="src\css\bootstrap\" />
     <Folder Include="src\public\fonts\" />
     <Folder Include="src\views\includes\" />
+    <Folder Include="test\integration\" />
     <Folder Include="test\lib\" />
     <Folder Include="test\admin\" />
     <Folder Include="test\error\" />
@@ -96,6 +97,7 @@
     <Content Include="src\shorties\model.ts" />
     <Content Include="src\views\includes\organizer.jade" />
     <Content Include="test\admin\viewModels.ts" />
+    <Content Include="test\integration\api.ts" />
     <Content Include="test\lib\SlugGenerator.ts" />
     <Content Include="test\shorties\data.ts" />
     <Content Include="src\admin\admin.ts" />

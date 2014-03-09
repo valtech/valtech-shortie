@@ -13,7 +13,8 @@ var mongodb = require('mongodb');
 var app = require('../../src/app');
 
 var shortieApp = app.App;
-var db, shortiesCollection;
+var db;
+var shortiesCollection;
 
 describe('api', function () {
     before(function (done) {
@@ -29,7 +30,7 @@ describe('api', function () {
         });
     });
 
-    beforeEach(function (done) {
+    afterEach(function (done) {
         shortiesCollection.remove({}, { w: 1 }, done);
     });
 
@@ -103,8 +104,8 @@ describe('api', function () {
             });
         });
 
-        it('GET /shorties should return "all" shorties', function (done) {
-            request(shortieApp).get('/shorties').set('Accept', 'application/json').expect(function (res) {
+        it('GET / should return all shorties', function (done) {
+            request(shortieApp).get('/').set('Accept', 'application/json').expect(function (res) {
                 var count = res.body.length;
                 if (count != 3)
                     return util.format('Response included %d shorties, expected %d', count, 3);
@@ -116,7 +117,7 @@ describe('api', function () {
             request(shortieApp).put('/' + slug1).send({ url: url }).set('Accept', 'application/json').expect(201).end(function (err, res) {
                 if (err)
                     return done(err);
-                request(shortieApp).get('/shorties').set('Accept', 'application/json').expect(function (res) {
+                request(shortieApp).get('/').set('Accept', 'application/json').expect(function (res) {
                     var count = res.body.length;
                     if (count != 3)
                         return util.format('Response included %d shorties, expected %d', count, 3);
