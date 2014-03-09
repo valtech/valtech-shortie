@@ -84,8 +84,8 @@ export function setup(app: express.Application, options: any): void {
   repo = options.shortiesRepo;
 
   app.get('/shorties', listHandler);
-  app.get('/:slug', getHandler);
-  app.post('/', postHandler);
-  app.put('/:slug', putHandler);
-  app.del('/:slug', deleteHandler);
+  app.get('/shorties/:slug', getHandler);
+  app.post('/shorties', postHandler);
+  app.put('/shorties/:slug', putHandler);
+  app.del('/shorties/:slug', deleteHandler);
 }

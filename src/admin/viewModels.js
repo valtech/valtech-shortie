@@ -5,7 +5,6 @@ var _ = underscore;
 var ko = knockout;
 
 var model = require('../shorties/model');
-var api = require('./api');
 
 var ShortieViewModel = (function () {
     function ShortieViewModel(shortie) {
@@ -73,7 +72,7 @@ var AdminViewModel = (function () {
         var self = this;
         var saveRequest = {
             path: '/' + shortieVm.shortie.slug,
-            verb: 2 /* PUT */,
+            verb: 'PUT',
             data: shortieVm.shortie
         };
         this.apiClient.sendRequest(saveRequest, function (response) {
@@ -89,7 +88,7 @@ var AdminViewModel = (function () {
 
     AdminViewModel.prototype.loadShorties = function () {
         var _this = this;
-        this.apiClient.sendRequest({ path: '/', verb: 0 /* GET */ }, function (response) {
+        this.apiClient.sendRequest({ path: '/', verb: 'GET' }, function (response) {
             if (response.status == 200) {
                 var arrayOfVms = _.map(response.data, function (item) {
                     return new ShortieViewModel(item);

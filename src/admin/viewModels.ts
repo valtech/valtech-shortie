@@ -80,7 +80,7 @@ export class AdminViewModel {
     var self = this;
     var saveRequest: api.ApiRequest = {
       path: '/' + shortieVm.shortie.slug,
-      verb: api.HttpVerb.PUT,
+      verb: 'PUT',
       data: shortieVm.shortie
     };
     this.apiClient.sendRequest(saveRequest, function (response) {
@@ -93,7 +93,7 @@ export class AdminViewModel {
   }
 
   public loadShorties() {
-    this.apiClient.sendRequest<Array<model.Shortie>>({ path: '/', verb: api.HttpVerb.GET }, (response) => {
+    this.apiClient.sendRequest<Array<model.Shortie>>({ path: '/', verb: 'GET' }, (response) => {
       if (response.status == 200) {
         var arrayOfVms = _.map(response.data, item => new ShortieViewModel(item));
         this.shorties(arrayOfVms);

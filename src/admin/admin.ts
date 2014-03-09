@@ -19,6 +19,8 @@ var raws = [
   new model.Shortie("funniest", "http://money.cnn.com/data/markets/")
 ];
 
-var o = new viewModels.AdminViewModel(new api.ApiClient());
+var adminViewModel = new viewModels.AdminViewModel(new api.ApiClient());
 
-ko.applyBindings(o, document.getElementById('organizer'));
+ko.applyBindings(adminViewModel, document.getElementById('organizer'));
+
+adminViewModel.loadShorties();

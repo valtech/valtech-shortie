@@ -3,16 +3,9 @@
 import shortieModel = require('../shorties/model');
 import $ = require('jquery');
 
-export enum HttpVerb {
-  GET,
-  POST,
-  PUT,
-  DELETE
-}
-
 export interface ApiRequest {
   path: string;
-  verb: HttpVerb;
+  verb: string;
   data?: any;
 }
 
@@ -29,21 +22,12 @@ export class ApiClient {
       contentType: 'application/json',
       timeout: 60 * 1000,
       url: buildUrl(request.path),
-      type: request.verb.toString(),
-      data: request.data,
+      type: request.verb,
+      data: JSON.stringify(request.data),
       success: (data, textStatus, jqXHR) => {
-        tryParseJSON<TData>(data, function (obj, success) {
-          if (success) {
-            callback({
-              status: jqXHR.status,
-              data: data
-            });
-          } else {
-            callback({
-              status: -1,
-              data: data
-            });
-          }
+        callback({
+          status: jqXHR.status,
+          data: data
         });
       },
       error: (jqXHR, textStatus, errorThrow) => {

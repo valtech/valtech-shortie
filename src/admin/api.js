@@ -1,13 +1,5 @@
 ﻿var $ = require('jquery');
 
-(function (HttpVerb) {
-    HttpVerb[HttpVerb["GET"] = 0] = "GET";
-    HttpVerb[HttpVerb["POST"] = 1] = "POST";
-    HttpVerb[HttpVerb["PUT"] = 2] = "PUT";
-    HttpVerb[HttpVerb["DELETE"] = 3] = "DELETE";
-})(exports.HttpVerb || (exports.HttpVerb = {}));
-var HttpVerb = exports.HttpVerb;
-
 var ApiClient = (function () {
     function ApiClient() {
     }
@@ -17,21 +9,12 @@ var ApiClient = (function () {
             contentType: 'application/json',
             timeout: 60 * 1000,
             url: buildUrl(request.path),
-            type: request.verb.toString(),
-            data: request.data,
+            type: request.verb,
+            data: JSON.stringify(request.data),
             success: function (data, textStatus, jqXHR) {
-                tryParseJSON(data, function (obj, success) {
-                    if (success) {
-                        callback({
-                            status: jqXHR.status,
-                            data: data
-                        });
-                    } else {
-                        callback({
-                            status: -1,
-                            data: data
-                        });
-                    }
+                callback({
+                    status: jqXHR.status,
+                    data: data
                 });
             },
             error: function (jqXHR, textStatus, errorThrow) {

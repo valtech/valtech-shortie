@@ -1,5 +1,5 @@
 ﻿var viewModels = require('../../src/admin/viewModels');
-var api = require('../../src/admin/api');
+
 var model = require('../../src/shorties/model');
 
 var _ = require('underscore');
@@ -125,7 +125,7 @@ describe("AdminViewModel", function () {
 
             adminViewModel.save(shortie);
 
-            sinon.assert.calledWith(sendRequestSpy, { path: '/go-shorty', verb: 2 /* PUT */, data: models[1] });
+            sinon.assert.calledWith(sendRequestSpy, { path: '/go-shorty', verb: 'PUT', data: models[1] });
         });
         it('should send PUT request to save new Shortie', function () {
             var shortie = new viewModels.ShortieViewModel();
@@ -137,7 +137,7 @@ describe("AdminViewModel", function () {
 
             var expectedRequest = {
                 path: '/foo',
-                verb: 2 /* PUT */,
+                verb: 'PUT',
                 data: {
                     slug: 'foo',
                     url: 'http://foobar'

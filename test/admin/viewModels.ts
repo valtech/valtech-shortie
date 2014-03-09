@@ -134,7 +134,7 @@ describe("AdminViewModel", function () {
 
       adminViewModel.save(shortie);
 
-      sinon.assert.calledWith(sendRequestSpy, { path: '/go-shorty', verb: api.HttpVerb.PUT, data: models[1] });
+      sinon.assert.calledWith(sendRequestSpy, { path: '/go-shorty', verb: 'PUT', data: models[1] });
     });
     it('should send PUT request to save new Shortie', function () {
       var shortie = new viewModels.ShortieViewModel();
@@ -146,7 +146,7 @@ describe("AdminViewModel", function () {
 
       var expectedRequest: api.ApiRequest = {
         path: '/foo',
-        verb: api.HttpVerb.PUT,
+        verb: 'PUT',
         data: <model.Shortie>{
           slug: 'foo',
           url: 'http://foobar'

@@ -14696,20 +14696,14 @@ var raws = [
     new model.Shortie("funniest", "http://money.cnn.com/data/markets/")
 ];
 
-var o = new viewModels.AdminViewModel(new api.ApiClient());
+var adminViewModel = new viewModels.AdminViewModel(new api.ApiClient());
 
-ko.applyBindings(o, document.getElementById('organizer'));
+ko.applyBindings(adminViewModel, document.getElementById('organizer'));
+
+adminViewModel.loadShorties();
 
 },{"../shorties/model":7,"./api":5,"./viewModels":6,"knockout":2}],5:[function(require,module,exports){
 var $ = require('jquery');
-
-(function (HttpVerb) {
-    HttpVerb[HttpVerb["GET"] = 0] = "GET";
-    HttpVerb[HttpVerb["POST"] = 1] = "POST";
-    HttpVerb[HttpVerb["PUT"] = 2] = "PUT";
-    HttpVerb[HttpVerb["DELETE"] = 3] = "DELETE";
-})(exports.HttpVerb || (exports.HttpVerb = {}));
-var HttpVerb = exports.HttpVerb;
 
 var ApiClient = (function () {
     function ApiClient() {
@@ -14720,21 +14714,12 @@ var ApiClient = (function () {
             contentType: 'application/json',
             timeout: 60 * 1000,
             url: buildUrl(request.path),
-            type: request.verb.toString(),
-            data: request.data,
+            type: request.verb,
+            data: JSON.stringify(request.data),
             success: function (data, textStatus, jqXHR) {
-                tryParseJSON(data, function (obj, success) {
-                    if (success) {
-                        callback({
-                            status: jqXHR.status,
-                            data: data
-                        });
-                    } else {
-                        callback({
-                            status: -1,
-                            data: data
-                        });
-                    }
+                callback({
+                    status: jqXHR.status,
+                    data: data
                 });
             },
             error: function (jqXHR, textStatus, errorThrow) {
@@ -14770,7 +14755,6 @@ var _ = underscore;
 var ko = knockout;
 
 var model = require('../shorties/model');
-var api = require('./api');
 
 var ShortieViewModel = (function () {
     function ShortieViewModel(shortie) {
@@ -14838,7 +14822,7 @@ var AdminViewModel = (function () {
         var self = this;
         var saveRequest = {
             path: '/' + shortieVm.shortie.slug,
-            verb: 2 /* PUT */,
+            verb: 'PUT',
             data: shortieVm.shortie
         };
         this.apiClient.sendRequest(saveRequest, function (response) {
@@ -14854,7 +14838,7 @@ var AdminViewModel = (function () {
 
     AdminViewModel.prototype.loadShorties = function () {
         var _this = this;
-        this.apiClient.sendRequest({ path: '/', verb: 0 /* GET */ }, function (response) {
+        this.apiClient.sendRequest({ path: '/', verb: 'GET' }, function (response) {
             if (response.status == 200) {
                 var arrayOfVms = _.map(response.data, function (item) {
                     return new ShortieViewModel(item);
@@ -14889,7 +14873,7 @@ function selectFirstEmptyShorties(shorties) {
         firstEmpty.isCurrent(true);
 }
 
-},{"../shorties/model":7,"./api":5,"knockout":2,"underscore":3}],7:[function(require,module,exports){
+},{"../shorties/model":7,"knockout":2,"underscore":3}],7:[function(require,module,exports){
 var Shortie = (function () {
     function Shortie(slug, url) {
         this.slug = slug;
