@@ -13,22 +13,25 @@ import model = require('../shorties/model');
 import api = require('./api');
 
 export class ShortieViewModel {
-  private raw: model.Shortie;
+  public shortie: model.Shortie;
 
   public slug: KnockoutObservable<string>;
   public url: KnockoutObservable<string>;
   public isCurrent: KnockoutObservable<boolean>;
 
   constructor(shortie?: model.Shortie) {
-    this.raw = shortie;
+    if (!shortie)
+      shortie = new model.Shortie('', '');
+    this.shortie = shortie;
     this.isCurrent = ko.observable(false);
     this.slug = ko.observable<string>();
     this.url = ko.observable<string>();
 
-    if (shortie) {
-      this.slug(shortie.slug);
-      this.url(shortie.url);
-    }
+    this.slug(shortie.slug);
+    this.url(shortie.url);
+
+    this.slug.subscribe((newValue) => { shortie.slug = newValue; });
+    this.url.subscribe((newValue) => { shortie.url = newValue; });
   }
 }
 
@@ -73,12 +76,12 @@ export class AdminViewModel {
     this.select(newShortie);
   }
 
-  public save(shortie: ShortieViewModel): void {
+  public save(shortieVm: ShortieViewModel): void {
     var self = this;
     var saveRequest: api.ApiRequest = {
-      path: '/' + shortie.slug(),
+      path: '/' + shortieVm.shortie.slug,
       verb: api.HttpVerb.PUT,
-      data: { longUrl: shortie.url() }
+      data: shortieVm.shortie
     };
     this.apiClient.sendRequest(saveRequest, function (response) {
       self.shorties().forEach(s=> s.isCurrent(false));

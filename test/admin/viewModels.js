@@ -125,7 +125,7 @@ describe("AdminViewModel", function () {
 
             adminViewModel.save(shortie);
 
-            sendRequestSpy.calledWith({ path: '/go-shorty', verb: 2 /* PUT */, data: shortie[1] });
+            sinon.assert.calledWith(sendRequestSpy, { path: '/go-shorty', verb: 2 /* PUT */, data: models[1] });
         });
         it('should send PUT request to save new Shortie', function () {
             var shortie = new viewModels.ShortieViewModel();
@@ -135,7 +135,14 @@ describe("AdminViewModel", function () {
 
             adminViewModel.save(shortie);
 
-            var expectedRequest = { path: '/foo', verb: 2 /* PUT */, data: { longUrl: 'http://foobar' } };
+            var expectedRequest = {
+                path: '/foo',
+                verb: 2 /* PUT */,
+                data: {
+                    slug: 'foo',
+                    url: 'http://foobar'
+                }
+            };
             sinon.assert.calledWith(sendRequestSpy, sinon.match(expectedRequest));
         });
     });

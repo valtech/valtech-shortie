@@ -4,19 +4,27 @@ var underscore = require('underscore');
 var _ = underscore;
 var ko = knockout;
 
+var model = require('../shorties/model');
 var api = require('./api');
 
 var ShortieViewModel = (function () {
     function ShortieViewModel(shortie) {
-        this.raw = shortie;
+        if (!shortie)
+            shortie = new model.Shortie('', '');
+        this.shortie = shortie;
         this.isCurrent = ko.observable(false);
         this.slug = ko.observable();
         this.url = ko.observable();
 
-        if (shortie) {
-            this.slug(shortie.slug);
-            this.url(shortie.url);
-        }
+        this.slug(shortie.slug);
+        this.url(shortie.url);
+
+        this.slug.subscribe(function (newValue) {
+            shortie.slug = newValue;
+        });
+        this.url.subscribe(function (newValue) {
+            shortie.url = newValue;
+        });
     }
     return ShortieViewModel;
 })();
@@ -61,12 +69,12 @@ var AdminViewModel = (function () {
         this.select(newShortie);
     };
 
-    AdminViewModel.prototype.save = function (shortie) {
+    AdminViewModel.prototype.save = function (shortieVm) {
         var self = this;
         var saveRequest = {
-            path: '/' + shortie.slug(),
+            path: '/' + shortieVm.shortie.slug,
             verb: 2 /* PUT */,
-            data: { longUrl: shortie.url() }
+            data: shortieVm.shortie
         };
         this.apiClient.sendRequest(saveRequest, function (response) {
             self.shorties().forEach(function (s) {
