@@ -12,6 +12,7 @@ var ShortieViewModel = (function () {
             shortie = new model.Shortie('', '');
         this.shortie = shortie;
         this.isCurrent = ko.observable(false);
+        this.originalSlug = shortie.slug;
         this.slug = ko.observable();
         this.url = ko.observable();
 
@@ -70,8 +71,9 @@ var AdminViewModel = (function () {
 
     AdminViewModel.prototype.save = function (shortieVm) {
         var self = this;
+        var slugInPath = shortieVm.originalSlug === '' ? shortieVm.shortie.slug : shortieVm.originalSlug;
         var saveRequest = {
-            path: '/' + shortieVm.shortie.slug,
+            path: '/' + slugInPath,
             verb: 'PUT',
             data: shortieVm.shortie
         };

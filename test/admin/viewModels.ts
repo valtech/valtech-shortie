@@ -138,6 +138,16 @@ describe("AdminViewModel", function () {
       sinon.assert.calledWith(sendRequestSpy, { path: '/go-shorty', verb: 'PUT', data: models[1] });
     });
 
+    it('should send PUT request to replace existing Shortie with new slug', function () {
+      var shortie = adminViewModel.shorties()[1];
+      shortie.slug('go-longery');
+      shortie.isCurrent(true);
+
+      adminViewModel.save(shortie);
+
+      sinon.assert.calledWith(sendRequestSpy, { path: '/go-shorty', verb: 'PUT', data: models[1] });
+    });
+
     it('should send PUT request to save new Shortie', function () {
       var shortie = new viewModels.ShortieViewModel();
       shortie.slug('foo');
