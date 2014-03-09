@@ -6,22 +6,22 @@ import slugGenerator = require('../lib/SlugGenerator');
 var repo;
 
 function getHandler(req, res, next) {
-  if (req.accepts('application/json')) {
-    repo.getShortieBySlug(req.params.slug, function (err, shortie) {
-      if (err || !shortie) return next();
-      res.redirect(shortie.url);
-    });
-    return;
-  }
-  next();
+  repo.getShortieBySlug(req.params.slug, function (err, shortie) {
+    if (err || !shortie) return next();
+    res.redirect(shortie.url);
+  });
 }
 
 function listHandler(req, res, next) {
   // TODO: require auth
-  repo.getAllShorties(function(err, shorties) {
-    if (err) return next(err);
-    res.send(200, shorties);
-  });
+  if (req.accepts('application/json')) {
+    repo.getAllShorties(function (err, shorties) {
+      if (err) return next(err);
+      res.send(200, shorties);
+    });
+    return;
+  }
+  next();
 }
 
 function postHandler(req, res, next) {

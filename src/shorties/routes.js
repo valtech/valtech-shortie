@@ -3,23 +3,23 @@
 var repo;
 
 function getHandler(req, res, next) {
+    repo.getShortieBySlug(req.params.slug, function (err, shortie) {
+        if (err || !shortie)
+            return next();
+        res.redirect(shortie.url);
+    });
+}
+
+function listHandler(req, res, next) {
     if (req.accepts('application/json')) {
-        repo.getShortieBySlug(req.params.slug, function (err, shortie) {
-            if (err || !shortie)
-                return next();
-            res.redirect(shortie.url);
+        repo.getAllShorties(function (err, shorties) {
+            if (err)
+                return next(err);
+            res.send(200, shorties);
         });
         return;
     }
     next();
-}
-
-function listHandler(req, res, next) {
-    repo.getAllShorties(function (err, shorties) {
-        if (err)
-            return next(err);
-        res.send(200, shorties);
-    });
 }
 
 function postHandler(req, res, next) {

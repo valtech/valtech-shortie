@@ -13,7 +13,7 @@ describe('shorties/routes', function () {
     app.setup({dbType: 'nedb'}, done);
   });
   describe('GET / with Accept=application/json', function () {
-    it('should return json', function (done) {
+    it.skip('should return json', function (done) {
       request(shortieApp)
         .get('/')
         .set('Accept', 'application/json')
