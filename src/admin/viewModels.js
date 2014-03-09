@@ -82,8 +82,15 @@ var AdminViewModel = (function () {
         });
     };
 
-    AdminViewModel.prototype.remove = function (shortie) {
-        this.shorties.remove(shortie);
+    AdminViewModel.prototype.remove = function (shortieVm) {
+        var self = this;
+        var deleteRequest = {
+            path: '/' + shortieVm.shortie.slug,
+            verb: 'DELETE'
+        };
+        this.apiClient.sendRequest(deleteRequest, function (res) {
+            self.shorties.remove(shortieVm);
+        });
     };
 
     AdminViewModel.prototype.loadShorties = function () {

@@ -88,8 +88,15 @@ export class AdminViewModel {
     });
   }
 
-  public remove(shortie: ShortieViewModel): void {
-    this.shorties.remove(shortie);
+  public remove(shortieVm: ShortieViewModel): void {
+    var self = this;
+    var deleteRequest: api.ApiRequest = {
+      path: '/' + shortieVm.shortie.slug,
+      verb: 'DELETE'
+    };
+    this.apiClient.sendRequest(deleteRequest, function(res) {
+      self.shorties.remove(shortieVm);
+    });
   }
 
   public loadShorties() {

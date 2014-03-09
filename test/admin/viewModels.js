@@ -119,6 +119,7 @@ describe("AdminViewModel", function () {
                 expect(vm.isCurrent()).to.be.false;
             });
         });
+
         it('should send PUT request to save existing Shortie', function () {
             var shortie = adminViewModel.shorties()[1];
             shortie.isCurrent(true);
@@ -127,6 +128,7 @@ describe("AdminViewModel", function () {
 
             sinon.assert.calledWith(sendRequestSpy, { path: '/go-shorty', verb: 'PUT', data: models[1] });
         });
+
         it('should send PUT request to save new Shortie', function () {
             var shortie = new viewModels.ShortieViewModel();
             shortie.slug('foo');
@@ -144,6 +146,36 @@ describe("AdminViewModel", function () {
                 }
             };
             sinon.assert.calledWith(sendRequestSpy, sinon.match(expectedRequest));
+        });
+    });
+
+    describe("remove()", function () {
+        var sendRequestSpy;
+        var shortie;
+
+        beforeEach(function () {
+            adminViewModel.shorties(_.map(models, function (m) {
+                return new viewModels.ShortieViewModel(m);
+            }));
+            apiClient.sendRequest = sendRequestSpy = sinon.spy(function (request, callback) {
+                callback();
+            });
+            shortie = adminViewModel.shorties()[1];
+        });
+
+        it('should call the API with a DELETE request', function () {
+            adminViewModel.remove(shortie);
+
+            sinon.assert.calledWith(sendRequestSpy, sinon.match({
+                path: '/' + shortie.shortie.slug,
+                verb: 'DELETE'
+            }));
+        });
+
+        it('should remove the shortie from the list', function () {
+            adminViewModel.remove(shortie);
+
+            expect(adminViewModel.shorties().length).to.equal(2);
         });
     });
 
