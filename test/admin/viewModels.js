@@ -185,6 +185,16 @@ describe("AdminViewModel", function () {
             }));
         });
 
+        it('should call the API with a DELETE request using the original slug', function () {
+            shortie.slug('asdfasdfasdfasdf');
+            adminViewModel.remove(shortie);
+
+            sinon.assert.calledWith(sendRequestSpy, sinon.match({
+                path: '/' + shortie.originalSlug,
+                verb: 'DELETE'
+            }));
+        });
+
         it('should remove the shortie from the list', function () {
             adminViewModel.remove(shortie);
 

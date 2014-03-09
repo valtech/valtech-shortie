@@ -14842,7 +14842,7 @@ var AdminViewModel = (function () {
     AdminViewModel.prototype.remove = function (shortieVm) {
         var self = this;
         var deleteRequest = {
-            path: '/' + shortieVm.shortie.slug,
+            path: '/' + shortieVm.originalSlug,
             verb: 'DELETE'
         };
         this.apiClient.sendRequest(deleteRequest, function (res) {

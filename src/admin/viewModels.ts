@@ -98,7 +98,7 @@ export class AdminViewModel {
   public remove(shortieVm: ShortieViewModel): void {
     var self = this;
     var deleteRequest: api.ApiRequest = {
-      path: '/' + shortieVm.shortie.slug,
+      path: '/' + shortieVm.originalSlug,
       verb: 'DELETE'
     };
     this.apiClient.sendRequest(deleteRequest, function(res) {
