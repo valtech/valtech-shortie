@@ -19,6 +19,8 @@ declare module "supertest" {
       expect(body: Object, callback?: (err: Error, res: superagent.Response) => void): Test;
       expect(field: string, val: string, callback?: (err: Error, res: superagent.Response) => void): Test;
       expect(field: string, val: RegExp, callback?: (err: Error, res: superagent.Response) => void): Test;
+      set(field: any): Test;
+      set(field: string, value?: string): Test;
     }
 
     interface SuperTest {
