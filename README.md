@@ -5,26 +5,66 @@ Valtech URL shortening service.
  * Production: http://valte.ch - admin: http://valte.ch/admin
  * Stage: http://stage.valte.ch - admin: http://stage.valte.ch/admin
 
+# Technical stuff
 
-## TODO
+This list isn't exhaustive, but should give you an idea of the overall architecture.
 
-### Epics
+## Languages/tools/frameworks
 
-1. Connect UI with backend API
-2. Implement ShortieRepository
-3. Integrate with Mongo
-4. Write UI tests (CasperJS?)
-5. Remove generated files from repo (compiled JS/CSS/etc)
-6. Auth for external applications (static auth tokens)
+### General
 
-# API
+* JavaScript
+* TypeScript ([http://www.typescriptlang.org/]())
+* HTML 5
+* CSS 3  
+* Grunt (task runner) ([http://gruntjs.com/]())
+* JSHint (JavaScript linter) ([http://www.jshint.com/]())
+* Browserify ([http://browserify.org/]())
+	* (Bundles CommonJS modules into AMD modules for the browser)
+* Concat ([https://github.com/knicklabs/node-concat]())
+	* (Simple tool for concatenating files. Used for CSS bundling.)
 
-TODO. Will require an "application key + secret". POST, PUT and DELETE. JSON data.
+### Frontend
+
+* Bootstrap 3 ([http://getbootstrap.com/]())
+* Knockout ([http://knockoutjs.com/]())
+* jQuery ([http://jquery.org/]())
+	* (Only explicitly used for making AJAX calls to the REST API)
+* Underscore.js ([http://underscorejs.org/]())   
+
+### Backend
+
+* Node.JS ([http://nodejs.org/]())
+* Express web framework ([http://expressjs.com/]())
+* Jade templating engine ([http://jade-lang.com/]())
+* Winston logging library ([https://github.com/flatiron/winston]())
+* Underscore.js ([http://underscorejs.org/]()) 
+* MongoDB ([http://www.mongodb.org]())
+* NeDB ([https://github.com/louischatriot/nedb]())
+	* (embedded database used for unit tests)
+* client-sessions ([https://github.com/mozilla/node-client-sessions]())
+	* (middleware for creating encrypted session cookies)
+* New Relic ([http://www.newrelic.com/]())
+	* (cloud service for performance metrics)
+* **TBD:** Logentries ([http://logentries.com/]())
+	* (cloud service for parsing/managing logs - currently only under evaluation...)
+
+### Test frameworks
+
+* Mocha ([http://visionmedia.github.io/mocha/]()) for BDD/unit testing
+* Chai ([https://chaijs.com/]()) for assertions
+* Sinon ([https://sinonjs.org/]()) for mocking
+* Supertest ([https://github.com/visionmedia/supertest]()) for testing HTTP requests
 
 
 # Admin
 
 Go to `/admin` and login using vauth. You can administer existing URLs and add new ones.
+
+
+# API
+
+TODO. Will require an "application key + secret". POST, PUT and DELETE. JSON data.
 
 
 # Deployment
@@ -89,20 +129,18 @@ Tab B:
     grunt
     node-debug src/server.js
 
-#### Running/debugging with Visual Studio 2013
+#### Running (and debugging) with Visual Studio 2013
 
-Just open `valtech_shortie.sln?`, build and press F5! :-)
+Run Grunt tasks.
+
+Press F5. :-)
 
 
-## Grunt tasks
+# TODO
 
-When running `grunt` without arguments, the following tasks are executed in order:
-
-* **npm-install:** installs all NPM dependencies
-* **build:** compiles TypeScript into JavaScript
-* **browserify:** uses [browserify](http://browserify.org) to bundle frontend JS
-* **test:** runs all Mocha tests in test/
-* **jshint:** runs JsHint on all JavaScript files in src/
-
-You can also run `grunt watch` to make grunt run the commands when files change.
-
+1. Connect UI with backend API
+2. Implement ShortieRepository
+3. Integrate with Mongo
+4. Write UI tests (CasperJS?)
+5. Remove generated files from repo (compiled JS/CSS/etc)
+6. Auth for external applications (static auth tokens)
