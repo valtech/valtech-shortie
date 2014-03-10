@@ -74,7 +74,7 @@ export class AdminViewModel {
     }
 
     var newShortie = new ShortieViewModel();
-    this.shorties.push(newShortie);
+    this.shorties.unshift(newShortie);
     this.select(newShortie);
   }
 

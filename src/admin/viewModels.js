@@ -65,7 +65,7 @@ var AdminViewModel = (function () {
         }
 
         var newShortie = new ShortieViewModel();
-        this.shorties.push(newShortie);
+        this.shorties.unshift(newShortie);
         this.select(newShortie);
     };
 
