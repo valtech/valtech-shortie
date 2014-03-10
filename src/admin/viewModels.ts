@@ -15,6 +15,7 @@ import api = require('./api');
 export class ShortieViewModel {
   public shortie: model.Shortie;
 
+  public originalSlug: string;
   public slug: KnockoutObservable<string>;
   public url: KnockoutObservable<string>;
   public isCurrent: KnockoutObservable<boolean>;
@@ -24,6 +25,7 @@ export class ShortieViewModel {
       shortie = new model.Shortie('', '');
     this.shortie = shortie;
     this.isCurrent = ko.observable(false);
+    this.originalSlug = shortie.slug;
     this.slug = ko.observable<string>();
     this.url = ko.observable<string>();
 
@@ -78,18 +80,34 @@ export class AdminViewModel {
 
   public save(shortieVm: ShortieViewModel): void {
     var self = this;
+    var slugInPath = shortieVm.originalSlug === '' ? shortieVm.shortie.slug : shortieVm.originalSlug;
     var saveRequest: api.ApiRequest = {
-      path: '/' + shortieVm.shortie.slug,
+      path: '/' + slugInPath,
       verb: 'PUT',
       data: shortieVm.shortie
     };
-    this.apiClient.sendRequest(saveRequest, function (response) {
-      self.shorties().forEach(s=> s.isCurrent(false));
+    this.apiClient.sendRequest(saveRequest, function (res) {
+      if (res.status >= 200 && res.status <= 299) {
+        self.shorties().forEach(s=> s.isCurrent(false));
+      } else {
+        // TODO: Do something
+      }
     });
   }
 
-  public remove(shortie: ShortieViewModel): void {
-    this.shorties.remove(shortie);
+  public remove(shortieVm: ShortieViewModel): void {
+    var self = this;
+    var deleteRequest: api.ApiRequest = {
+      path: '/' + shortieVm.originalSlug,
+      verb: 'DELETE'
+    };
+    this.apiClient.sendRequest(deleteRequest, function(res) {
+      if (res.status == 200) {
+        self.shorties.remove(shortieVm);
+      } else {
+        // TODO: Do something
+      }
+    });
   }
 
   public loadShorties() {

@@ -12,6 +12,7 @@ var ShortieViewModel = (function () {
             shortie = new model.Shortie('', '');
         this.shortie = shortie;
         this.isCurrent = ko.observable(false);
+        this.originalSlug = shortie.slug;
         this.slug = ko.observable();
         this.url = ko.observable();
 
@@ -70,20 +71,34 @@ var AdminViewModel = (function () {
 
     AdminViewModel.prototype.save = function (shortieVm) {
         var self = this;
+        var slugInPath = shortieVm.originalSlug === '' ? shortieVm.shortie.slug : shortieVm.originalSlug;
         var saveRequest = {
-            path: '/' + shortieVm.shortie.slug,
+            path: '/' + slugInPath,
             verb: 'PUT',
             data: shortieVm.shortie
         };
-        this.apiClient.sendRequest(saveRequest, function (response) {
-            self.shorties().forEach(function (s) {
-                return s.isCurrent(false);
-            });
+        this.apiClient.sendRequest(saveRequest, function (res) {
+            if (res.status >= 200 && res.status <= 299) {
+                self.shorties().forEach(function (s) {
+                    return s.isCurrent(false);
+                });
+            } else {
+            }
         });
     };
 
-    AdminViewModel.prototype.remove = function (shortie) {
-        this.shorties.remove(shortie);
+    AdminViewModel.prototype.remove = function (shortieVm) {
+        var self = this;
+        var deleteRequest = {
+            path: '/' + shortieVm.originalSlug,
+            verb: 'DELETE'
+        };
+        this.apiClient.sendRequest(deleteRequest, function (res) {
+            if (res.status == 200) {
+                self.shorties.remove(shortieVm);
+            } else {
+            }
+        });
     };
 
     AdminViewModel.prototype.loadShorties = function () {

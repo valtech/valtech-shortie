@@ -86,7 +86,7 @@ describe('api', function() {
     var url = 'http://www.imdb.com/title/tt0118276/'
     request(shortieApp)
       .put('/buffy')
-      .send({url: url})
+      .send({slug: 'buffy', url: url})
       .set('Accept', 'application/json')
       .expect(201)
       .end(onCreated);
@@ -154,14 +154,19 @@ describe('api', function() {
     });
 
     it('PUT /:slug should replace existing shortie', function(done) {
+      var newSlug = 'qwerty-finch';
       var url = 'http://www.imdb.com/title/tt0118276/'
       request(shortieApp)
         .put('/' + slug1)
-        .send({url: url})
+        .send({slug: newSlug, url: url})
         .set('Accept', 'application/json')
         .expect(201) // TODO: Return 200 when replacing?
+        .expect(function(res) {
+          if (res.body.slug != newSlug) return "Slug not replaced with new slug";
+        })
         .end(function(err, res) {
           if (err) return done(err);
+
           request(shortieApp)
             .get('/')
             .set('Accept', 'application/json')

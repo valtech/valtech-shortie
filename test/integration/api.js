@@ -65,7 +65,7 @@ describe('api', function () {
 
     it('PUT /:slug should insert a shortie', function (done) {
         var url = 'http://www.imdb.com/title/tt0118276/';
-        request(shortieApp).put('/buffy').send({ url: url }).set('Accept', 'application/json').expect(201).end(onCreated);
+        request(shortieApp).put('/buffy').send({ slug: 'buffy', url: url }).set('Accept', 'application/json').expect(201).end(onCreated);
 
         function onCreated(err, res) {
             if (err)
@@ -113,10 +113,15 @@ describe('api', function () {
         });
 
         it('PUT /:slug should replace existing shortie', function (done) {
+            var newSlug = 'qwerty-finch';
             var url = 'http://www.imdb.com/title/tt0118276/';
-            request(shortieApp).put('/' + slug1).send({ url: url }).set('Accept', 'application/json').expect(201).end(function (err, res) {
+            request(shortieApp).put('/' + slug1).send({ slug: newSlug, url: url }).set('Accept', 'application/json').expect(201).expect(function (res) {
+                if (res.body.slug != newSlug)
+                    return "Slug not replaced with new slug";
+            }).end(function (err, res) {
                 if (err)
                     return done(err);
+
                 request(shortieApp).get('/').set('Accept', 'application/json').expect(function (res) {
                     var count = res.body.length;
                     if (count != 3)

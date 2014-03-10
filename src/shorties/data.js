@@ -4,10 +4,10 @@
         this.db = db;
         this.pageSize = options.pageSize;
     }
-    ShortieRepository.prototype.addShortie = function (shortie, callback) {
+    ShortieRepository.prototype.addShortie = function (slugToCreateOrReplace, shortie, callback) {
         callback = callback || function () {
         };
-        this.db.update({ slug: shortie.slug }, shortie, { upsert: true }, callback);
+        this.db.update({ slug: slugToCreateOrReplace }, shortie, { upsert: true }, callback);
     };
 
     ShortieRepository.prototype.getShortieBySlug = function (slug, callback) {
