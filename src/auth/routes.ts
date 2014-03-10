@@ -21,7 +21,7 @@ var VAUTH_HOST = 'vauth.valtech.se',
 
 function login(req, res, next) {
   if (req.authSession.signed_in === true) {
-    return res.shortie('/me?alreadySignedIn');
+    return res.redirect('/me?alreadySignedIn');
   }
 
   var oauth_body = {
@@ -35,21 +35,21 @@ function login(req, res, next) {
 
     var request_token = qs.parse(vauthBody);
     req.authSession.token = request_token;
-    var shortie = req.query.shortie;
-    if (shortie) {
-      console.log('will shortie after login to', shortie);
-      req.authSession.shortieAfterLogin = shortie;
+    var redirect = req.query.redirect;
+    if (redirect) {
+      console.log('will redirect after login to', redirect);
+      req.authSession.redirectAfterLogin = redirect;
     }
     console.log('sucessfully got a request token', request_token);
 
     var authorize_url = util.format('%s?oauth_token=%s', VAUTH_AUTHORIZE_URL, request_token.oauth_token);
-    res.shortie(authorize_url);
+    res.redirect(authorize_url);
   });
 }
 
 function logout(req, res) {
   req.authSession.reset();
-  res.shortie('/');
+  res.redirect('/');
 }
 
 function authenticated(req, res, next) {
@@ -83,13 +83,13 @@ function authenticated(req, res, next) {
       req.authSession.signed_in = true;
       console.log('got a profile', profile);
       console.log('successfully logged in');
-      var shortie = '/me';
-      if (req.authSession.shortieAfterLogin) {
-        shortie = req.authSession.shortieAfterLogin;
-        delete req.authSession.shortieAfterLogin;
+      var redirect = '/me';
+      if (req.authSession.redirectAfterLogin) {
+        redirect = req.authSession.redirectAfterLogin;
+        delete req.authSession.redirectAfterLogin;
       }
-      console.log('will shortie to', shortie);
-      res.shortie(shortie);
+      console.log('will redirect to', redirect);
+      res.redirect(redirect);
     });
   });
 }
