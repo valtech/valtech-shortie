@@ -14,11 +14,11 @@ small {
 
 /* column widths */
 table.table > thead > tr > th.slug {
-	width: 25%;
+	min-width: 25%;
 }
 
 table.table > thead > tr > th.url {
-	width: 75%;
+	min-width: 50%;
 }
 
 table.table > thead > tr > th.buttons {

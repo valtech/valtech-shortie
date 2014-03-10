@@ -56,7 +56,8 @@ module.exports = function(grunt) {
     concat: {
       admin: {
         src: [
-          'src/css/bootstrap/*.css',
+          'src/css/bootstrap/bootstrap.css',
+          'src/css/bootstrap/bootstrap-theme.css',
           'src/css/common.css',
           'src/css/admin-*.css'
         ],
