@@ -1,17 +1,20 @@
 ﻿script(type='text/template', id='shortie-main')
-  tr(data-bind="click: $root.select.bind($root), css: { selected: isCurrent(), notSelected: !isCurrent() }")
+  tr(data-bind="css: { selected: isCurrent(), notSelected: !isCurrent() }")
     td
       input.form-control(type='text', placeholder='rly shrt', data-bind="value: slug, event: { focus: $parent.select.bind($parent) }")
     td
       input.form-control(type='text', placeholder='really long', data-bind="value: url, event: { focus: $parent.select.bind($parent) }")
     td
       .btn-group.pull-right
-        button.btn.btn-default.btn-xs(data-bind='click: $parent.save.bind($parent)')
+        button.btn.btn-primary.btn-xs(data-bind='click: $parent.save.bind($parent)')
           span.glyphicon.glyphicon-save
           span.small save
         button.btn.btn-danger.btn-xs(data-bind='click: $parent.remove.bind($parent)')
           span.glyphicon.glyphicon-remove
           span.small &nbsp;delete
+        a.btn.btn-default.btn-xs(data-bind='attr: { href: slug }')
+          span.glyphicon.glyphicon-share-alt
+          span.small goto
 
 div(id='organizer')
   h3 Shorties
