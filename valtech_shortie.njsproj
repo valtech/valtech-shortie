@@ -40,6 +40,7 @@
     <Folder Include=".types\mocha\" />
     <Folder Include=".types\mongodb\" />
     <Folder Include=".types\my-chai\" />
+    <Folder Include=".types\URIjs\" />
     <Folder Include=".types\superagent\" />
     <Folder Include=".types\node\" />
     <Folder Include=".types\sinon\" />
@@ -79,6 +80,7 @@
     <Content Include=".types\superagent\superagent.d.ts" />
     <Content Include=".types\supertest\supertest.d.ts" />
     <Content Include=".types\underscore\underscore.d.ts" />
+    <Content Include=".types\URIjs\URI.d.ts" />
     <Content Include="IISNode.yml" />
     <Content Include="package.json" />
     <Content Include="README.md" />
