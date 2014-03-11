@@ -45,6 +45,7 @@ export class AdminViewModel {
   private spamAttemped: KnockoutObservable<boolean>;
   private containsEmpties: KnockoutComputed<boolean>;
   private apiClient: api.ApiClient;
+  private shortieForDeletion: ShortieViewModel;
 
   constructor(apiClient: api.ApiClient) {
     this.apiClient = apiClient;
@@ -95,15 +96,15 @@ export class AdminViewModel {
     });
   }
 
-  public remove(shortieVm: ShortieViewModel): void {
+  public remove(): void {
     var self = this;
     var deleteRequest: api.ApiRequest = {
-      path: '/' + shortieVm.originalSlug,
+      path: '/' + this.shortieForDeletion.originalSlug,
       verb: 'DELETE'
     };
     this.apiClient.sendRequest(deleteRequest, function(res) {
       if (res.status == 200) {
-        self.shorties.remove(shortieVm);
+        self.shorties.remove(self.shortieForDeletion);
       } else {
         // TODO: Do something
       }
@@ -117,6 +118,10 @@ export class AdminViewModel {
         this.shorties(arrayOfVms);
       }
     });
+  }
+
+  public markShortieForDeletion(shortieVm: ShortieViewModel) {
+    this.shortieForDeletion = shortieVm;
   }
 }
 

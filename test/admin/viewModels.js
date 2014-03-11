@@ -174,10 +174,11 @@ describe("AdminViewModel", function () {
                 callback(apiOkResponse);
             });
             shortie = adminViewModel.shorties()[1];
+            adminViewModel.markShortieForDeletion(shortie);
         });
 
         it('should call the API with a DELETE request', function () {
-            adminViewModel.remove(shortie);
+            adminViewModel.remove();
 
             sinon.assert.calledWith(sendRequestSpy, sinon.match({
                 path: '/' + shortie.shortie.slug,
@@ -187,7 +188,7 @@ describe("AdminViewModel", function () {
 
         it('should call the API with a DELETE request using the original slug', function () {
             shortie.slug('asdfasdfasdfasdf');
-            adminViewModel.remove(shortie);
+            adminViewModel.remove();
 
             sinon.assert.calledWith(sendRequestSpy, sinon.match({
                 path: '/' + shortie.originalSlug,
@@ -196,7 +197,7 @@ describe("AdminViewModel", function () {
         });
 
         it('should remove the shortie from the list', function () {
-            adminViewModel.remove(shortie);
+            adminViewModel.remove();
 
             expect(adminViewModel.shorties().length).to.equal(2);
         });

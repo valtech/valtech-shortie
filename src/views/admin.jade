@@ -2,7 +2,10 @@ extends layouts/layout
 
 block styles
   //-link(rel="stylesheet", href="//fonts.googleapis.com/css?family=Open+Sans:400,600,800", type="text/css")
-  link(rel="stylesheet", href="/css/admin.css", type="text/css")
+  link(rel="stylesheet", href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css")
+  link(rel="stylesheet", href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css")
+  link(rel="stylesheet", href="/css/admin.css")
+
 
 block content
   .container
@@ -15,20 +18,10 @@ block content
       a(href="/cats") /cats
       span  is funny.
 
-    #deleteModal.modal.fade
-      .modal-dialog
-        .modal-content
-          .modal-header
-            button.close(data-dismiss='modal')
-              &times
-            h4.modal-title Delete shortie
-          .modal-body
-            button.btn.btn-danger.btn-xl
-              span.glyphicon.glyphicon-remove
-              &nbsp;delete forever
-
     include includes/organizer
 
 block scripts
+  script(src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.0.min.js")
+  script(src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js")
   script(src="js/bundle.js")
 

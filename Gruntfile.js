@@ -78,8 +78,6 @@ module.exports = function(grunt) {
         files: {
           'src/public/js/bundle.js': [
             'src/admin/admin.js'
-            //'src/js/jquery-1.11.0.min.js',
-            //'src/js/bootstrap.js'
           ]
         }
       }

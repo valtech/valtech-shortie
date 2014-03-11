@@ -87,15 +87,15 @@ var AdminViewModel = (function () {
         });
     };
 
-    AdminViewModel.prototype.remove = function (shortieVm) {
+    AdminViewModel.prototype.remove = function () {
         var self = this;
         var deleteRequest = {
-            path: '/' + shortieVm.originalSlug,
+            path: '/' + this.shortieForDeletion.originalSlug,
             verb: 'DELETE'
         };
         this.apiClient.sendRequest(deleteRequest, function (res) {
             if (res.status == 200) {
-                self.shorties.remove(shortieVm);
+                self.shorties.remove(self.shortieForDeletion);
             } else {
             }
         });
@@ -111,6 +111,10 @@ var AdminViewModel = (function () {
                 _this.shorties(arrayOfVms);
             }
         });
+    };
+
+    AdminViewModel.prototype.markShortieForDeletion = function (shortieVm) {
+        this.shortieForDeletion = shortieVm;
     };
     return AdminViewModel;
 })();

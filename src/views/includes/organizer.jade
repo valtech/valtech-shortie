@@ -9,7 +9,7 @@
         button.btn.btn-primary.btn-xs(data-bind='click: $parent.save.bind($parent)')
           span.glyphicon.glyphicon-save
           span.small save
-        button.btn.btn-danger.btn-xs(data-toggle='modal', data-target='#deleteModal', click: $parent.save.bind($parent))
+        button.btn.btn-danger.btn-xs(data-toggle='modal', data-target='#deleteModal', data-bind='click: $parent.markShortieForDeletion.bind($parent)')
           span.glyphicon.glyphicon-remove
           span.small &nbsp;delete
         a.btn.btn-default.btn-xs(data-bind='attr: { href: slug }')
@@ -36,3 +36,15 @@ div(id='organizer')
               span.glyphicon.glyphicon-plus
               span.small add shortie
     tbody(data-bind="template : {name : 'shortie-main', foreach: shorties}")
+
+    #deleteModal.modal.fade
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(data-dismiss='modal')
+              &times
+            h4.modal-title Delete shortie
+          .modal-body
+            button.btn.btn-danger.btn-xl(data-dismiss='modal', data-bind='click: remove')
+              span.glyphicon.glyphicon-remove
+              &nbsp;delete forever
