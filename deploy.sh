@@ -95,6 +95,12 @@ selectNodeVersion () {
 }
 
 ##################################################################################################################################
+# Hello
+# ----------
+
+echo Valte.ch is the best application evar!
+
+##################################################################################################################################
 # Deployment
 # ----------
 
@@ -116,6 +122,14 @@ if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
   exitWithMessageOnError "npm failed"
   cd - > /dev/null
 fi
+
+# 4. Build
+
+echo Building - grunt build
+cd "$DEPLOYMENT_TARGET"
+eval ./node_modules/.bin/grunt build
+exitWithMessageOnError "grunt build failed"
+cd - > /dev/null
 
 ##################################################################################################################################
 
