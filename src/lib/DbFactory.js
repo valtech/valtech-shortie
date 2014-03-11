@@ -10,7 +10,17 @@
             break;
         case 'mongodb':
             var mongodb = require('mongodb');
-            mongodb.MongoClient.connect(options.mongoUrl, function (err, db) {
+            var mongoOptions = {
+                server: {
+                    auto_connect: true,
+                    socketOptions: {
+                        connectTimeoutMS: 3600000,
+                        keepAlive: 3600000,
+                        socketTimeoutMS: 3600000
+                    }
+                }
+            };
+            mongodb.MongoClient.connect(options.mongoUrl, mongoOptions, function (err, db) {
                 if (err)
                     return callback(err);
                 var shortiesCollection = db.collection('shorties');
