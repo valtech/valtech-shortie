@@ -2,6 +2,7 @@
 
 import express = require('express');
 import slugGenerator = require('../lib/SlugGenerator');
+var log = require('winston');
 
 var repo;
 
@@ -15,8 +16,10 @@ function getHandler(req, res, next) {
 function listHandler(req, res, next) {
   // TODO: require auth
   if (req.accepts('application/json')) {
+    log.info('Will fetch list of shorties from repository');
     repo.getAllShorties(function (err, shorties) {
       if (err) return next(err);
+      log.info('Fetched ' + shorties.length + ' shorties from repository');
       res.send(200, shorties);
     });
     return;
