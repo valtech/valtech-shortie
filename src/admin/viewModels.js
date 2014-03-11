@@ -69,6 +69,15 @@ var AdminViewModel = (function () {
         this.select(newShortie);
     };
 
+    AdminViewModel.prototype.saveByUrl = function (url) {
+        this.apiClient.sendRequest({
+            path: '/',
+            verb: 'POST',
+            data: { url: url }
+        }, function (response) {
+        });
+    };
+
     AdminViewModel.prototype.save = function (shortieVm) {
         var self = this;
         var slugInPath = shortieVm.originalSlug === '' ? shortieVm.shortie.slug : shortieVm.originalSlug;

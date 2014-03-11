@@ -161,6 +161,21 @@ describe("AdminViewModel", function () {
         });
     });
 
+    describe("saveByUrl()", function () {
+        var sendRequestSpy;
+
+        it("Should post the url through the api client", function () {
+            var url = 'http://www.google.se';
+            apiClient.sendRequest = sendRequestSpy = sinon.spy(function (request, callback) {
+                callback();
+            });
+
+            adminViewModel.saveByUrl(url);
+
+            sinon.assert.called(sendRequestSpy);
+        });
+    });
+
     describe("remove()", function () {
         var sendRequestSpy;
         var shortie;

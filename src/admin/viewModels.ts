@@ -79,6 +79,18 @@ export class AdminViewModel {
     this.select(newShortie);
   }
 
+  public saveByUrl(url : string) {
+    this.apiClient.sendRequest<model.Shortie>(
+      {
+        path: '/',
+        verb: 'POST',
+        data: {url : url}
+      },
+      (response: api.ApiResponse<model.Shortie>)=> {
+        
+      });
+  }
+
   public save(shortieVm: ShortieViewModel): void {
     var self = this;
     var slugInPath = shortieVm.originalSlug === '' ? shortieVm.shortie.slug : shortieVm.originalSlug;

@@ -170,6 +170,22 @@ describe("AdminViewModel", function () {
     });
   });
 
+  describe("saveByUrl()", ()=> {
+    var sendRequestSpy: SinonSpy;
+
+    it("Should post the url through the api client", () => {
+      /* Setup */
+      var url = 'http://www.google.se';
+      apiClient.sendRequest = sendRequestSpy = sinon.spy((request, callback)=> { callback(); });
+      
+      /* Test */
+      adminViewModel.saveByUrl(url);
+
+      /* Assert */
+      sinon.assert.called(sendRequestSpy);
+    });
+  });
+
   describe("remove()", function() {
     var sendRequestSpy: SinonSpy;
     var shortie: viewModels.ShortieViewModel;
