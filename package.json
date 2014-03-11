@@ -11,7 +11,7 @@
     "node": "0.10.24"
   },
   "scripts": {
-    "postinstall": "./node_modules/.bin/grunt build",
+    "postinstall": "node_modules/.bin/grunt build",
     "postdeploy": "echo This is from package.json postdeploy"
   },
   "private": true,
