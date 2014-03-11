@@ -40,7 +40,9 @@ export class ShortieViewModel {
 export class AdminViewModel {
   public shorties: KnockoutObservableArray<ShortieViewModel>;
   public currentShortie: KnockoutObservable<ShortieViewModel>;
+  public urlForGenerated : KnockoutObservable<string>;
   public spamWarning: KnockoutComputed<boolean>;
+  
 
   private spamAttemped: KnockoutObservable<boolean>;
   private containsEmpties: KnockoutComputed<boolean>;
@@ -50,6 +52,7 @@ export class AdminViewModel {
   constructor(apiClient: api.ApiClient) {
     this.apiClient = apiClient;
     this.shorties = <KnockoutObservableArray<ShortieViewModel>>ko.observableArray();
+    this.urlForGenerated = ko.observable<string>();
     this.spamAttemped = ko.observable(false);
 
     this.containsEmpties = ko.computed(() => containsEmptyShorties(this.shorties()));
@@ -77,6 +80,19 @@ export class AdminViewModel {
     var newShortie = new ShortieViewModel();
     this.shorties.unshift(newShortie);
     this.select(newShortie);
+  }
+
+  public saveByUrl() {
+    this.apiClient.sendRequest<model.Shortie>(
+      {
+        path: '/',
+        verb: 'POST',
+        data: {url : this.urlForGenerated()}
+      },
+      (response: api.ApiResponse<model.Shortie>)=> {
+        var newShortie = new ShortieViewModel(response.data);
+        this.shorties.push(newShortie);
+      });
   }
 
   public save(shortieVm: ShortieViewModel): void {
