@@ -15,8 +15,20 @@ block content
       a(href="/cats") /cats
       span  is funny.
 
+    #deleteModal.modal.fade
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(data-dismiss='modal')
+              &times
+            h4.modal-title Delete shortie
+          .modal-body
+            button.btn.btn-danger.btn-xl
+              span.glyphicon.glyphicon-remove
+              &nbsp;delete forever
+
     include includes/organizer
 
 block scripts
-  script(src="bundle.js")
+  script(src="js/bundle.js")
 
