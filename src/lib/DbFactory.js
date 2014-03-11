@@ -10,7 +10,15 @@
             break;
         case 'mongodb':
             var mongodb = require('mongodb');
-            mongodb.MongoClient.connect(options.mongoUrl, function (err, db) {
+            var mongoOptions = {
+                server: {
+                    auto_connect: true,
+                    socketOptions: {
+                        keepAlive: 1
+                    }
+                }
+            };
+            mongodb.MongoClient.connect(options.mongoUrl, mongoOptions, function (err, db) {
                 if (err)
                     return callback(err);
                 var shortiesCollection = db.collection('shorties');
