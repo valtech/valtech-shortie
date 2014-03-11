@@ -1,7 +1,9 @@
 *.orig
 
+# Generated files
 # All scripts should be type script
-# *.js
+*.js
+src/public/css/*.css
 
 # User-specific files
 *.suo
