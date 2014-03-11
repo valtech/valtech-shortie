@@ -40,6 +40,7 @@
     <Folder Include=".types\mocha\" />
     <Folder Include=".types\mongodb\" />
     <Folder Include=".types\my-chai\" />
+    <Folder Include=".types\URIjs\" />
     <Folder Include=".types\superagent\" />
     <Folder Include=".types\node\" />
     <Folder Include=".types\sinon\" />
@@ -79,6 +80,7 @@
     <Content Include=".types\superagent\superagent.d.ts" />
     <Content Include=".types\supertest\supertest.d.ts" />
     <Content Include=".types\underscore\underscore.d.ts" />
+    <Content Include=".types\URIjs\URI.d.ts" />
     <Content Include="IISNode.yml" />
     <Content Include="package.json" />
     <Content Include="README.md" />
@@ -87,6 +89,7 @@
     <Content Include="src\css\admin-main.css" />
     <Content Include="src\css\common.css" />
     <Content Include="src\css\public-main.css" />
+    <Content Include="src\lib\UrlUtils.ts" />
     <Content Include="src\public\robots.txt" />
     <Content Include="src\shorties\model.ts" />
     <Content Include="src\views\includes\organizer.jade" />
@@ -94,6 +97,7 @@
     <Content Include="test\admin\viewModels.ts" />
     <Content Include="test\integration\api.ts" />
     <Content Include="test\lib\SlugGenerator.ts" />
+    <Content Include="test\lib\UrlUtils.ts" />
     <Content Include="test\shorties\data.ts" />
     <Content Include="src\admin\admin.ts" />
     <Content Include="src\app.ts" />
