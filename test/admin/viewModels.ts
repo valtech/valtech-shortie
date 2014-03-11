@@ -170,6 +170,38 @@ describe("AdminViewModel", function () {
     });
   });
 
+  describe("saveByUrl()", ()=> {
+    var sendRequestSpy: SinonSpy;
+
+    it("Should post the url through the api client", () => {
+      /* Setup */
+      var url = 'http://www.google.se';
+      adminViewModel.urlForGenerated(url);
+      apiClient.sendRequest = sendRequestSpy = sinon.spy((request, callback) => { callback({ status: 200, data: {}}); });
+      
+      /* Test */
+      adminViewModel.saveByUrl();
+
+      /* Assert */
+      sinon.assert.called(sendRequestSpy);
+    });
+
+    it("Should create ShortieVm and add it to shorties", ()=> {
+      /* Setup */
+      var url = 'http://www.google.se';
+      adminViewModel.urlForGenerated(url);
+      var generatedShortie = new model.Shortie('sluggy', url);
+      apiClient.sendRequest = sendRequestSpy = sinon.spy((request, callback) => { callback({status: 200, data: generatedShortie}); });
+
+      /* Test */
+      adminViewModel.saveByUrl();
+
+      /* Assert */
+      var allShorties = _.map<viewModels.ShortieViewModel, model.Shortie>(adminViewModel.shorties(), vm=> vm.shortie);
+      assert.equal(allShorties[0], generatedShortie);
+    });
+  });
+
   describe("remove()", function() {
     var sendRequestSpy: SinonSpy;
     var shortie: viewModels.ShortieViewModel;

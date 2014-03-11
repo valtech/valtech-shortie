@@ -18,11 +18,21 @@
 
 div(id='organizer')
   h3 Shorties
+  h4. Generate from Url
 
+  div.input-group
+    span.input-group-addon http
+    input.form-control(type='text', data-bind='value:urlForGenerated')
+    span.input-group-btn(data-bind='click:saveByUrl')
+      button.btn.btn-default create
+
+  .h4. Manager Shorties
   .alert.alert-warning(data-bind='visible: spamWarning')
     b Spam warning! 
     span Enter value for empty shortie before adding a new one.
 
+  
+  
   table.table.table-striped
     thead
       tr

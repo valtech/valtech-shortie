@@ -10,9 +10,6 @@
   "engines": {
     "node": "0.10.24"
   },
-  "scripts": {
-    "install": "node_modules/.bin/grunt build"
-  },
   "private": true,
   "dependencies": {
     "express": "~3.4.8",
