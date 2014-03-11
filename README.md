@@ -2,8 +2,12 @@
 
 Valtech URL shortening service.
 
+# TL;DR
+
  * Production: http://valte.ch - admin: http://valte.ch/admin
  * Stage: http://stage.valte.ch - admin: http://stage.valte.ch/admin
+
+
 
 # Technical stuff
 

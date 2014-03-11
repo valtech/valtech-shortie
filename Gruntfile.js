@@ -46,8 +46,8 @@ module.exports = function(grunt) {
           src: [
             'Gruntfile.js',
             'src/**/*.js',
-            '!src/public/bootstrap/**/*.js',
-            '!src/public/bundle.js'
+            '!src/js/**/*.js',
+            '!src/public/js/bundle.js'
           ]
         }
       }
@@ -76,8 +76,10 @@ module.exports = function(grunt) {
     browserify: {
       dist: {
         files: {
-          'src/public/bundle.js': [
+          'src/public/js/bundle.js': [
             'src/admin/admin.js'
+            //'src/js/jquery-1.11.0.min.js',
+            //'src/js/bootstrap.js'
           ]
         }
       }
