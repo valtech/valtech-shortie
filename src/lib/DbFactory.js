@@ -14,7 +14,9 @@
                 server: {
                     auto_connect: true,
                     socketOptions: {
-                        keepAlive: 1
+                        connectTimeoutMS: 3600000,
+                        keepAlive: 3600000,
+                        socketTimeoutMS: 3600000
                     }
                 }
             };
