@@ -70,11 +70,14 @@ var AdminViewModel = (function () {
     };
 
     AdminViewModel.prototype.saveByUrl = function (url) {
+        var _this = this;
         this.apiClient.sendRequest({
             path: '/',
             verb: 'POST',
             data: { url: url }
         }, function (response) {
+            var newShortie = new ShortieViewModel(response.data);
+            _this.shorties.push(newShortie);
         });
     };
 

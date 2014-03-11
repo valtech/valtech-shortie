@@ -87,7 +87,8 @@ export class AdminViewModel {
         data: {url : url}
       },
       (response: api.ApiResponse<model.Shortie>)=> {
-        
+        var newShortie = new ShortieViewModel(response.data);
+        this.shorties.push(newShortie);
       });
   }
 
