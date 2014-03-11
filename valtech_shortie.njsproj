@@ -89,6 +89,7 @@
     <Content Include="src\css\admin-main.css" />
     <Content Include="src\css\common.css" />
     <Content Include="src\css\public-main.css" />
+    <Content Include="src\lib\UrlUtils.ts" />
     <Content Include="src\public\robots.txt" />
     <Content Include="src\shorties\model.ts" />
     <Content Include="src\views\includes\organizer.jade" />
@@ -96,6 +97,7 @@
     <Content Include="test\admin\viewModels.ts" />
     <Content Include="test\integration\api.ts" />
     <Content Include="test\lib\SlugGenerator.ts" />
+    <Content Include="test\lib\UrlUtils.ts" />
     <Content Include="test\shorties\data.ts" />
     <Content Include="src\admin\admin.ts" />
     <Content Include="src\app.ts" />
