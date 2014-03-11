@@ -24,7 +24,7 @@
     <OutputPath>.</OutputPath>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
-    <ProjectView>ShowAllFiles</ProjectView>
+    <ProjectView>ProjectFiles</ProjectView>
     <NodejsPort>3000</NodejsPort>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -90,6 +90,7 @@
     <Content Include="src\public\robots.txt" />
     <Content Include="src\shorties\model.ts" />
     <Content Include="src\views\includes\organizer.jade" />
+    <Content Include="src\views\layouts\public.jade" />
     <Content Include="test\admin\viewModels.ts" />
     <Content Include="test\integration\api.ts" />
     <Content Include="test\lib\SlugGenerator.ts" />

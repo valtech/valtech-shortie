@@ -2,6 +2,7 @@
 
 import express = require('express');
 import slugGenerator = require('../lib/SlugGenerator');
+import authMiddleware = require('../auth/middleware');
 var log = require('winston');
 
 var repo;
@@ -94,9 +95,9 @@ function isInvalidSlug(url) {
 export function setup(app: express.Application, options: any): void {
   repo = options.shortiesRepo;
 
-  app.get('/', listHandler);
+  app.get('/', authMiddleware.requireAuthOrDeny, listHandler);
   app.get('/:slug', getHandler);
-  app.post('/', postHandler);
-  app.put('/:slug', putHandler);
-  app.del('/:slug', deleteHandler);
+  app.post('/', authMiddleware.requireAuthOrDeny, postHandler);
+  app.put('/:slug', authMiddleware.requireAuthOrDeny, putHandler);
+  app.del('/:slug', authMiddleware.requireAuthOrDeny, deleteHandler);
 }

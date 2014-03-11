@@ -2,6 +2,7 @@
 /// <reference path="../../.types/express/express.d.ts" />
 
 import express = require('express');
+import authMiddleware = require('../auth/middleware');
 
 function index(req: express.Request, res: express.Response, next) {
   if (req.accepts('text/html')) {
@@ -18,5 +19,5 @@ function admin(req, res) {
 
 export function setup(app: express.Application): void {
   app.get('/', index);
-  app.get('/admin', admin);
+  app.get('/admin', authMiddleware.requireAuthCookieOrRedirect, admin);
 }

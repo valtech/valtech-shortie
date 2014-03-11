@@ -131,5 +131,5 @@ export function setup(app: express.Application): void {
   app.get('/login', login);
   app.get('/login/authenticated', authenticated);
   app.get('/logout', logout);
-  app.get('/me', authMiddleware.requireAuth, viewSession);
+  app.get('/me', authMiddleware.requireAuthCookieOrRedirect, viewSession);
 }
