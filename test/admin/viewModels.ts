@@ -176,10 +176,11 @@ describe("AdminViewModel", function () {
     it("Should post the url through the api client", () => {
       /* Setup */
       var url = 'http://www.google.se';
+      adminViewModel.urlForGenerated(url);
       apiClient.sendRequest = sendRequestSpy = sinon.spy((request, callback) => { callback({ status: 200, data: {}}); });
       
       /* Test */
-      adminViewModel.saveByUrl(url);
+      adminViewModel.saveByUrl();
 
       /* Assert */
       sinon.assert.called(sendRequestSpy);
@@ -188,11 +189,12 @@ describe("AdminViewModel", function () {
     it("Should create ShortieVm and add it to shorties", ()=> {
       /* Setup */
       var url = 'http://www.google.se';
+      adminViewModel.urlForGenerated(url);
       var generatedShortie = new model.Shortie('sluggy', url);
       apiClient.sendRequest = sendRequestSpy = sinon.spy((request, callback) => { callback({status: 200, data: generatedShortie}); });
 
       /* Test */
-      adminViewModel.saveByUrl(url);
+      adminViewModel.saveByUrl();
 
       /* Assert */
       var allShorties = _.map<viewModels.ShortieViewModel, model.Shortie>(adminViewModel.shorties(), vm=> vm.shortie);

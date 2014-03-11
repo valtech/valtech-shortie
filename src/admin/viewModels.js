@@ -35,6 +35,7 @@ var AdminViewModel = (function () {
         var _this = this;
         this.apiClient = apiClient;
         this.shorties = ko.observableArray();
+        this.urlForGenerated = ko.observable();
         this.spamAttemped = ko.observable(false);
 
         this.containsEmpties = ko.computed(function () {
@@ -69,12 +70,12 @@ var AdminViewModel = (function () {
         this.select(newShortie);
     };
 
-    AdminViewModel.prototype.saveByUrl = function (url) {
+    AdminViewModel.prototype.saveByUrl = function () {
         var _this = this;
         this.apiClient.sendRequest({
             path: '/',
             verb: 'POST',
-            data: { url: url }
+            data: { url: this.urlForGenerated() }
         }, function (response) {
             var newShortie = new ShortieViewModel(response.data);
             _this.shorties.push(newShortie);
