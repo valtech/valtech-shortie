@@ -16,6 +16,7 @@ import util = require('util');
 import express = require('express');
 import mongodb = require('mongodb');
 import app = require('../../src/app');
+import authMiddleware = require('../../src/auth/middleware');
 
 var shortieApp: express.Express = app.App;
 var db: mongodb.Db;
@@ -35,6 +36,9 @@ describe('api', function() {
       // Setup app
       app.setup({dbType: 'mongodb'}, done);
     });
+
+    authMiddleware.requireAuthCookieOrRedirect = function (req, res, next) { next(); };
+    authMiddleware.requireAuthOrDeny = function (req, res, next) { next(); };
   });
 
   afterEach(function(done) {
