@@ -4,6 +4,7 @@
 import express = require('express');
 var sessions = require('client-sessions');
 var path = require('path');
+var log = require('winston');
 
 import shortieRoutes = require('./shorties/routes');
 import authRoutes = require('./auth/routes');
@@ -27,6 +28,13 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.use(express.favicon(path.join(__dirname, 'public/favicon.ico')));
 app.use(express.logger('dev'));
+app.use(express.logger({
+  stream: {
+    write: function(message, encoding){
+      log.info(message);
+    }
+  }
+}));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(sessions({
@@ -47,10 +55,9 @@ if (process.env.NODE_ENV == 'development') {
 app.use(app.router);
 app.use(errorMiddleware.handleError);
 
-var shortiesRepo, log;
+var shortiesRepo;
 
 export function setup(options, callback?) {
-  log = options.log;
   dbFactory.create(options.dbType, { mongoUrl: MONGO_URL }, function(err, db) {
     if (err) return callback(err);
     shortiesRepo = new shortiesData.ShortieRepository(db);
