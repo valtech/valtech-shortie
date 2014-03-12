@@ -15,62 +15,61 @@ import errorMiddleware = require('./error/middleware');
 import dbFactory = require('./lib/DbFactory');
 import shortiesData = require('./shorties/data');
 
-var MONGO_URL = process.env.MONGO_URL;
-if (!MONGO_URL) {
-  console.log('Using local mongodb instance');
-  MONGO_URL = 'mongodb://127.0.0.1:27017/valtech_shorties?w=1';
-}
 
-var app = express();
-
-app.set('port', process.env.PORT || 3000);
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-app.use(express.favicon(path.join(__dirname, 'public/favicon.ico')));
-app.use(express.logger('dev'));
-app.use(express.logger({
-  stream: {
-    write: function(message, encoding){
-      log.info(message);
+export function setup(app, options, callback?) : void {
+  dbFactory.create(options.dbType, { mongoUrl: options.mongoUrl }, function(err, db) {
+    if (err) {
+      callback(err);
+      return;
     }
-  }
-}));
-app.use(express.json());
-app.use(express.urlencoded());
-app.use(sessions({
-  cookieName: 'authSession',
-  secret: 'TODO: create some better secret',
-  duration: 60 * 60 * 1000, // 1h
-  activeDuration: 5 * 60 * 1000, // 5m 'sliding expiration'
-  cookie: {
-    secure: false // TODO: Set to true in stage/prod when we have certs
-  }
-}));
-app.use(express.static(path.join(__dirname, 'public')));
-
-if (process.env.NODE_ENV == 'development') {
-  app.use(express.errorHandler());
-}
-
-app.use(app.router);
-app.use(errorMiddleware.handleError);
-
-var shortiesRepo;
-
-export function setup(options, callback?) {
-  dbFactory.create(options.dbType, { mongoUrl: MONGO_URL }, function(err, db) {
-    if (err) return callback(err);
-    shortiesRepo = new shortiesData.ShortieRepository(db);
-    setupRoutes();
+    var repo = new shortiesData.ShortieRepository(db);
+    setupRoutes(app, repo);
     if (callback) callback();
   });
 }
 
-function setupRoutes() {
+function setupRoutes(app, repo) {
   staticRoutes.setup(app);
   authRoutes.setup(app);
-  shortieRoutes.setup(app, { shortiesRepo: shortiesRepo });
+  shortieRoutes.setup(app, { shortiesRepo: repo });
   errorRoutes.setup(app);
 }
 
-export var App = app;
+export function create(options, callback: (err: any, app)=>void) {
+  var app = express();
+
+  app.set('port', options.port);
+  app.set('views', path.join(__dirname, 'views'));
+  app.set('view engine', 'jade');
+
+  app.use(express.favicon(path.join(__dirname, 'public/favicon.ico')));
+  app.use(express.logger('dev'));
+  app.use(express.logger({
+    stream: {
+      write: function (message, encoding) {
+        log.info(message);
+      }
+    }
+  }));
+  app.use(express.json());
+  app.use(express.urlencoded());
+  app.use(sessions({
+    cookieName: 'authSession',
+    secret: options.sessionSecret || 'dummy secret',
+    duration: options.sessionDuration,
+    activeDuration: options.sessionActiveDuration,
+    cookie: {
+      secure: options.sessionsUseSecureCookie
+    }
+  }));
+  app.use(express.static(path.join(__dirname, 'public')));
+  if (options.environment == 'development') {
+    app.use(express.errorHandler());
+  }
+  app.use(app.router);
+  app.use(errorMiddleware.handleError);
+
+  setup(app, options, (setupErr) => {
+    callback(setupErr, app);
+  });
+}

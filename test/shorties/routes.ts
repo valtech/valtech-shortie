@@ -6,10 +6,14 @@
 import request = require('supertest');
 import express = require('express');
 import app = require('../../src/app');
-var shortieApp: express.Express = app.App;
 
 describe('shorties/routes', function () {
-  before(function(done) {
+  var shortieApp;
+  before(function (done) {
+    app.create({dbType:'nedb'}, function (err, app_) {
+      shortieApp = app_;
+      done();
+    });
     app.setup({dbType: 'nedb'}, done);
   });
   describe('GET / with Accept=application/json', function () {

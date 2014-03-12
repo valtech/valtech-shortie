@@ -18,12 +18,13 @@ import mongodb = require('mongodb');
 import app = require('../../src/app');
 import authMiddleware = require('../../src/auth/middleware');
 
-var shortieApp: express.Express = app.App;
 var db: mongodb.Db;
 var shortiesCollection: mongodb.Collection;
 
 describe('api', function() {
-  before(function(done) {
+  var shortieApp;
+
+  before(function (done) {
     // bob -> mongohq connection is slow...
     this.timeout(5000);
 
@@ -33,8 +34,10 @@ describe('api', function() {
       db = _db;
       shortiesCollection = db.collection('shorties');
 
-      // Setup app
-      app.setup({dbType: 'mongodb'}, done);
+      app.create({}, function (err, app_) {
+        shortieApp = app_;
+        app.setup({ dbType: 'mongodb' }, done);
+      });
     });
 
     authMiddleware.requireAuthCookieOrRedirect = function (req, res, next) { next(); };

@@ -2,12 +2,11 @@
 
 import http = require('http');
 import app = require('./src/app');
-
 var log = require('winston');
 
-var mode = process.env.NODE_ENV || 'development';
+var environment = process.env.NODE_ENV || 'development';
 
-if (mode == 'production') {
+if (environment == 'production') {
   require('newrelic');
   var logentries = require('node-logentries');
   logentries.logger({
@@ -25,15 +24,22 @@ if (mode == 'production') {
 } else {
 }
 
-log.info('Running in mode ' + mode);
+log.info('Running in environment ' + environment);
 
-app.setup({dbType: 'mongodb'}, function(err) {
-  if (err) {
-    log.fatal(err);
-  }
-  http.createServer(app.App).listen(app.App.get('port'), function () {
-    log.info('Express server listening on port ' + app.App.get('port'));
+var appOpts = {
+  environment: environment,
+  port: process.env.PORT || 3000,
+  dbType: 'mongodb',
+  mongoUrl: process.env.MONGO_URL || 'mongodb://127.0.0.1:27017/valtech_shorties?w=1',
+  sessionSecret: 'TODO: create some better secret',
+  sessionDuration: 60 * 60 * 1000,
+  sessionActiveDuration: 5 * 60 * 1000,
+  sessionUseSecureCookie: false
+};
+
+
+app.create(appOpts, function (err, app) {
+  http.createServer(app).listen(app.get('port'), function () {
+    log.info('Express server listening on port ' + app.get('port'));
   });
 });
-
-

@@ -7,9 +7,17 @@ import request = require('supertest');
 import express = require('express');
 import app = require('../../src/app');
 
-var shortieApp: express.Express = app.App;
 
 describe('static routes', function () {
+  var shortieApp;
+
+  before(function (done) {
+    app.create({dbType: 'nedb'}, function (err, app_) {
+      shortieApp = app_;
+      done();
+    });
+  });
+
   describe('GET / with Accept=text/html', function () {
     it('should return html', function (done) {
       request(shortieApp)
