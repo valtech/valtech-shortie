@@ -23,7 +23,7 @@ describe('api', function() {
     this.timeout(5000);
 
     // Setup test mongodb connection
-    var mongoUrl = process.env.MONGO_URL = 'mongodb://127.0.0.1:27017/valtech_shorties_test?w=1';
+    var mongoUrl = process.env.MONGO_URL || 'mongodb://127.0.0.1:27017/valtech_shorties_test?w=1';
     mongodb.MongoClient.connect(mongoUrl, (err: Error, _db: mongodb.Db) => {
       if (err) return done(err);
       db = _db;
