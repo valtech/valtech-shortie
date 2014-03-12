@@ -139,12 +139,3 @@ Run Grunt tasks.
 
 Press F5. :-)
 
-
-# TODO
-
-1. Connect UI with backend API
-2. Implement ShortieRepository
-3. Integrate with Mongo
-4. Write UI tests (CasperJS?)
-5. Remove generated files from repo (compiled JS/CSS/etc)
-6. Auth for external applications (static auth tokens)
