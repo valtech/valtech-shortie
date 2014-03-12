@@ -12,63 +12,115 @@ import mongodb = require('mongodb');
 import app = require('../../src/app');
 import authMiddleware = require('../../src/auth/middleware');
 
+var shortieApp;
 var db: mongodb.Db;
 var shortiesCollection: mongodb.Collection;
 
-describe('api', function() {
-  var shortieApp;
+function createApp(done) {
+  // Setup test mongodb connection
+  var mongoUrl = process.env.MONGO_URL || 'mongodb://127.0.0.1:27017/valtech_shorties_test?w=1';
+  mongodb.MongoClient.connect(mongoUrl, (err: Error, _db: mongodb.Db) => {
+    if (err) return done(err);
+    db = _db;
+    shortiesCollection = db.collection('shorties');
 
+    var appOpts = { dbType: 'mongodb', mongoUrl: mongoUrl };
+    app.create(appOpts, function (err, app_) {
+      shortieApp = app_;
+      done();
+    });
+  });
+}
+
+
+
+describe('api (unauthenticated)', function () {
   before(function (done) {
-    // bob -> mongohq connection is slow...
     this.timeout(5000);
-
-    // Setup test mongodb connection
-    var mongoUrl = process.env.MONGO_URL || 'mongodb://127.0.0.1:27017/valtech_shorties_test?w=1';
-    mongodb.MongoClient.connect(mongoUrl, (err: Error, _db: mongodb.Db) => {
-      if (err) return done(err);
-      db = _db;
-      shortiesCollection = db.collection('shorties');
-
-      var appOpts = { dbType: 'mongodb', mongoUrl: mongoUrl };
-      app.create(appOpts, function (err, app_) {
-        shortieApp = app_;
+    createApp(function () {
+      shortiesCollection.insert({ slug: 'short-shorts' }, function () {
         done();
       });
     });
-
-    authMiddleware.requireAuthCookieOrRedirect = function (req, res, next) { next(); };
-    authMiddleware.requireAuthOrDeny = function (req, res, next) { next(); };
   });
 
-  afterEach(function(done) {
+  afterEach(function (done) {
     // Remove all shorties
     shortiesCollection.remove({}, { w: 1 }, done);
   });
 
-  after(function(done) {
+  after(function (done) {
     if (!db) return done();
     db.close(true, done);
   });
 
-  it('GET /:slug should return 404 if shortie cannot be found', function(done) {
+  it('GET / should return 401', function (done) {
+    request(shortieApp)
+      .get('/')
+      .set('Accept', 'application/json')
+      .expect(401, done);
+  });
+
+  it('POST / should return 401', function (done) {
+    request(shortieApp)
+      .post('/')
+      .set('Accept', 'application/json')
+      .expect(401, done);
+  });
+
+  it('PUT /:slug should return 401', function (done) {
+    request(shortieApp)
+      .put('/short-shorts')
+      .set('Accept', 'application/json')
+      .expect(401, done);
+  });
+
+  it('DELETE /:slug should return 401', function (done) {
+    request(shortieApp)
+      .del('/short-shorts')
+      .set('Accept', 'application/json')
+      .expect(401, done);
+  });
+
+});
+
+describe('api (authenticated)', function () {
+  before(function (done) {
+    this.timeout(5000);
+    createApp(done);
+    authMiddleware.requireAuthCookieOrRedirect = function (req, res, next) { next(); };
+    authMiddleware.requireAuthOrDeny = function (req, res, next) { next(); };
+  });
+
+  afterEach(function (done) {
+    // Remove all shorties
+    shortiesCollection.remove({}, { w: 1 }, done);
+  });
+
+  after(function (done) {
+    if (!db) return done();
+    db.close(true, done);
+  });
+
+  it('GET /:slug should return 404 if shortie cannot be found', function (done) {
     request(shortieApp)
       .get('/catch-me-if-you-can')
       .set('Accept', 'application/json')
       .expect(404, done);
   });
 
-  it('DELETE /:slug should return 404 if shortie cannot be found', function(done) {
+  it('DELETE /:slug should return 404 if shortie cannot be found', function (done) {
     request(shortieApp)
       .del('/catch-me-if-you-can')
       .set('Accept', 'application/json')
       .expect(404, done);
   });
 
-  it('POST / should insert a shortie that can be GET', function(done) {
+  it('POST / should insert a shortie that can be GET', function (done) {
     var url = 'http://www.imdb.com/title/tt0118276/'
     request(shortieApp)
       .post('/')
-      .send({url: url})
+      .send({ url: url })
       .set('Accept', 'application/json')
       .expect(201)
       .end(onCreated);
@@ -85,11 +137,11 @@ describe('api', function() {
     };
   });
 
-  it('PUT /:slug should insert a shortie', function(done) {
+  it('PUT /:slug should insert a shortie', function (done) {
     var url = 'http://www.imdb.com/title/tt0118276/'
     request(shortieApp)
       .put('/buffy')
-      .send({slug: 'buffy', url: url})
+      .send({ slug: 'buffy', url: url })
       .set('Accept', 'application/json')
       .expect(201)
       .end(onCreated);
@@ -105,75 +157,75 @@ describe('api', function() {
     };
   });
 
-  describe('with data', function() {
+  describe('with data', function () {
     var url1 = 'http://1.example.com';
     var url2 = 'http://2.example.com';
     var url3 = 'http://3.example.com';
     var slug1, slug2, slug3;
 
-    beforeEach(function(done) {
+    beforeEach(function (done) {
       // Insert 3 shorties
       request(shortieApp)
         .post('/')
-        .send({url: url1})
+        .send({ url: url1 })
         .set('Accept', 'application/json')
         .expect(201)
-        .end(function(err, res) {
+        .end(function (err, res) {
           if (err) return done(err);
           slug1 = res.body.slug;
 
           request(shortieApp)
             .post('/')
-            .send({url: url2})
+            .send({ url: url2 })
             .set('Accept', 'application/json')
             .expect(201)
-            .end(function(err, res) {
+            .end(function (err, res) {
               if (err) return done(err);
               slug2 = res.body.slug;
 
               request(shortieApp)
                 .post('/')
-                .send({url: url3})
+                .send({ url: url3 })
                 .set('Accept', 'application/json')
                 .expect(201)
-                .end(function(err, res) {
+                .end(function (err, res) {
                   if (err) return done(err);
                   slug3 = res.body.slug;
                   done();
                 });
-          });
-      });
+            });
+        });
     });
 
-    it('GET / should return all shorties', function(done) {
+    it('GET / should return all shorties', function (done) {
       request(shortieApp)
         .get('/')
         .set('Accept', 'application/json')
-        .expect(function(res) {
+        .expect(function (res) {
           var count = res.body.length;
           if (count != 3) return util.format('Response included %d shorties, expected %d', count, 3);
         })
         .expect(200, done);
     });
 
-    it('PUT /:slug should replace existing shortie', function(done) {
+    it('PUT /:slug should replace existing shortie', function (done) {
       var newSlug = 'qwerty-finch';
       var url = 'http://www.imdb.com/title/tt0118276/'
       request(shortieApp)
         .put('/' + slug1)
-        .send({slug: newSlug, url: url})
+        .send({ slug: newSlug, url: url })
         .set('Accept', 'application/json')
         .expect(201) // TODO: Return 200 when replacing?
-        .expect(function(res) {
+        .expect(function (res) {
           if (res.body.slug != newSlug) return "Slug not replaced with new slug";
         })
-        .end(function(err, res) {
+        .end(function (err, res) {
           if (err) return done(err);
 
           request(shortieApp)
             .get('/')
             .set('Accept', 'application/json')
-            .expect(function(res) {
+            .expect(function (res) {
               var count = res.body.length;
               if (count != 3) return util.format('Response included %d shorties, expected %d', count, 3);
             })
@@ -181,13 +233,13 @@ describe('api', function() {
         });
     });
 
-    it('DELETE /:slug should', function(done) {
+    it('DELETE /:slug should', function (done) {
       var resource = '/' + slug1;
       request(shortieApp)
         .del(resource)
         .set('Accept', 'application/json')
         .expect(200)
-        .end(function(err, res) {
+        .end(function (err, res) {
           if (err) return done(err);
           request(shortieApp)
             .get(resource)

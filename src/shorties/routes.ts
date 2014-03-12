@@ -16,7 +16,6 @@ function getHandler(req, res, next) {
 }
 
 function listHandler(req, res, next) {
-  // TODO: require auth
   if (req.accepts('application/json')) {
     log.info('Will fetch list of shorties from repository');
     repo.getAllShorties(function (err, shorties) {
@@ -32,7 +31,6 @@ function listHandler(req, res, next) {
 }
 
 function postHandler(req, res, next) {
-  // TODO: require auth
   // return 400 on invalid data
   var url = req.body.url;
   if (isInvalidUrl(url)) return res.send(400, 'Invalid URL in request body');
@@ -46,7 +44,6 @@ function postHandler(req, res, next) {
 }
 
 function putHandler(req, res, next) {
-  // TODO: require auth
   var url = req.body.url;
   if (isInvalidUrl(url)) return res.send(400, 'Invalid URL in request body');
   var slugToCreateOrReplace = req.params.slug;
@@ -63,7 +60,6 @@ function putHandler(req, res, next) {
 }
 
 function deleteHandler(req, res, next) {
-  // TODO: require auth
   var slug = req.params.slug;
   if (isInvalidSlug(slug)) return res.send(400, 'Invalid slug in request body');
 
