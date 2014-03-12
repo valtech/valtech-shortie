@@ -1,6 +1,7 @@
 ﻿var utils = require('../../src/lib/UrlUtils');
 
 var chai = require('chai');
+
 var assert = chai.assert;
 
 describe('UrlUtils', function () {

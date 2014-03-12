@@ -4,7 +4,8 @@
 import utils = require('../../src/lib/UrlUtils');
 
 import _ = require('underscore');
-var chai = require('chai');
+import chai = require('chai');
+
 var assert = chai.assert;
 
 describe('UrlUtils', ()=> {
