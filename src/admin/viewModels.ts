@@ -4,6 +4,7 @@
 
 import knockout = require('knockout');
 import underscore = require('underscore');
+import utils = require('../lib/UrlUtils');
 
 // this is a hack for better intellisence in vs2013
 var _: UnderscoreStatic = underscore;
@@ -87,7 +88,7 @@ export class AdminViewModel {
       {
         path: '/',
         verb: 'POST',
-        data: {url : this.urlForGenerated()}
+        data: { url: utils.parseAndClean(this.urlForGenerated())}
       },
       (response: api.ApiResponse<model.Shortie>)=> {
         var newShortie = new ShortieViewModel(response.data);
@@ -96,16 +97,16 @@ export class AdminViewModel {
   }
 
   public save(shortieVm: ShortieViewModel): void {
-    var self = this;
-    var slugInPath = shortieVm.originalSlug === '' ? shortieVm.shortie.slug : shortieVm.originalSlug;
+    shortieVm.url(utils.parseAndClean(shortieVm.shortie.url));
+    var slugInPath = shortieVm.originalSlug === '' ? shortieVm.shortie.slug : shortieVm.originalSlug;
     var saveRequest: api.ApiRequest = {
       path: '/' + slugInPath,
       verb: 'PUT',
       data: shortieVm.shortie
     };
-    this.apiClient.sendRequest(saveRequest, function (res) {
+    this.apiClient.sendRequest(saveRequest, res=> {
       if (res.status >= 200 && res.status <= 299) {
-        self.shorties().forEach(s=> s.isCurrent(false));
+        this.shorties().forEach(s=> s.isCurrent(false));
       } else {
         // TODO: Do something
       }
@@ -140,6 +141,7 @@ export class AdminViewModel {
     this.shortieForDeletion = shortieVm;
   }
 }
+
 
 function containsEmptyShorties(shorties: Array<ShortieViewModel>): boolean {
   var hasEmpties = _.any<ShortieViewModel>(shorties,

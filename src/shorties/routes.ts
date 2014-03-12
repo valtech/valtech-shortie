@@ -1,5 +1,6 @@
 ﻿/// <reference path="../../.types/express/express.d.ts" />
 
+import model = require('./model');
 import express = require('express');
 import slugGenerator = require('../lib/SlugGenerator');
 import authMiddleware = require('../auth/middleware');
@@ -37,11 +38,7 @@ function postHandler(req, res, next) {
   if (isInvalidUrl(url)) return res.send(400, 'Invalid URL in request body');
   var slug = slugGenerator.generate();
 
-  var shortie = {
-    slug: slug,
-    url: url
-  };
-
+  var shortie = new model.Shortie(slug, url, model.ShorieType.Generated);
   repo.addShortie(shortie.slug, shortie, function(err) {
     if (err) return next(err);
     res.send(201, shortie);
@@ -57,10 +54,7 @@ function putHandler(req, res, next) {
   var newSlug = req.body.slug;
   if (isInvalidSlug(newSlug)) return res.send(400, 'Invalid slug in request body');
 
-  var shortie = {
-    slug: newSlug,
-    url: url
-  };
+  var shortie = new model.Shortie(newSlug , url, model.ShorieType.Manual);
 
   repo.addShortie(slugToCreateOrReplace, shortie, function(err) {
     if (err) return next(err);
