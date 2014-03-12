@@ -3,12 +3,6 @@
 /// <reference path="../../.types/mocha/mocha.d.ts" />
 /// <reference path="../../.types/supertest/supertest.d.ts" />
 
-var mongoUrl = process.env.MONGO_URL;
-if (!mongoUrl) {
-  console.log('Using local mongodb instance');
-  mongoUrl = process.env.MONGO_URL = 'mongodb://127.0.0.1:27017/valtech_shorties_test?w=1';
-}
-
 var request = require('supertest');
 var assert = require('chai').assert;
 
@@ -29,14 +23,16 @@ describe('api', function() {
     this.timeout(5000);
 
     // Setup test mongodb connection
+    var mongoUrl = process.env.MONGO_URL = 'mongodb://127.0.0.1:27017/valtech_shorties_test?w=1';
     mongodb.MongoClient.connect(mongoUrl, (err: Error, _db: mongodb.Db) => {
       if (err) return done(err);
       db = _db;
       shortiesCollection = db.collection('shorties');
 
-      app.create({}, function (err, app_) {
+      var appOpts = { dbType: 'mongodb', mongoUrl: mongoUrl };
+      app.create(appOpts, function (err, app_) {
         shortieApp = app_;
-        app.setup({ dbType: 'mongodb' }, done);
+        done();
       });
     });
 
