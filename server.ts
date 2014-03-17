@@ -7,10 +7,12 @@ var log = require('winston');
 var environment = process.env.NODE_ENV || 'development';
 
 if (environment == 'production') {
+  // New Relic
   require('newrelic');
+  // Logentries
   var logentries = require('node-logentries');
   logentries.logger({
-    token: '9bb3dd10-4bfe-4fdb-b7ec-83c3b1fc26fc'
+    token: process.env.LOGENTRIES_TOKEN
   }).winston(log, {
       level: 'silly',
       levels: {
@@ -21,7 +23,6 @@ if (environment == 'production') {
         fatal: 4
       }
     });
-} else {
 }
 
 log.info('Running in environment ' + environment);
