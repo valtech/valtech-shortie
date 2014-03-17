@@ -14,6 +14,7 @@ describe('404 error', function () {
   var shortieApp;
 
   before(function (done) {
+    this.timeout(5000);
     app.create({dbType:'nedb'}, function (err, app_) {
       shortieApp = app_;
       shortieApp.all('/force-error', function (req, res, next) {
