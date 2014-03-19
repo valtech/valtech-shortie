@@ -66,6 +66,11 @@ export function create(options, callback: (err: any, app)=>void) {
   if (options.environment == 'development') {
     app.use(express.errorHandler());
   }
+  app.use(function(req, res, next) {
+    // No caching for the routes that follow
+    res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+    next();
+  });
   app.use(app.router);
   app.use(errorMiddleware.handleError);
 
