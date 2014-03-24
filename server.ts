@@ -13,17 +13,16 @@ if (environment == 'production') {
   var logentries = require('node-logentries');
   logentries.logger({
     token: process.env.LOGENTRIES_TOKEN
-  }).winston(log, {
-      level: 'silly',
-      levels: {
-        silly: 0,
-        debug: 1,
-        info: 2,
-        error: 3,
-        fatal: 4
-      }
-    });
+  }).winston(log);
 }
+
+log.setLevels({
+      silly: 0,
+      debug: 1,
+      info: 2,
+      error: 3,
+      fatal: 4
+  });
 
 log.info('Running in environment ' + environment);
 
@@ -40,6 +39,9 @@ var appOpts = {
 
 
 app.create(appOpts, function (err, app) {
+  if (err) {
+    log.fatal(err.message, err);
+  }
   http.createServer(app).listen(app.get('port'), function () {
     log.info('Express server listening on port ' + app.get('port'));
   });
