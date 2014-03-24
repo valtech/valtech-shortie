@@ -1,7 +1,7 @@
 ﻿var log = require('winston');
 
 export function handleError(err, req, res, next) {
-  log.error(err.message, err);
+  log.error(err);
   if (req.accepts('html')) {
     res
       .status(500)

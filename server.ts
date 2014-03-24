@@ -40,7 +40,7 @@ var appOpts = {
 
 app.create(appOpts, function (err, app) {
   if (err) {
-    log.fatal(err.message, err);
+    log.fatal(err);
   }
   http.createServer(app).listen(app.get('port'), function () {
     log.info('Express server listening on port ' + app.get('port'));

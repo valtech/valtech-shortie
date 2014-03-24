@@ -25,7 +25,8 @@ export function create(type: string, options: any, callback: (err: any, db?: any
         }
       };
       mongodb.MongoClient.connect(options.mongoUrl, mongoOptions, (err, db) => {
-        if (err) return callback(err);
+        if (err)
+          return callback(err.message);
         var shortiesCollection = db.collection('shorties');
         callback(null, shortiesCollection);
       });
