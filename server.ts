@@ -17,12 +17,12 @@ if (environment == 'production') {
 }
 
 log.setLevels({
-      silly: 0,
-      debug: 1,
-      info: 2,
-      error: 3,
-      fatal: 4
-  });
+        silly: 0,
+        debug: 1,
+        info: 2,
+        error: 3,
+        fatal: 4
+    });
 
 log.info('Running in environment ' + environment);
 
