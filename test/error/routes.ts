@@ -28,6 +28,7 @@ describe('404 error', function () {
   _.each(['GET', 'POST'], function (verb) {
     describe(verb + ' /non-existing-resource', function () {
       it('should return html for requests that accept html', function (done) {
+        this.timeout(5000);
         request(shortieApp)
         [verb.toLowerCase()]('/non-existing-resource')
           .set('Accept', 'text/html')
@@ -37,6 +38,7 @@ describe('404 error', function () {
       });
 
       it('should return json for requests that accept json', function (done) {
+        this.timeout(5000);
         request(shortieApp)
         [verb.toLowerCase()]('/non-existing-resource')
           .set('Accept', 'appliction/json')
