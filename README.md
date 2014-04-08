@@ -34,7 +34,7 @@ This list isn't exhaustive, but should give you an idea of the overall architect
 * Knockout ([http://knockoutjs.com/]())
 * jQuery ([http://jquery.org/]())
 	* (Only explicitly used for making AJAX calls to the REST API)
-* Underscore.js ([http://underscorejs.org/]())   
+* Underscore.js ([http://underscorejs.org/]())
 
 ### Backend
 
@@ -42,7 +42,7 @@ This list isn't exhaustive, but should give you an idea of the overall architect
 * Express web framework ([http://expressjs.com/]())
 * Jade templating engine ([http://jade-lang.com/]())
 * Winston logging library ([https://github.com/flatiron/winston]())
-* Underscore.js ([http://underscorejs.org/]()) 
+* Underscore.js ([http://underscorejs.org/]())
 * MongoDB ([http://www.mongodb.org]())
 * NeDB ([https://github.com/louischatriot/nedb]())
 	* (embedded database used for unit tests)
@@ -109,14 +109,14 @@ The MongoDB databases are located at [MongoHQ](https://app.mongohq.com/). Ask IT
 
 #### (First time)
 
-This will install all required Node modules. 
+This will install all required Node modules.
 
     npm install
 
-#### From CLI 
+#### From CLI
 
     grunt
-    node src/server.js
+    node server.js
 
 #### With grunt watch and [node-supervisor](https://github.com/isaacs/node-supervisor)
 
@@ -126,16 +126,15 @@ Tab A:
 
 Tab B:
 
-    supervisor src/server.js
+    supervisor server.js
 
 #### Debugging with [node-inspector](https://github.com/node-inspector/node-inspector)
 
     grunt
-    node-debug src/server.js
+    node-debug server.js
 
 #### Running (and debugging) with Visual Studio 2013
 
 Run Grunt tasks.
 
 Press F5. :-)
-
