@@ -1,5 +1,5 @@
 body {
-	padding: 50px;
+	padding: 0 50px;
 	font-size: 14px;
 	font-family: 'Lucida Grande', Arial, sans-serif;
 }
@@ -7,4 +7,3 @@ body {
 a {
 	color: #00B7FF;
 }
-

@@ -8,20 +8,19 @@ block styles
 
 
 block content
-  .container-fluid
+  .container
     .page-header
       h1 valte.ch <small> list</small>
       .pull-right(style='margin-top: -30px')
         span= user.name
         | &nbsp;-&nbsp;
         a(href='/logout') logout
-    .row#new-shortie
-      .col-md-6.col-md-offset-3
-        .input-group.input-group-lg
-          span.input-group-addon http://
-          input.form-control(type='text')
-          span.input-group-btn
-            button.btn.btn-primary Generate!
+    .alert.alert-warning
+      span a work in progress.
+      a(href="/cats") /cats
+      span  is funny.
+
+    include includes/organizer
 
 block scripts
   script(src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.0.min.js")

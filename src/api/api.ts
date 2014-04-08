@@ -1,4 +1,4 @@
-﻿/// <reference path="../../.types/jquery/jquery.d.ts" />
+/// <reference path="../../.types/jquery/jquery.d.ts" />
 
 import shortieModel = require('../shorties/model');
 import $ = require('jquery');

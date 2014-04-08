@@ -1,4 +1,4 @@
-﻿/// <reference path="../../.types/underscore/underscore.d.ts"/>
+/// <reference path="../../.types/underscore/underscore.d.ts"/>
 /// <reference path="../../.types/node/node.d.ts"/>
 /// <reference path="../../.types/knockout/knockout.d.ts"/>
 
@@ -11,7 +11,7 @@ var _: UnderscoreStatic = underscore;
 var ko: KnockoutStatic = knockout;
 
 import model = require('../shorties/model');
-import api = require('./api');
+import api = require('../api/api');
 
 export class ShortieViewModel {
   public shortie: model.Shortie;
@@ -38,12 +38,12 @@ export class ShortieViewModel {
   }
 }
 
-export class AdminViewModel {
+export class ListViewModel {
   public shorties: KnockoutObservableArray<ShortieViewModel>;
   public currentShortie: KnockoutObservable<ShortieViewModel>;
   public urlForGenerated : KnockoutObservable<string>;
   public spamWarning: KnockoutComputed<boolean>;
-  
+
 
   private spamAttemped: KnockoutObservable<boolean>;
   private containsEmpties: KnockoutComputed<boolean>;
