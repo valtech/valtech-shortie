@@ -2,17 +2,17 @@ extends ../layouts/admin
 block vars
   - var activeView='home'
 block content
-  .container-fluid.new-shortie
-    .row
+  .container-fluid.admin-main
+    .row.input-row
       .col-md-6.col-md-offset-3
         .input-group.input-group-lg
           span.input-group-addon http://
           input.form-control(type='text')
           span.input-group-btn
             button.btn.btn-primary Generate!
-    .row
+    .row.generated-shortie-row
       .col-md-6.col-md-offset-3
-        .panel.panel-default.generated-shortie
+        .panel.panel-default
           .panel-body
             .row
               .col-md-5.text-left

@@ -2,6 +2,8 @@ body {
 	padding: 0 50px;
 	font-size: 14px;
 	font-family: 'Lucida Grande', Arial, sans-serif;
+	max-width: 1280px;
+	margin: 0 auto;
 }
 
 a {

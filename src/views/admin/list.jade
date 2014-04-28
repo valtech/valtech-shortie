@@ -2,7 +2,7 @@ extends ../layouts/admin
 block vars
   - var activeView='list'
 block content
-  .container
+  .container-fluid.admin-list
     script(type='text/template', id='shortie-main')
       tr(data-bind="css: { selected: isCurrent(), notSelected: !isCurrent() }")
         td

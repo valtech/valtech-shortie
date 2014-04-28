@@ -1,3 +1,28 @@
-#new-shortie {
-  margin-top: 150px;
+.admin-main > .generated-shortie-row { 
+	margin-top: 6px;
 }
+
+@media (max-width: 767px) {
+	.admin-main > .row > div > .input-group {
+		display: block;
+	}
+	.admin-main > .row > div > .input-group > .input-group-addon {
+		display: none;
+	}
+	.admin-main > .row > div > .input-group > .form-control {
+		border-radius: 6px;
+		display: block;
+		float: none;
+	}
+	.admin-main > .row > div > .input-group > .input-group-btn {
+		display: block;
+		width: 100%;
+		margin-top: 6px;
+	}
+	.admin-main > .row > div > .input-group > .input-group-btn > .btn {
+		display: block;
+		width: 100%;
+		border-radius: 6px;
+	}
+}
+
