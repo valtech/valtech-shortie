@@ -1,9 +1,46 @@
 doctype html
 html
+  block vars
   head
     title= title
     meta(name="viewport", content="width=device-width, initial-scale=1, maximum-scale=1")
+    link(rel="stylesheet", href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css")
+    link(rel="stylesheet", href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css")
+    link(rel="stylesheet", href="/css/admin.css")
     block styles
   body
+
+    nav.navbar.navbar-default(role='navigation')
+      .container-fluid
+        .navbar-header
+          button.button(class='navbar-toggle', data-toggle='collapse', data-target='#main-navbar-collapse')
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand(href='#')
+            | valte.ch
+        .collapse.navbar-collapse#main-navbar-collapse
+          ul.nav.navbar-nav
+            li(class=(activeView=='home'?'active':''))
+              a(href='/admin/')
+                span.glyphicon.glyphicon-home &nbsp;
+                | Home
+            li(class=(activeView=='list'?'active':''))
+              a(href='/admin/list')
+                span.glyphicon.glyphicon-list &nbsp;
+                | List
+            li
+              a(href='/logout')
+                span.glyphicon.glyphicon-log-out &nbsp;
+                | Logout
+                | (
+                span= user.name
+                | )
+
     block content
+
+    script(src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.0.min.js")
+    script(src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js")
+    script(src="/js/bundle.js")
     block scripts

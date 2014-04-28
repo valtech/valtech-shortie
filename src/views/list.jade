@@ -1,28 +1,53 @@
 extends layouts/layout
-
-block styles
-  //-link(rel="stylesheet", href="//fonts.googleapis.com/css?family=Open+Sans:400,600,800", type="text/css")
-  link(rel="stylesheet", href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css")
-  link(rel="stylesheet", href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css")
-  link(rel="stylesheet", href="/css/admin.css")
-
-
+block vars
+  - var activeView='list'
 block content
   .container
-    .page-header
-      h1 valte.ch <small> list</small>
-      .pull-right(style='margin-top: -30px')
-        span= user.name
-        | &nbsp;-&nbsp;
-        a(href='/logout') logout
-    .alert.alert-warning
-      span a work in progress.
-      a(href="/cats") /cats
-      span  is funny.
+    script(type='text/template', id='shortie-main')
+      tr(data-bind="css: { selected: isCurrent(), notSelected: !isCurrent() }")
+        td
+          input.form-control(type='text', placeholder='rly shrt', data-bind="value: slug, event: { focus: $parent.select.bind($parent) }")
+        td
+          input.form-control(type='text', placeholder='really long', data-bind="value: url, event: { focus: $parent.select.bind($parent) }")
+        td
+          .btn-group.pull-right
+            button.btn.btn-primary.btn-xs(data-bind='click: $parent.save.bind($parent)')
+              span.glyphicon.glyphicon-save
+              span.small save
+            button.btn.btn-danger.btn-xs(data-toggle='modal', data-target='#deleteModal', data-bind='click: $parent.markShortieForDeletion.bind($parent)')
+              span.glyphicon.glyphicon-remove
+              span.small &nbsp;delete
+            a.btn.btn-default.btn-xs(data-bind='attr: { href: slug }')
+              span.glyphicon.glyphicon-share-alt
+              span.small goto
 
-    include includes/organizer
+    div(id='organizer')
+      .alert.alert-warning(data-bind='visible: spamWarning')
+        b Spam warning!
+        span Enter value for empty shortie before adding a new one.
 
-block scripts
-  script(src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.0.min.js")
-  script(src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js")
-  script(src="/js/bundle.js")
+      table.table.table-striped
+        thead
+          tr
+            th.slug
+              div Slug
+            th.url
+              div Full Url
+            th.buttons
+              .btn-group.pull-right
+                button.btn.btn-default.btn-xs(data-bind='click: addNew')
+                  span.glyphicon.glyphicon-plus
+                  span.small add shortie
+        tbody(data-bind="template : {name : 'shortie-main', foreach: shorties}")
+
+        #deleteModal.modal.fade
+          .modal-dialog
+            .modal-content
+              .modal-header
+                button.close(data-dismiss='modal')
+                  &times
+                h4.modal-title Delete shortie
+              .modal-body
+                button.btn.btn-danger.btn-xl(data-dismiss='modal', data-bind='click: remove')
+                  span.glyphicon.glyphicon-remove
+                  &nbsp;delete forever
