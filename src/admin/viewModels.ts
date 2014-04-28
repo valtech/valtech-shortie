@@ -12,11 +12,13 @@ export class IndexViewModel {
   private apiClient: api.ApiClient;
   public urlToShorten: KnockoutObservable<string>;
   public slug: KnockoutObservable<string>;
+  public showInfoPanel: KnockoutObservable<boolean>;
 
   constructor(apiClient: api.ApiClient) {
     this.apiClient = apiClient;
     this.urlToShorten = ko.observable<string>();
     this.slug = ko.observable<string>();
+    this.showInfoPanel = ko.observable<boolean>();
   }
 
   public generateShortie(): void {
@@ -28,6 +30,7 @@ export class IndexViewModel {
       },
       (response: api.ApiResponse<model.Shortie>)=> {
         this.slug(response.data.slug);
+        this.showInfoPanel(true);
       }); 
   }
 }

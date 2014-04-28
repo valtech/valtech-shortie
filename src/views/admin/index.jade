@@ -9,18 +9,15 @@ block content
           input.form-control(type='text', data-bind='value: urlToShorten')
           span.input-group-btn
             button.btn.btn-primary(data-bind='click: generateShortie') Generate!
-    .row.generated-shortie-row
+    .row.generated-shortie-row(data-bind='visible: showInfoPanel')
       .col-md-6.col-md-offset-3
         .panel.panel-default
           .panel-body
             .form.form-inline
               p Here's your shortie!
               p
-                div Input: 
-                a(href='http://www.valtech.se/') http://www.valtech.se/
-              p
-                div Output:
-                | valte.ch/
+                div 
+                | valte.ch/ 
                 input.form-control.input-sm(type='text', data-bind='value: slug')
                 a.btn.btn-default.btn-xs
                   span.glyphicon.glyphicon-edit
