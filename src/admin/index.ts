@@ -7,3 +7,11 @@
 import ko = require('knockout');
 import _ = require('underscore');
 import $ = require('jquery');
+
+import viewModels = require('./viewModels');
+import model = require('../shorties/model');
+import api = require('../api/api');
+
+var indexViewModel = new viewModels.IndexViewModel(new api.ApiClient());
+
+ko.applyBindings(indexViewModel, document.getElementById('admin-main'));

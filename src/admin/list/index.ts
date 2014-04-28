@@ -14,6 +14,6 @@ import api = require('../../api/api');
 
 var listViewModel = new viewModels.ListViewModel(new api.ApiClient());
 
-ko.applyBindings(listViewModel, document.getElementById('organizer'));
+ko.applyBindings(listViewModel, document.getElementById('admin-list'));
 
 listViewModel.loadShorties();

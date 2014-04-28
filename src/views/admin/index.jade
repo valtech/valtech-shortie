@@ -2,14 +2,13 @@ extends ../layouts/admin
 block vars
   - var activeView='home'
 block content
-  .container-fluid.admin-main
+  .container-fluid#admin-main
     .row.input-row
       .col-md-6.col-md-offset-3
         .input-group.input-group-lg
-          span.input-group-addon http://
-          input.form-control(type='text')
+          input.form-control(type='text', data-bind='value: urlToShorten')
           span.input-group-btn
-            button.btn.btn-primary Generate!
+            button.btn.btn-primary(data-bind='click: generateShortie') Generate!
     .row.generated-shortie-row
       .col-md-6.col-md-offset-3
         .panel.panel-default
@@ -22,8 +21,11 @@ block content
               p
                 div Output:
                 | valte.ch/
-                input.form-control.input-sm(type='text', value='foobar')
+                input.form-control.input-sm(type='text', data-bind='value: slug')
                 a.btn.btn-default.btn-xs
                   span.glyphicon.glyphicon-edit
                   span edit
               
+block scripts
+  script(src="/js/admin-main.js")
+

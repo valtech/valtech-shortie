@@ -2,7 +2,7 @@ extends ../layouts/admin
 block vars
   - var activeView='list'
 block content
-  .container-fluid.admin-list
+  .container-fluid#admin-list
     script(type='text/template', id='shortie-main')
       tr(data-bind="css: { selected: isCurrent(), notSelected: !isCurrent() }")
         td
@@ -21,7 +21,7 @@ block content
               span.glyphicon.glyphicon-share-alt
               span.small goto
 
-    div(id='organizer')
+    div
       .alert.alert-warning(data-bind='visible: spamWarning')
         b Spam warning!
         span Enter value for empty shortie before adding a new one.
@@ -51,3 +51,6 @@ block content
                 button.btn.btn-danger.btn-xl(data-dismiss='modal', data-bind='click: remove')
                   span.glyphicon.glyphicon-remove
                   &nbsp;delete forever
+
+block scripts
+  script(src="/js/admin-list.js")
