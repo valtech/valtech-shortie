@@ -60,7 +60,7 @@ module.exports = function(grunt) {
           'src/css/bootstrap/bootstrap-theme.css',
           'src/css/admin-common.css',
           'src/css/admin-main.css',
-          'src/css/admin-common.css'
+          'src/css/admin-list.css'
         ],
         dest: 'src/public/css/admin.css'
       },

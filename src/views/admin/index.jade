@@ -14,10 +14,16 @@ block content
       .col-md-6.col-md-offset-3
         .panel.panel-default
           .panel-body
-            .row
-              .col-md-5.text-left
-                a(href='http://valte.ch/home') valte.ch/home
-              .col-md-2.text-center
-                span.glyphicon.glyphicon-arrow-right
-              .col-md-5.text-right
+            .form.form-inline
+              p Here's your shortie!
+              p
+                div Input: 
                 a(href='http://www.valtech.se/') http://www.valtech.se/
+              p
+                div Output:
+                | valte.ch/
+                input.form-control.input-sm(type='text', value='foobar')
+                a.btn.btn-default.btn-xs
+                  span.glyphicon.glyphicon-edit
+                  span edit
+              
