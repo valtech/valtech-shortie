@@ -47,7 +47,7 @@ module.exports = function(grunt) {
             'Gruntfile.js',
             'src/**/*.js',
             '!src/js/**/*.js',
-            '!src/public/js/bundle.js'
+            '!src/public/js/*.js'
           ]
         }
       }
