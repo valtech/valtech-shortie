@@ -58,16 +58,15 @@ module.exports = function(grunt) {
         src: [
           'src/css/bootstrap/bootstrap.css',
           'src/css/bootstrap/bootstrap-theme.css',
-          'src/css/common.css',
-          'src/css/admin-*.css',
+          'src/css/admin-common.css',
+          'src/css/admin-main.css',
+          'src/css/admin-common.css'
         ],
         dest: 'src/public/css/admin.css'
       },
       public: {
         src: [
-          'src/css/bootstrap/*.css',
-          'src/css/common.css',
-          'src/css/public-*.css'
+          'src/css/public.css'
         ],
         dest: 'src/public/css/public.css'
       }
@@ -77,8 +76,8 @@ module.exports = function(grunt) {
       dist: {
         files: {
           'src/public/js/bundle.js': [
-            'src/admin/admin.js',
-            'src/list/list.js'
+            'src/admin/index.js',
+            'src/admin/list/index.js'
           ]
         }
       }

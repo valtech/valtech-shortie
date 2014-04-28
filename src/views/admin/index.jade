@@ -1,0 +1,23 @@
+extends ../layouts/admin
+block vars
+  - var activeView='home'
+block content
+  .container-fluid.new-shortie
+    .row
+      .col-md-6.col-md-offset-3
+        .input-group.input-group-lg
+          span.input-group-addon http://
+          input.form-control(type='text')
+          span.input-group-btn
+            button.btn.btn-primary Generate!
+    .row
+      .col-md-6.col-md-offset-3
+        .panel.panel-default.generated-shortie
+          .panel-body
+            .row
+              .col-md-5.text-left
+                a(href='http://valte.ch/home') valte.ch/home
+              .col-md-2.text-center
+                span.glyphicon.glyphicon-arrow-right
+              .col-md-5.text-right
+                a(href='http://www.valtech.se/') http://www.valtech.se/

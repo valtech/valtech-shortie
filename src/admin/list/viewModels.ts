@@ -1,17 +1,17 @@
-/// <reference path="../../.types/underscore/underscore.d.ts"/>
-/// <reference path="../../.types/node/node.d.ts"/>
-/// <reference path="../../.types/knockout/knockout.d.ts"/>
+/// <reference path="../../../.types/underscore/underscore.d.ts"/>
+/// <reference path="../../../.types/node/node.d.ts"/>
+/// <reference path="../../../.types/knockout/knockout.d.ts"/>
 
 import knockout = require('knockout');
 import underscore = require('underscore');
-import utils = require('../lib/UrlUtils');
+import utils = require('../../lib/UrlUtils');
 
 // this is a hack for better intellisence in vs2013
 var _: UnderscoreStatic = underscore;
 var ko: KnockoutStatic = knockout;
 
-import model = require('../shorties/model');
-import api = require('../api/api');
+import model = require('../../shorties/model');
+import api = require('../../api/api');
 
 export class ShortieViewModel {
   public shortie: model.Shortie;

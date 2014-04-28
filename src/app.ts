@@ -9,6 +9,7 @@ var log = require('winston');
 import shortieRoutes = require('./shorties/routes');
 import authRoutes = require('./auth/routes');
 import staticRoutes = require('./static/routes');
+import adminRoutes = require('./admin/routes');
 import errorRoutes = require('./error/routes');
 import errorMiddleware = require('./error/middleware');
 
@@ -31,6 +32,7 @@ export function setup(app, options, callback?) : void {
 function setupRoutes(app, repo) {
   staticRoutes.setup(app);
   authRoutes.setup(app);
+  adminRoutes.setup(app);
   shortieRoutes.setup(app, { shortiesRepo: repo });
   errorRoutes.setup(app);
 }

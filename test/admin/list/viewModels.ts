@@ -1,11 +1,11 @@
-﻿/// <reference path="../../.types/mocha/mocha.d.ts"/>
-/// <reference path="../../.types/sinon/sinon.d.ts"/>
-/// <reference path="../../.types/my-chai/my-chai.d.ts"/>
-/// <reference path="../../src/list/viewModels.ts"/>
+﻿/// <reference path="../../../.types/mocha/mocha.d.ts"/>
+/// <reference path="../../../.types/sinon/sinon.d.ts"/>
+/// <reference path="../../../.types/my-chai/my-chai.d.ts"/>
+/// <reference path="../../../src/admin/list/viewModels.ts"/>
 
-import viewModels = require('../../src/list/viewModels');
-import api = require('../../src/api/api');
-import model = require('../../src/shorties/model');
+import viewModels = require('../../../src/admin/list/viewModels');
+import api = require('../../../src/api/api');
+import model = require('../../../src/shorties/model');
 
 import _ = require('underscore');
 import chai = require('chai');
