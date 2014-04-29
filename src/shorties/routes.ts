@@ -34,12 +34,20 @@ function postHandler(req, res, next) {
   // return 400 on invalid data
   var url = req.body.url;
   if (isInvalidUrl(url)) return res.send(400, 'Invalid URL in request body');
-  var slug = slugGenerator.generate();
 
-  var shortie = new model.Shortie(slug, url, model.ShortieType.Generated);
-  repo.addShortie(shortie.slug, shortie, function(err) {
+  repo.getShortiesByUrl(url, function(err, shorties) {
     if (err) return next(err);
-    res.send(201, shortie);
+    if(shorties.length === 0) {
+      var slug = slugGenerator.generate();
+      var shortie = new model.Shortie(slug, url, model.ShortieType.Generated);
+      repo.addShortie(shortie.slug, shortie, function(err) {
+        if (err) return next(err);
+        res.send(201, shortie);
+      });
+    } else {
+      var shortie = new model.Shortie(shorties[0].slug, shorties[0].url, shorties[0].type);
+      res.send(200, shortie);
+    }
   });
 }
 

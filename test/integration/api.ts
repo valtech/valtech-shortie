@@ -137,6 +137,37 @@ describe('api (authenticated)', function () {
     };
   });
 
+  it('POST / should return existing shortie if URL has already been shortened', function (done) {
+    var url = 'http://www.imdb.com/title/tt0118276/'
+    request(shortieApp)
+      .post('/')
+      .send({ url: url })
+      .set('Accept', 'application/json')
+      .end(function(err, res) {
+        if (err) return done(err);
+        request(shortieApp)
+          .post('/')
+          .send({ url: url })
+          .set('Accept', 'application/json')
+          .expect(200)
+          .end(function(err2, res2) {
+            if(err2) return done(err2);
+            assert.equal(res2.body.slug, res.body.slug);
+          });
+      });
+
+    function onCreated(err, res) {
+      if (err) return done(err);
+      var generatedSlug = res.body.slug;
+      assert.isString(generatedSlug);
+      assert.isTrue(generatedSlug.length > 4);
+      request(shortieApp)
+        .get('/' + generatedSlug)
+        .expect('Location', url)
+        .expect(302, done);
+    };
+  });
+
   it('PUT /:slug should insert a shortie', function (done) {
     var url = 'http://www.imdb.com/title/tt0118276/'
     request(shortieApp)
