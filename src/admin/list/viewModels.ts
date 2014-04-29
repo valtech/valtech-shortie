@@ -34,7 +34,7 @@ export class ShortieViewModel {
 
     this.slug(shortie.slug);
     this.url(shortie.url);
-    this.type(shortie.type.toString());
+    this.type(model.ShortieType[shortie.type]);
 
     this.slug.subscribe((newValue) => { shortie.slug = newValue; });
     this.url.subscribe((newValue) => { shortie.url = newValue; });

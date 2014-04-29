@@ -26,7 +26,8 @@ table.table > tbody > tr > td > div {
 }
 
 /* make input fields in non-selected rows look like plain text */
-table.table > tbody > tr.notSelected > td > input.form-control {
+table.table > tbody > tr.notSelected > td > .form-control,
+table.table > tbody > tr > td > div.form-control {
 	border-color: transparent;
 	background: transparent;
 	box-shadow: none;

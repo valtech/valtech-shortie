@@ -11,7 +11,7 @@ block content
           th.url
             div Full Url
           th
-            span Type
+            div Type
           th
       tbody(data-bind="foreach: shorties")
        tr(data-bind="css: { selected: isCurrent(), notSelected: !isCurrent() }")
@@ -20,7 +20,7 @@ block content
           td
             input.form-control(type='text', placeholder='really long', data-bind="value: url, event: { focus: $parent.select.bind($parent), blur: $parent.deselect.bind($parent) }")
           td
-            span(data-bind='text: type')
+            div.form-control(data-bind='text: type')
           td
             .btn-group.pull-right
               button.btn.btn-primary.btn-xs(data-bind='click: $parent.save.bind($parent)')
