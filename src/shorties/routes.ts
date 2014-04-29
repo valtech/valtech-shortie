@@ -45,8 +45,7 @@ function postHandler(req, res, next) {
         res.send(201, shortie);
       });
     } else {
-      var shortie = new model.Shortie(shorties[0].slug, shorties[0].url, shorties[0].type);
-      res.send(200, shortie);
+      res.send(200, new model.Shortie(shorties[0].slug, shorties[0].url, shorties[0].type));
     }
   });
 }
