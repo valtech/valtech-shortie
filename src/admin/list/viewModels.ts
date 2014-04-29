@@ -74,6 +74,10 @@ export class ListViewModel {
     shortie.isCurrent(true);
   }
 
+  public deselect(shortie: ShortieViewModel): void {
+    shortie.isCurrent(false);
+  }
+
   public addNew(): void {
     if (this.containsEmpties()) {
       this.spamAttemped(true);

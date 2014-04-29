@@ -6,9 +6,9 @@ block content
     script(type='text/template', id='shortie-main')
       tr(data-bind="css: { selected: isCurrent(), notSelected: !isCurrent() }")
         td
-          input.form-control(type='text', placeholder='rly shrt', data-bind="value: slug, event: { focus: $parent.select.bind($parent) }")
+          input.form-control(type='text', placeholder='rly shrt', data-bind="value: slug, event: { focus: $parent.select.bind($parent), blur: $parent.deselect.bind($parent) }")
         td
-          input.form-control(type='text', placeholder='really long', data-bind="value: url, event: { focus: $parent.select.bind($parent) }")
+          input.form-control(type='text', placeholder='really long', data-bind="value: url, event: { focus: $parent.select.bind($parent), blur: $parent.deselect.bind($parent) }")
         td
           span(data-bind='text: type')
         td
