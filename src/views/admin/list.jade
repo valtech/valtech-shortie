@@ -12,11 +12,7 @@ block content
             div Full Url
           th
             span Type
-          th.buttons
-            .btn-group.pull-right
-              button.btn.btn-default.btn-xs(data-bind='click: addNew')
-                span.glyphicon.glyphicon-plus
-                span.small add shortie
+          th
       tbody(data-bind="foreach: shorties")
        tr(data-bind="css: { selected: isCurrent(), notSelected: !isCurrent() }")
           td
