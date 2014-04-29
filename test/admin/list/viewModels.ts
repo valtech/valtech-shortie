@@ -27,14 +27,17 @@ describe("ListViewModel", function () {
       new model.Shortie("i-wish", "http://open.spotify.com/track/74WFSCXc8yHY7HDXREiLpM")
     ];
     apiClient = {
-      sendRequest: function () {}
+      getShorties: function () {},
+      deleteShortie: function() {},
+      saveShortie: function() {},
+      saveNewShortie: function() {}
     };
     listViewModel = new viewModels.ListViewModel(apiClient);
   });
 
   describe('loadShorties()', function () {
     it("should create ShortieViewModels for all Shorties", function () {
-      apiClient.sendRequest = function (request, callback) {
+      apiClient.getShorties = function (callback) {
         callback({ status: 200, data: models });
       };
 
@@ -110,12 +113,14 @@ describe("ListViewModel", function () {
   });
 
   describe("save()", function () {
-    var sendRequestSpy: SinonSpy;
+    var saveShortieSpy: SinonSpy;
+    var saveNewShortieSpy: SinonSpy;
 
     beforeEach(function () {
       listViewModel.shorties(_.map(models, m => new viewModels.ShortieViewModel(m)));
       var apiOkResponse = { status: 200, data: {} };
-      apiClient.sendRequest = sendRequestSpy = sinon.spy(function (request, callback) { callback(apiOkResponse); });
+      apiClient.saveShortie = saveShortieSpy = sinon.spy(function (slug, shortie, callback) { callback(apiOkResponse); });
+      apiClient.saveNewShortie = saveNewShortieSpy = sinon.spy(function (url, callback) { callback(apiOkResponse); });
     });
 
     it('should deselect all shorties', function () {
@@ -131,67 +136,48 @@ describe("ListViewModel", function () {
       });
     });
 
-    it('should send PUT request to save existing Shortie', function () {
+    it('should save existing Shortie', function () {
       var shortie = listViewModel.shorties()[1];
       shortie.isCurrent(true);
 
       listViewModel.save(shortie);
 
-      sinon.assert.calledWith(sendRequestSpy, { path: '/go-shorty', verb: 'PUT', data: models[1] });
+      sinon.assert.calledWith(saveShortieSpy, sinon.match('go-shorty'), sinon.match(models[1]));
     });
 
-    it('should send PUT request to replace existing Shortie with new slug', function () {
+    it('should save existing Shortie with new slug', function () {
       var shortie = listViewModel.shorties()[1];
       shortie.slug('go-longery');
       shortie.isCurrent(true);
 
       listViewModel.save(shortie);
 
-      sinon.assert.calledWith(sendRequestSpy, { path: '/go-shorty', verb: 'PUT', data: models[1] });
-    });
-
-    it('should send PUT request to save new Shortie', function () {
-      var shortie = new viewModels.ShortieViewModel();
-      shortie.slug('foo');
-      shortie.url('http://foobar');
-      listViewModel.shorties.push(shortie);
-
-      listViewModel.save(shortie);
-
-      var expectedRequest: api.ApiRequest = {
-        path: '/foo',
-        verb: 'PUT',
-        data: <model.Shortie>{
-          slug: 'foo',
-          url: 'http://foobar'
-        }
-      };
-      sinon.assert.calledWith(sendRequestSpy, sinon.match(expectedRequest));
+      sinon.assert.calledWith(saveShortieSpy, sinon.match('go-shorty'), sinon.match(models[1]));
     });
   });
 
   describe("saveByUrl()", ()=> {
-    var sendRequestSpy: SinonSpy;
+    var saveNewShortieSpy: SinonSpy;
 
     it("Should post the url through the api client", () => {
       /* Setup */
       var url = 'http://www.google.se';
       listViewModel.urlForGenerated(url);
-      apiClient.sendRequest = sendRequestSpy = sinon.spy((request, callback) => { callback({ status: 200, data: {}}); });
+      apiClient.saveNewShortie = saveNewShortieSpy = sinon.spy((url, callback) => { callback({ status: 200, data: new model.Shortie('', '') }); });
 
       /* Test */
       listViewModel.saveByUrl();
 
       /* Assert */
-      sinon.assert.called(sendRequestSpy);
+      sinon.assert.called(saveNewShortieSpy);
     });
 
     it("Should create ShortieVm and add it to shorties", ()=> {
       /* Setup */
       var url = 'http://www.google.se';
       listViewModel.urlForGenerated(url);
-      var generatedShortie = new model.Shortie('sluggy', url);
-      apiClient.sendRequest = sendRequestSpy = sinon.spy((request, callback) => { callback({status: 200, data: generatedShortie}); });
+      var generatedShortie = new model.Shortie('sluggy', url, model.ShortieType.Generated);
+      apiClient.saveNewShortie = saveNewShortieSpy = sinon.spy((url, callback) => { callback({status: 200, data: generatedShortie}); });
 
       /* Test */
       listViewModel.saveByUrl();
@@ -203,13 +189,13 @@ describe("ListViewModel", function () {
   });
 
   describe("remove()", function() {
-    var sendRequestSpy: SinonSpy;
+    var deleteShortieSpy: SinonSpy;
     var shortie: viewModels.ShortieViewModel;
 
     beforeEach(function () {
       listViewModel.shorties(_.map(models, m => new viewModels.ShortieViewModel(m)));
       var apiOkResponse = { status: 200, data: {} };
-      apiClient.sendRequest = sendRequestSpy = sinon.spy(function (request, callback) { callback(apiOkResponse); });
+      apiClient.deleteShortie = deleteShortieSpy = sinon.spy(function (slug, callback) { callback(apiOkResponse); });
       shortie = listViewModel.shorties()[1];
       listViewModel.markShortieForDeletion(shortie);
     });
@@ -217,20 +203,14 @@ describe("ListViewModel", function () {
     it('should call the API with a DELETE request', function() {
       listViewModel.remove();
 
-      sinon.assert.calledWith(sendRequestSpy, sinon.match({
-        path: '/' + shortie.shortie.slug,
-        verb: 'DELETE'
-      }));
+      sinon.assert.calledWith(deleteShortieSpy, sinon.match(shortie.shortie.slug));
     });
 
     it('should call the API with a DELETE request using the original slug', function() {
       shortie.slug('asdfasdfasdfasdf');
       listViewModel.remove();
 
-      sinon.assert.calledWith(sendRequestSpy, sinon.match({
-        path: '/' + shortie.originalSlug,
-        verb: 'DELETE'
-      }));
+      sinon.assert.calledWith(deleteShortieSpy, sinon.match(shortie.originalSlug));
     });
 
     it('should remove the shortie from the list', function() {

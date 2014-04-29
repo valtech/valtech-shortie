@@ -47,7 +47,8 @@ export class ShortieRepository {
 
   private callbackWrapper(callback: (err: string, doc: model.Shortie) => void) {
     return (err, doc) => {
-      callback(err, new model.Shortie(doc.slug, doc.url, doc.type));
+      var shortie = doc !== null ? new model.Shortie(doc.slug, doc.url, doc.type) : null;
+      callback(err, shortie);
     };
   }
 

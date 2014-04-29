@@ -22,13 +22,7 @@ export class IndexViewModel {
   }
 
   public generateShortie(): void {
-    this.apiClient.sendRequest<model.Shortie>(
-      {
-        path: '/',
-        verb: 'POST',
-        data: { url: utils.parseAndClean(this.urlToShorten())}
-      },
-      (response: api.ApiResponse<model.Shortie>)=> {
+    this.apiClient.saveNewShortie(utils.parseAndClean(this.urlToShorten()), (response: api.ApiResponse<model.Shortie>) => {
         this.slug(response.data.slug);
         this.showInfoPanel(true);
       }); 

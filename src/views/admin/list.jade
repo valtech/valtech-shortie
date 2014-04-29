@@ -10,6 +10,8 @@ block content
         td
           input.form-control(type='text', placeholder='really long', data-bind="value: url, event: { focus: $parent.select.bind($parent) }")
         td
+          span(data-bind='text: type')
+        td
           .btn-group.pull-right
             button.btn.btn-primary.btn-xs(data-bind='click: $parent.save.bind($parent)')
               span.glyphicon.glyphicon-save
@@ -33,6 +35,8 @@ block content
               div Slug
             th.url
               div Full Url
+            th
+              span Type
             th.buttons
               .btn-group.pull-right
                 button.btn.btn-default.btn-xs(data-bind='click: addNew')

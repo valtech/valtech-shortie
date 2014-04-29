@@ -1,7 +1,9 @@
 /// <reference path="../../.types/jquery/jquery.d.ts" />
+/// <reference path="../../.types/underscore/underscore.d.ts" />
 
-import shortieModel = require('../shorties/model');
+import model = require('../shorties/model');
 import $ = require('jquery');
+import _ = require('underscore');
 
 export interface ApiRequest {
   path: string;
@@ -16,7 +18,7 @@ export interface ApiResponse<TData> {
 }
 
 export class ApiClient {
-  public sendRequest<TData>(request: ApiRequest, callback: (response: ApiResponse<TData>) => void): void {
+  private static sendRequest<TData>(request: ApiRequest, callback: (response: ApiResponse<TData>) => void): void {
     $.ajax({
       headers: {
         Accept: 'application/json',
@@ -40,6 +42,35 @@ export class ApiClient {
       }
     });
   }
+
+  public getShorties(callback: (response: ApiResponse<Array<model.Shortie>>) => void): void {
+    ApiClient.sendRequest<Array<model.Shortie>>({ path: '/', verb: 'GET' }, callback);
+  }
+
+  public deleteShortie(slug: string, callback: (response: ApiResponse<any>) => void) {
+    ApiClient.sendRequest({
+      path: '/' + slug,
+      verb: 'DELETE'
+    }, callback);
+  }
+
+  public saveShortie(slug: string, shortie: model.Shortie, callback: (response: ApiResponse<any>) => void): void {
+    var saveRequest = {
+      path: '/' + slug,
+      verb: 'PUT',
+      data: shortie
+    };
+    ApiClient.sendRequest(saveRequest, callback);
+  }
+
+  public saveNewShortie(url: string, callback: (response: ApiResponse<model.Shortie>) => void): void {
+    ApiClient.sendRequest<model.Shortie>({
+        path: '/',
+        verb: 'POST',
+        data: { url: url }
+      }, callback);
+  }
+
 }
 
 function tryParseJSON<T>(data: string, callback: (obj: T, success: boolean) => void) {

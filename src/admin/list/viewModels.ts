@@ -19,6 +19,7 @@ export class ShortieViewModel {
   public originalSlug: string;
   public slug: KnockoutObservable<string>;
   public url: KnockoutObservable<string>;
+  public type: KnockoutObservable<string>;
   public isCurrent: KnockoutObservable<boolean>;
 
   constructor(shortie?: model.Shortie) {
@@ -29,9 +30,11 @@ export class ShortieViewModel {
     this.originalSlug = shortie.slug;
     this.slug = ko.observable<string>();
     this.url = ko.observable<string>();
+    this.type = ko.observable<string>();
 
     this.slug(shortie.slug);
     this.url(shortie.url);
+    this.type(shortie.type.toString());
 
     this.slug.subscribe((newValue) => { shortie.slug = newValue; });
     this.url.subscribe((newValue) => { shortie.url = newValue; });
@@ -84,13 +87,7 @@ export class ListViewModel {
   }
 
   public saveByUrl() {
-    this.apiClient.sendRequest<model.Shortie>(
-      {
-        path: '/',
-        verb: 'POST',
-        data: { url: utils.parseAndClean(this.urlForGenerated())}
-      },
-      (response: api.ApiResponse<model.Shortie>)=> {
+    this.apiClient.saveNewShortie(utils.parseAndClean(this.urlForGenerated()), (response: api.ApiResponse<model.Shortie>) => {
         var newShortie = new ShortieViewModel(response.data);
         this.shorties.push(newShortie);
       });
@@ -99,12 +96,7 @@ export class ListViewModel {
   public save(shortieVm: ShortieViewModel): void {
     shortieVm.url(utils.parseAndClean(shortieVm.shortie.url));
     var slugInPath = shortieVm.originalSlug === '' ? shortieVm.shortie.slug : shortieVm.originalSlug;
-    var saveRequest: api.ApiRequest = {
-      path: '/' + slugInPath,
-      verb: 'PUT',
-      data: shortieVm.shortie
-    };
-    this.apiClient.sendRequest(saveRequest, res=> {
+    this.apiClient.saveShortie(slugInPath, shortieVm.shortie, res=> {
       if (res.status >= 200 && res.status <= 299) {
         this.shorties().forEach(s=> s.isCurrent(false));
       } else {
@@ -115,11 +107,7 @@ export class ListViewModel {
 
   public remove(): void {
     var self = this;
-    var deleteRequest: api.ApiRequest = {
-      path: '/' + this.shortieForDeletion.originalSlug,
-      verb: 'DELETE'
-    };
-    this.apiClient.sendRequest(deleteRequest, function(res) {
+    this.apiClient.deleteShortie(this.shortieForDeletion.originalSlug, function(res) {
       if (res.status == 200) {
         self.shorties.remove(self.shortieForDeletion);
       } else {
@@ -129,7 +117,7 @@ export class ListViewModel {
   }
 
   public loadShorties() {
-    this.apiClient.sendRequest<Array<model.Shortie>>({ path: '/', verb: 'GET' }, (response) => {
+    this.apiClient.getShorties((response) => {
       if (response.status == 200) {
         var arrayOfVms = _.map(response.data, item => new ShortieViewModel(item));
         this.shorties(arrayOfVms);
@@ -141,7 +129,6 @@ export class ListViewModel {
     this.shortieForDeletion = shortieVm;
   }
 }
-
 
 function containsEmptyShorties(shorties: Array<ShortieViewModel>): boolean {
   var hasEmpties = _.any<ShortieViewModel>(shorties,
