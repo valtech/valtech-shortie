@@ -3,46 +3,39 @@ block vars
   - var activeView='list'
 block content
   .container-fluid#admin-list
-    script(type='text/template', id='shortie-main')
-      tr(data-bind="css: { selected: isCurrent(), notSelected: !isCurrent() }")
-        td
-          input.form-control(type='text', placeholder='rly shrt', data-bind="value: slug, event: { focus: $parent.select.bind($parent), blur: $parent.deselect.bind($parent) }")
-        td
-          input.form-control(type='text', placeholder='really long', data-bind="value: url, event: { focus: $parent.select.bind($parent), blur: $parent.deselect.bind($parent) }")
-        td
-          span(data-bind='text: type')
-        td
-          .btn-group.pull-right
-            button.btn.btn-primary.btn-xs(data-bind='click: $parent.save.bind($parent)')
-              span.glyphicon.glyphicon-save
-              span.small save
-            button.btn.btn-danger.btn-xs(data-toggle='modal', data-target='#deleteModal', data-bind='click: $parent.markShortieForDeletion.bind($parent)')
-              span.glyphicon.glyphicon-remove
-              span.small &nbsp;delete
-            a.btn.btn-default.btn-xs(data-bind='attr: { href: slug }')
-              span.glyphicon.glyphicon-share-alt
-              span.small goto
-
-    div
-      .alert.alert-warning(data-bind='visible: spamWarning')
-        b Spam warning!
-        span Enter value for empty shortie before adding a new one.
-
-      table.table.table-striped
-        thead
-          tr
-            th.slug
-              div Slug
-            th.url
-              div Full Url
-            th
-              span Type
-            th.buttons
-              .btn-group.pull-right
-                button.btn.btn-default.btn-xs(data-bind='click: addNew')
-                  span.glyphicon.glyphicon-plus
-                  span.small add shortie
-        tbody(data-bind="template : {name : 'shortie-main', foreach: shorties}")
+    table.table.table-striped
+      thead
+        tr
+          th.slug
+            div Slug
+          th.url
+            div Full Url
+          th
+            span Type
+          th.buttons
+            .btn-group.pull-right
+              button.btn.btn-default.btn-xs(data-bind='click: addNew')
+                span.glyphicon.glyphicon-plus
+                span.small add shortie
+      tbody(data-bind="foreach: shorties")
+       tr(data-bind="css: { selected: isCurrent(), notSelected: !isCurrent() }")
+          td
+            input.form-control(type='text', placeholder='rly shrt', data-bind="value: slug, event: { focus: $parent.select.bind($parent), blur: $parent.deselect.bind($parent) }")
+          td
+            input.form-control(type='text', placeholder='really long', data-bind="value: url, event: { focus: $parent.select.bind($parent), blur: $parent.deselect.bind($parent) }")
+          td
+            span(data-bind='text: type')
+          td
+            .btn-group.pull-right
+              button.btn.btn-primary.btn-xs(data-bind='click: $parent.save.bind($parent)')
+                span.glyphicon.glyphicon-save
+                span.small save
+              button.btn.btn-danger.btn-xs(data-toggle='modal', data-target='#deleteModal', data-bind='click: $parent.markShortieForDeletion.bind($parent)')
+                span.glyphicon.glyphicon-remove
+                span.small &nbsp;delete
+              a.btn.btn-default.btn-xs(data-bind='attr: { href: slug }')
+                span.glyphicon.glyphicon-share-alt
+                span.small goto
 
         #deleteModal.modal.fade
           .modal-dialog
