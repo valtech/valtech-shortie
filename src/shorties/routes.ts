@@ -53,12 +53,20 @@ function postHandler(req, res, next) {
 function putHandler(req, res, next) {
   var url = req.body.url;
   if (isInvalidUrl(url)) return res.send(400, 'Invalid URL in request body');
+  
   var slugToCreateOrReplace = req.params.slug;
   if (isInvalidSlug(slugToCreateOrReplace)) return res.send(400, 'Invalid slug in request URL');
+  
   var newSlug = req.body.slug;
   if (isInvalidSlug(newSlug)) return res.send(400, 'Invalid slug in request body');
 
-  var shortie = new model.Shortie(newSlug , url, model.ShortieType.Manual);
+  var type: model.ShortieType;
+  if(slugToCreateOrReplace !== newSlug)
+    type = model.ShortieType.Manual;
+  else
+    type = req.body.type;
+
+  var shortie = new model.Shortie(newSlug , url, type);
 
   repo.addShortie(slugToCreateOrReplace, shortie, function(err) {
     if (err) return next(err);
