@@ -1,6 +1,8 @@
 ﻿/// <reference path="../../.types/node/node.d.ts" />
+/// <reference path="../../.types/underscore/underscore.d.ts" />
 
 import model = require('./model');
+import _ = require('underscore');
 
 export class ShortieRepository {
   private db: any;
@@ -17,18 +19,18 @@ export class ShortieRepository {
   }
 
   public getShortieBySlug(slug: string, callback: (err: string, doc: model.Shortie) => void): void {
-    this.db.findOne({ slug: slug }, callback);
+    this.db.findOne({ slug: slug }, this.callbackWrapper(callback));
   }
 
   public getShortiesByUrl(url: string, callback: (err: string, doc: Array<model.Shortie>) => void) {
-    return this.db.find({ url: url }).toArray(callback);
+    return this.db.find({ url: url }).toArray(this.callbackWrapper2(callback));
   }
 
   public getAllShorties(callback: (err: string, doc: Array<model.Shortie>) => void, options?: ShortieGetOptions) {
     var dbQuery = this.db.find({});
 
     if (!options)
-      return dbQuery.toArray(callback);
+      return dbQuery.toArray(this.callbackWrapper2(callback));
 
     if (options.page !== undefined)
       dbQuery.skip(this.pageSize * options.page).limit(this.pageSize);
@@ -36,11 +38,26 @@ export class ShortieRepository {
     if (options.sort)
       dbQuery.sort(options.sort);
 
-    dbQuery.toArray(callback);
+    dbQuery.toArray(this.callbackWrapper2(callback));
   }
 
   public removeShortie(slug: string, callback: (err: any, num?: number) => void) {
     this.db.remove({slug: slug}, callback);
+  }
+
+  private callbackWrapper(callback: (err: string, doc: model.Shortie) => void) {
+    return (err, doc) => {
+      callback(err, new model.Shortie(doc.slug, doc.url, doc.type));
+    };
+  }
+
+  private callbackWrapper2(callback: (err: string, docs: Array<model.Shortie>) => void) {
+    return (err, docs) => {
+      var shorties = _.map(docs, function(doc: any) {
+        return new model.Shortie(doc.slug, doc.url, doc.type);
+      });
+      callback(err, shorties);
+    };
   }
 }
 
