@@ -2,6 +2,10 @@
 	margin-top: 6px;
 }
 
+#fullUrl {
+	cursor: copy;
+}
+
 @media (max-width: 767px) {
 	#admin-main > .row > div > .input-group {
 		display: block;
