@@ -12,6 +12,7 @@ import viewModels = require('./viewModels');
 import model = require('../shorties/model');
 import api = require('../api/api');
 
-var indexViewModel = new viewModels.IndexViewModel(new api.ApiClient());
+var rootUrl = 'http://' + window.location.host + '/';
+var indexViewModel = new viewModels.IndexViewModel(new api.ApiClient(), rootUrl);
 
 ko.applyBindings(indexViewModel, document.getElementById('admin-main'));
