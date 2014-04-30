@@ -49,15 +49,22 @@ export class IndexViewModel {
     if(!this.isReusedShortie) {
       this.apiClient.saveShortie(this.previousSlug, new model.Shortie(this.slug(), utils.parseAndClean(this.urlToShorten()), model.ShortieType.Manual), (response) => {
         this.previousSlug = response.data.slug;
+        this.slug(response.data.slug);
+        this.fullUrl(this.rootUrl + response.data.slug);
+        this.isEditingSlug(false);
       });
     } else {
       this.apiClient.saveShortie(this.slug(), new model.Shortie(this.slug(), utils.parseAndClean(this.urlToShorten()), model.ShortieType.Manual), (response) => {
         this.isReusedShortie = false;
+        this.previousSlug = response.data.slug;
+        this.fullUrl(this.rootUrl + response.data.slug);
+        this.isEditingSlug(false);
       });
     }
   }
 
   public cancelEditSlug(): void {
     this.isEditingSlug(false);
+    this.slug(this.previousSlug);
   }
 }

@@ -8,9 +8,8 @@ block content
         .input-group.input-group-lg
           input.form-control(type='text', data-bind='value: urlToShorten')
           span.input-group-btn
-            button.btn.btn-primary(data-bind='click: generateShortie') Generate!
-    .row.generated-shortie-row
-      //(data-bind='visible: showInfoPanel')
+            button.btn.btn-primary#generateShortieButton(data-bind='click: generateShortie') Generate!
+    .row.generated-shortie-row(data-bind='visible: showInfoPanel')
       .col-md-6.col-md-offset-3
         .panel.panel-default
           .panel-body
@@ -19,7 +18,7 @@ block content
                 h2 Here's your shortie!
                 div(data-bind='visible: !isEditingSlug()')
                   .input-group
-                    input.form-control(type='text', data-bind='value: fullUrl')
+                    input.form-control#fullUrl(type='text', data-bind='value: fullUrl', readonly)
                     span.input-group-btn
                       button.btn.btn-default(data-bind='click: editSlug')
                         | edit

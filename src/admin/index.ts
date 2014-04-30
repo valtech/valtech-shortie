@@ -16,3 +16,17 @@ var rootUrl = 'http://' + window.location.host + '/';
 var indexViewModel = new viewModels.IndexViewModel(new api.ApiClient(), rootUrl);
 
 ko.applyBindings(indexViewModel, document.getElementById('admin-main'));
+
+var fullUrlElement: any = document.getElementById('fullUrl');
+
+function focusOnFullUrl() {
+  fullUrlElement.focus();
+  fullUrlElement.setSelectionRange(0, fullUrlElement.value.length);
+}
+
+indexViewModel.fullUrl.subscribe(focusOnFullUrl);
+indexViewModel.showInfoPanel.subscribe(focusOnFullUrl);
+indexViewModel.slug.subscribe(focusOnFullUrl);
+indexViewModel.isEditingSlug.subscribe(focusOnFullUrl);
+$('#fullUrl').click(focusOnFullUrl);
+$('#generateShortieButton').click(focusOnFullUrl);
