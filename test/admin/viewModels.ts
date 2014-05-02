@@ -36,6 +36,11 @@ describe("IndexViewModel", function () {
   });
 
   describe('when saving with a new slug', function () {
+    beforeEach(function () {
+      apiClient.getShortie = (slug, callback) => {
+        callback({ status: 404 })
+      };
+    });
     it("if Shortie was just created, and slug was changed, it should be updated", function () {
       // arrange (create a shortie)
       var saveShortieSpy = apiClient.saveShortie = sinon.spy((url, shortie, callback) => { callback({ data: { } }); });
