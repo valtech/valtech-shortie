@@ -7,26 +7,26 @@
 }
 
 @media (max-width: 767px) {
-	#admin-main > .row > div > .input-group {
+	.input-group {
 		display: block;
 	}
-	#admin-main > .row > div > .input-group > .input-group-addon {
+	.input-group > .input-group-addon {
 		display: none;
 	}
-	#admin-main > .row > div > .input-group > .form-control {
-		border-radius: 6px;
+	.input-group > .form-control:first-child {
+		border-radius: 6px !important;
 		display: block;
 		float: none;
 	}
-	#admin-main > .row > div > .input-group > .input-group-btn {
+	.input-group > .input-group-btn {
 		display: block;
 		width: 100%;
-		margin-top: 6px;
 	}
-	#admin-main > .row > div > .input-group > .input-group-btn > .btn {
+	.input-group > .input-group-btn > .btn {
 		display: block;
 		width: 100%;
-		border-radius: 6px;
+		border-radius: 6px !important;
+		margin-top: 6px;
 	}
 }
 
