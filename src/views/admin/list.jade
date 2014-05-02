@@ -9,7 +9,7 @@ block content
           th.slug
             div Slug
           th.url
-            div Full Url
+            div URL
           th
             div Type
           th
@@ -32,7 +32,7 @@ block content
               button.btn.btn-danger.btn-xs(data-toggle='modal', data-target='#deleteModal', data-bind='click: $parent.markShortieForDeletion.bind($parent)')
                 span.glyphicon.glyphicon-remove
                 span.small &nbsp;delete
-              a.btn.btn-default.btn-xs(data-bind='attr: { href: slug }')
+              a.btn.btn-default.btn-xs(data-bind='attr: { href: $parent.rootUrl() + slug() }')
                 span.glyphicon.glyphicon-globe
                 span.small goto
 

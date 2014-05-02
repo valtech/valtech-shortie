@@ -10,9 +10,9 @@ import _ = require('underscore');
 import viewModels = require('./viewModels');
 import model = require('../shorties/model');
 import api = require('../api/api');
+import UrlUtils = require('../lib/UrlUtils');
 
-var rootUrl = 'http://' + window.location.host + '/';
-var indexViewModel = new viewModels.IndexViewModel(new api.ApiClient(), rootUrl);
+var indexViewModel = new viewModels.IndexViewModel(new api.ApiClient(), UrlUtils.getRootUrl());
 
 ko.applyBindings(indexViewModel, document.getElementById('admin-main'));
 

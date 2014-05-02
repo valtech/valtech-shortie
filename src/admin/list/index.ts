@@ -10,8 +10,9 @@ import _ = require('underscore');
 import viewModels = require('./viewModels');
 import model = require('../../shorties/model');
 import api = require('../../api/api');
+import UrlUtils = require('../../lib/UrlUtils');
 
-var listViewModel = new viewModels.ListViewModel(new api.ApiClient());
+var listViewModel = new viewModels.ListViewModel(new api.ApiClient(), UrlUtils.getRootUrl());
 
 ko.applyBindings(listViewModel, document.getElementById('admin-list'));
 

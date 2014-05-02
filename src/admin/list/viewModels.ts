@@ -16,11 +16,11 @@ import api = require('../../api/api');
 export class ShortieViewModel {
   public shortie: model.Shortie;
 
+  public isCurrent: KnockoutObservable<boolean>;
   public originalSlug: string;
   public slug: KnockoutObservable<string>;
-  public url: KnockoutObservable<string>;
   public type: KnockoutObservable<string>;
-  public isCurrent: KnockoutObservable<boolean>;
+  public url: KnockoutObservable<string>;
 
   constructor(shortie?: model.Shortie) {
     if (!shortie)
@@ -44,6 +44,7 @@ export class ShortieViewModel {
 export class ListViewModel {
   public errorMessage: KnockoutObservable<string>;
   public currentShortie: KnockoutObservable<ShortieViewModel>;
+  public rootUrl: KnockoutObservable<string>;
   public shorties: KnockoutObservableArray<ShortieViewModel>;
   public spamWarning: KnockoutComputed<boolean>;
   public urlForGenerated : KnockoutObservable<string>;
@@ -53,12 +54,13 @@ export class ListViewModel {
   private apiClient: api.ApiClient;
   private shortieForDeletion: ShortieViewModel;
 
-  constructor(apiClient: api.ApiClient) {
+  constructor(apiClient: api.ApiClient, rootUrl: string) {
     this.apiClient = apiClient;
-    this.shorties = <KnockoutObservableArray<ShortieViewModel>>ko.observableArray();
-    this.urlForGenerated = ko.observable<string>();
-    this.spamAttemped = ko.observable(false);
     this.errorMessage = ko.observable<string>();
+    this.rootUrl = ko.observable<string>(rootUrl);
+    this.shorties = <KnockoutObservableArray<ShortieViewModel>>ko.observableArray();
+    this.spamAttemped = ko.observable(false);
+    this.urlForGenerated = ko.observable<string>();
 
     this.containsEmpties = ko.computed(() => containsEmptyShorties(this.shorties()));
     this.spamWarning = ko.computed(() => this.spamAttemped() && this.containsEmpties());

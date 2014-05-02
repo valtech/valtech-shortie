@@ -140,4 +140,6 @@ module.exports = function(grunt) {
     grunt.task.run('test');
     grunt.task.run('jshint');
   });
+
+  grunt.registerTask('all', [ 'default', 'integrationTest' ]);
 };

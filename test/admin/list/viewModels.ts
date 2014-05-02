@@ -33,7 +33,7 @@ describe("ListViewModel", function () {
       saveShortie: function() {},
       saveNewShortie: function() {}
     };
-    listViewModel = new viewModels.ListViewModel(apiClient);
+    listViewModel = new viewModels.ListViewModel(apiClient, 'http://valtech_shortie/');
   });
 
   describe('loadShorties()', function () {
