@@ -36,17 +36,17 @@ block content
                 span.glyphicon.glyphicon-share-alt
                 span.small goto
 
-  #deleteModal.modal(data-backdrop='false')
-    .modal-dialog
-      .modal-content
-        .modal-header
-          button.close(data-dismiss='modal')
-            &times
-          h4.modal-title Delete shortie
-        .modal-body
-          button.btn.btn-danger.btn-xl(data-dismiss='modal', data-bind='click: remove')
-            span.glyphicon.glyphicon-remove
-            &nbsp;delete forever
+    #deleteModal.modal(data-backdrop='false')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(data-dismiss='modal')
+              &times
+            h4.modal-title Delete shortie
+          .modal-body
+            button.btn.btn-danger.btn-xl(data-dismiss='modal', data-bind='click: remove')
+              span.glyphicon.glyphicon-remove
+              &nbsp;delete forever
 
 block scripts
   script(src="/js/admin-list.js")
