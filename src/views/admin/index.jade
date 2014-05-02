@@ -9,28 +9,31 @@ block content
           input.form-control(type='text', data-bind='value: urlToShorten')
           span.input-group-btn
             button.btn.btn-primary#generateShortieButton(data-bind='click: generateShortie') Generate!
-    .row.generated-shortie-row(data-bind='visible: showInfoPanel')
+    .row.generated-shortie-row(data-bind='visible: showInfoPanel()')
       .col-md-6.col-md-offset-3
         .panel.panel-default
           .panel-body
             .container-fluid.form.text-center
               .col-md-8.col-md-offset-2
-                h2 Here's your shortie!
-                div(data-bind='visible: !isEditingSlug()')
-                  .input-group
-                    input.form-control#fullUrl(type='text', data-bind='value: fullUrl', readonly)
-                    span.input-group-btn
-                      button.btn.btn-default(data-bind='click: editSlug')
-                        | edit
-                div(data-bind='visible: isEditingSlug')
-                  .input-group
-                    input.form-control(type='text', data-bind='value: slug, visible: isEditingSlug()')
-                    span.input-group-btn
-                      button.btn.btn-primary(data-bind='click: saveSlug')
-                        | save
-                      button.btn.btn-default(data-bind='click: cancelEditSlug')
-                        | cancel
-              
+                form(role='form')
+                  h2 Here's your shortie!
+                  div.form-group(data-bind='visible: !isEditingSlug()')
+                    .input-group
+                      input.form-control#fullUrl(type='text', data-bind='value: fullUrl', readonly)
+                      span.input-group-btn
+                        button.btn.btn-default(data-bind='click: editSlug')
+                          | edit
+                  div.form-group(data-bind='visible: isEditingSlug')
+                    .input-group
+                      input.form-control(type='text', data-bind='value: slug, visible: isEditingSlug()')
+                      span.input-group-btn
+                        button.btn.btn-primary(data-bind='click: saveSlug')
+                          | save
+                        button.btn.btn-default(data-bind='click: cancelEditSlug')
+                          | cancel
+                  .alert.alert-danger(data-bind='visible: errorMessage')
+                    b Error: 
+                    span(data-bind='text: errorMessage')
 block scripts
   script(src="/js/admin-main.js")
 

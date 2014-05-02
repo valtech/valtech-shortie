@@ -37,7 +37,7 @@ export class ApiClient {
       error: (jqXHR, textStatus, errorThrow) => {
         callback({
           status: jqXHR.status,
-          data: jqXHR.response
+          error: jqXHR.responseText
         });
       }
     });

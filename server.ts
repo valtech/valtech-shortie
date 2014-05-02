@@ -10,8 +10,9 @@ log.setLevels({
     silly: 0,
     debug: 1,
     info: 2,
-    error: 3,
-    fatal: 4
+    warn: 3,
+    error: 4,
+    fatal: 5
 });
 
 if (environment == 'production') {

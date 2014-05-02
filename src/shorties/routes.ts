@@ -33,7 +33,10 @@ function listHandler(req, res, next) {
 function postHandler(req, res, next) {
   // return 400 on invalid data
   var url = req.body.url;
-  if (isInvalidUrl(url)) return res.send(400, 'Invalid URL in request body');
+  if (isInvalidUrl(url)) {
+    log.warn('Invalid URL in request body. Was: ' + url);
+    return res.send(400, 'Invalid URL.');
+  }
 
   repo.getShortiesByUrl(url, function(err, shorties) {
     if (err) return next(err);
@@ -52,25 +55,49 @@ function postHandler(req, res, next) {
 
 function putHandler(req, res, next) {
   var url = req.body.url;
-  if (isInvalidUrl(url)) return res.send(400, 'Invalid URL in request body');
-  
+  if (isInvalidUrl(url)) {
+    log.warn('Invalid URL in request body. Was: ' + url);
+    return res.send(400, 'Invalid URL.');
+  }
+
   var slugToCreateOrReplace = req.params.slug;
-  if (isInvalidSlug(slugToCreateOrReplace)) return res.send(400, 'Invalid slug in request URL');
+  if (isInvalidSlug(slugToCreateOrReplace)) {
+    log.error('Invalid slug in request URL. Was: ' + slugToCreateOrReplace);
+    return res.send(400, 'Invalid slug.');
+  }
+  if (isBlacklistedSlug(slugToCreateOrReplace)) {
+    log.error('Blacklisted slug in request URL. Was: ' + slugToCreateOrReplace);
+    return res.send(400, 'Sorry, that slug is not allowed.');
+  }
   
   var newSlug = req.body.slug;
-  if (isInvalidSlug(newSlug)) return res.send(400, 'Invalid slug in request body');
+  if (isInvalidSlug(newSlug)) {
+    log.error('Invalid slug in request body. Was: ' + slugToCreateOrReplace);
+    return res.send(400, 'Invalid slug.');
+  }
+  if (isBlacklistedSlug(newSlug)) {
+    log.error('Blacklisted slug in request body. Was: ' + slugToCreateOrReplace);
+    return res.send(400, 'Sorry, that slug is not allowed.');
+  }
 
-  var type: model.ShortieType;
-  if(slugToCreateOrReplace !== newSlug)
-    type = model.ShortieType.Manual;
-  else
-    type = req.body.type;
+  repo.getShortieBySlug(slugToCreateOrReplace, (err, existingShortie: model.Shortie) => {
+    if(existingShortie) {
+      log.warn('Slug already exists. Was: ' + existingShortie.slug);
+      res.send(409, 'Slug already exists.');
+    } else {
+        var type: model.ShortieType;
+        if(slugToCreateOrReplace !== newSlug)
+          type = model.ShortieType.Manual;
+        else
+          type = req.body.type;
 
-  var shortie = new model.Shortie(newSlug , url, type);
+        var shortie = new model.Shortie(newSlug , url, type);
 
-  repo.addShortie(slugToCreateOrReplace, shortie, function(err) {
-    if (err) return next(err);
-    res.send(201, shortie);
+        repo.addShortie(slugToCreateOrReplace, shortie, function(err) {
+          if (err) return next(err);
+          res.send(201, shortie);
+        });
+    }
   });
 }
 
@@ -95,6 +122,18 @@ function isInvalidSlug(url) {
   // TODO: Write better validation. Slug cannot clash with routes
   // TODO: Move somewhere
   if (!url || url.length === 0) return true;
+  return false;
+}
+
+function isBlacklistedSlug(url) {
+  switch (url) {
+    case 'login':
+    case 'logout':
+    case 'me':
+    case 'admin':
+      return true;
+  }
+  return false;
 }
 
 export function setup(app: express.Application, options: any): void {
