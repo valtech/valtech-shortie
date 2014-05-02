@@ -57,25 +57,34 @@ export class IndexViewModel {
 
   public saveSlug(): void {
     this.errorMessage(null);
-    if(!this.isReusedShortie) {
-      this.apiClient.saveShortie(this.previousSlug, new model.Shortie(this.slug(), utils.parseAndClean(this.urlToShorten()), model.ShortieType.Manual), (response) => {
-        if(this.handleError(response))
-          return;
-        this.previousSlug = response.data.slug;
-        this.slug(response.data.slug);
-        this.fullUrl(this.rootUrl + response.data.slug);
-        this.isEditingSlug(false);
-      });
-    } else {
-      this.apiClient.saveShortie(this.slug(), new model.Shortie(this.slug(), utils.parseAndClean(this.urlToShorten()), model.ShortieType.Manual), (response) => {
-        if(this.handleError(response))
-          return;
-        this.isReusedShortie = false;
-        this.previousSlug = response.data.slug;
-        this.fullUrl(this.rootUrl + response.data.slug);
-        this.isEditingSlug(false);
-      });
-    }
+    // make sure slug is not already used
+    this.apiClient.getShortie(this.slug(), (response) => {
+      if (response.status == 200) {
+        this.errorMessage('Shortie already exists.');
+      } else if (response.status == 404) {
+        if(!this.isReusedShortie) {
+          this.apiClient.saveShortie(this.previousSlug, new model.Shortie(this.slug(), utils.parseAndClean(this.urlToShorten()), model.ShortieType.Manual), (response) => {
+            if(this.handleError(response))
+              return;
+            this.previousSlug = response.data.slug;
+            this.slug(response.data.slug);
+            this.fullUrl(this.rootUrl + response.data.slug);
+            this.isEditingSlug(false);
+          });
+        } else {
+          this.apiClient.saveShortie(this.slug(), new model.Shortie(this.slug(), utils.parseAndClean(this.urlToShorten()), model.ShortieType.Manual), (response) => {
+            if(this.handleError(response))
+              return;
+            this.isReusedShortie = false;
+            this.previousSlug = response.data.slug;
+            this.fullUrl(this.rootUrl + response.data.slug);
+            this.isEditingSlug(false);
+          });
+        }
+      } else {
+        this.handleError(response);
+      }
+    });
   }
 
   public cancelEditSlug(): void {

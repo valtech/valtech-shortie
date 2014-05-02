@@ -27,6 +27,7 @@ describe("ListViewModel", function () {
       new model.Shortie("i-wish", "http://open.spotify.com/track/74WFSCXc8yHY7HDXREiLpM")
     ];
     apiClient = {
+      getShortie: function() {},
       getShorties: function () {},
       deleteShortie: function() {},
       saveShortie: function() {},

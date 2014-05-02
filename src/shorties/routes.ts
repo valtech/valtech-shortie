@@ -11,7 +11,11 @@ var repo;
 function getHandler(req, res, next) {
   repo.getShortieBySlug(req.params.slug, function (err, shortie) {
     if (err || !shortie) return next();
-    res.redirect(shortie.url);
+    if(req.query.noRedirect) {
+      res.send(200, shortie);
+    } else {
+      res.redirect(shortie.url);
+    }
   });
 }
 

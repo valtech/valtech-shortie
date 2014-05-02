@@ -28,7 +28,7 @@ export class ApiClient {
       timeout: 60 * 1000,
       url: buildUrl(request.path),
       type: request.verb,
-      data: JSON.stringify(request.data),
+      data: request.data,
       success: (data, textStatus, jqXHR) => {
         callback({
           status: jqXHR.status,
@@ -48,6 +48,16 @@ export class ApiClient {
     ApiClient.sendRequest<Array<model.Shortie>>({ path: '/', verb: 'GET' }, callback);
   }
 
+  public getShortie(slug: string, callback: (response: ApiResponse<model.Shortie>) => void): void {
+    ApiClient.sendRequest<model.Shortie>({ 
+      path: '/' + slug,
+      data: {
+        noRedirect: true
+      },
+      verb: 'GET'
+    }, callback);
+  }
+
   public deleteShortie(slug: string, callback: (response: ApiResponse<any>) => void) {
     ApiClient.sendRequest({
       path: '/' + slug,
@@ -59,7 +69,7 @@ export class ApiClient {
     var saveRequest = {
       path: '/' + slug,
       verb: 'PUT',
-      data: shortie
+      data: JSON.stringify(shortie)
     };
     ApiClient.sendRequest(saveRequest, callback);
   }
@@ -68,7 +78,7 @@ export class ApiClient {
     ApiClient.sendRequest<model.Shortie>({
         path: '/',
         verb: 'POST',
-        data: { url: url }
+        data: JSON.stringify({ url: url })
       }, callback);
   }
 

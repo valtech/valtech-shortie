@@ -26,6 +26,7 @@ describe("IndexViewModel", function () {
       new model.Shortie("slvgt", "http://altavista.com/", model.ShortieType.Generated)
     ];
     apiClient = {
+      getShortie: function() {},
       getShorties: function () {},
       deleteShortie: function() {},
       saveShortie: function() {},
