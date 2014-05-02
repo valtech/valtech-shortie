@@ -35,6 +35,8 @@ export class IndexViewModel {
 
   public generateShortie(): void {
     this.errorMessage(null);
+    this.showInfoPanel(false);
+    this.isEditingSlug(false);
     this.apiClient.saveNewShortie(utils.parseAndClean(this.urlToShorten()), (response: api.ApiResponse<model.Shortie>) => {
         if(this.handleError(response))
           return;
