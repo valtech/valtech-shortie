@@ -1,5 +1,7 @@
+/* global $: false */
 /// <reference path="../../.types/jquery/jquery.d.ts" />
 /// <reference path="../../.types/underscore/underscore.d.ts" />
+
 
 import model = require('../shorties/model');
 import _ = require('underscore');
