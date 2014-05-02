@@ -2,7 +2,6 @@
 /// <reference path="../../.types/underscore/underscore.d.ts" />
 
 import model = require('../shorties/model');
-import $ = require('jquery');
 import _ = require('underscore');
 
 export interface ApiRequest {

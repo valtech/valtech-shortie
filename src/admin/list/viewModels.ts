@@ -42,11 +42,11 @@ export class ShortieViewModel {
 }
 
 export class ListViewModel {
-  public shorties: KnockoutObservableArray<ShortieViewModel>;
+  public errorMessage: KnockoutObservable<string>;
   public currentShortie: KnockoutObservable<ShortieViewModel>;
-  public urlForGenerated : KnockoutObservable<string>;
+  public shorties: KnockoutObservableArray<ShortieViewModel>;
   public spamWarning: KnockoutComputed<boolean>;
-
+  public urlForGenerated : KnockoutObservable<string>;
 
   private spamAttemped: KnockoutObservable<boolean>;
   private containsEmpties: KnockoutComputed<boolean>;
@@ -58,6 +58,7 @@ export class ListViewModel {
     this.shorties = <KnockoutObservableArray<ShortieViewModel>>ko.observableArray();
     this.urlForGenerated = ko.observable<string>();
     this.spamAttemped = ko.observable(false);
+    this.errorMessage = ko.observable<string>();
 
     this.containsEmpties = ko.computed(() => containsEmptyShorties(this.shorties()));
     this.spamWarning = ko.computed(() => this.spamAttemped() && this.containsEmpties());
@@ -91,16 +92,22 @@ export class ListViewModel {
   }
 
   public saveByUrl() {
-    this.apiClient.saveNewShortie(utils.parseAndClean(this.urlForGenerated()), (response: api.ApiResponse<model.Shortie>) => {
-        var newShortie = new ShortieViewModel(response.data);
+    this.errorMessage(null);
+    this.apiClient.saveNewShortie(utils.parseAndClean(this.urlForGenerated()), (res: api.ApiResponse<model.Shortie>) => {
+        if(this.handleError(res))
+          return;
+        var newShortie = new ShortieViewModel(res.data);
         this.shorties.push(newShortie);
       });
   }
 
   public save(shortieVm: ShortieViewModel): void {
+    this.errorMessage(null);
     shortieVm.url(utils.parseAndClean(shortieVm.shortie.url));
     var slugInPath = shortieVm.originalSlug === '' ? shortieVm.shortie.slug : shortieVm.originalSlug;
-    this.apiClient.saveShortie(slugInPath, shortieVm.shortie, res=> {
+    this.apiClient.saveShortie(slugInPath, shortieVm.shortie, (res) => {
+      if(this.handleError(res))
+          return;
       if (res.status >= 200 && res.status <= 299) {
         this.shorties().forEach(s=> s.isCurrent(false));
       } else {
@@ -110,8 +117,11 @@ export class ListViewModel {
   }
 
   public remove(): void {
+    this.errorMessage(null);
     var self = this;
     this.apiClient.deleteShortie(this.shortieForDeletion.originalSlug, function(res) {
+      if(this.handleError(res))
+          return;
       if (res.status == 200) {
         self.shorties.remove(self.shortieForDeletion);
       } else {
@@ -121,9 +131,12 @@ export class ListViewModel {
   }
 
   public loadShorties() {
-    this.apiClient.getShorties((response) => {
-      if (response.status == 200) {
-        var arrayOfVms = _.map(response.data, item => new ShortieViewModel(item));
+    this.errorMessage(null);
+    this.apiClient.getShorties((res) => {
+      if(this.handleError(res))
+          return;
+      if (res.status == 200) {
+        var arrayOfVms = _.map(res.data, item => new ShortieViewModel(item));
         this.shorties(arrayOfVms);
       }
     });
@@ -131,6 +144,18 @@ export class ListViewModel {
 
   public markShortieForDeletion(shortieVm: ShortieViewModel) {
     this.shortieForDeletion = shortieVm;
+  }
+
+  private handleError(res) {
+    if (!res.status) {
+      this.errorMessage('Unable to connect to API.');
+      return true;
+    }
+    if (res.status >= 400 && res.status <= 599) {
+      this.errorMessage(res.error);
+      return true;
+    }
+    return false;
   }
 }
 

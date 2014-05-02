@@ -85,6 +85,10 @@ export class IndexViewModel {
   }
 
   private handleError(response) {
+    if (!response.status) {
+      this.errorMessage('Unable to connect to API.');
+      return true;
+    }
     if (response.status >= 400 && response.status <= 599) {
       this.errorMessage(response.error);
       return true;

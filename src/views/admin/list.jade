@@ -50,6 +50,15 @@ block content
             button.btn.btn-default.btn-xl(data-dismiss='modal')
               span.glyphicon.glyphicon-remove
               &nbsp;cancel
-
+    
+    #errorModal.modal(data-backdrop='true')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(data-dismiss='modal')
+              &times
+            h4.modal-title An error has occurred!
+          .modal-body
+            span(data-bind='text: errorMessage')
 block scripts
   script(src="/js/admin-list.js")

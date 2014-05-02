@@ -6,7 +6,6 @@
 
 import ko = require('knockout');
 import _ = require('underscore');
-import $ = require('jquery');
 
 import viewModels = require('./viewModels');
 import model = require('../shorties/model');
