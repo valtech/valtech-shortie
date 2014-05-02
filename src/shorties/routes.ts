@@ -80,7 +80,7 @@ function putHandler(req, res, next) {
     return res.send(400, 'Sorry, that slug is not allowed.');
   }
 
-  repo.getShortieBySlug(slugToCreateOrReplace, (err, existingShortie: model.Shortie) => {
+  repo.getShortieBySlug(newSlug, (err, existingShortie: model.Shortie) => {
     if(existingShortie) {
       log.warn('Slug already exists. Was: ' + existingShortie.slug);
       res.send(409, 'Slug already exists.');
