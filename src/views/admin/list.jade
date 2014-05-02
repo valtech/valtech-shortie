@@ -40,10 +40,13 @@ block content
       .modal-dialog
         .modal-content
           .modal-header
-            button.close(data-dismiss='modal')
-              &times
-            h4.modal-title Delete shortie
+            h4.modal-title Really delete shortie?
           .modal-body
+            | This cannot be undone.
+          .modal-footer
+            button.btn.btn-default.btn-xl(data-dismiss='modal')
+              span.glyphicon.glyphicon-remove
+              &nbsp;cancel
             button.btn.btn-danger.btn-xl(data-dismiss='modal', data-bind='click: remove')
               span.glyphicon.glyphicon-remove
               &nbsp;delete forever
