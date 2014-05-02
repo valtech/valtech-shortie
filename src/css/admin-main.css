@@ -2,6 +2,10 @@
 	margin-top: 6px;
 }
 
+#admin-main > .generated-shortie-row .panel {
+	margin-bottom: 0;
+}
+
 #fullUrl {
 	cursor: copy;
 }

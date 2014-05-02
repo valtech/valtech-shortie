@@ -37,6 +37,9 @@ export class IndexViewModel {
     this.errorMessage(null);
     this.showInfoPanel(false);
     this.isEditingSlug(false);
+    if (!this.validateUrl(this.urlToShorten())) {
+      return;
+    }
     this.apiClient.saveNewShortie(utils.parseAndClean(this.urlToShorten()), (response: api.ApiResponse<model.Shortie>) => {
         if(this.handleError(response))
           return;
@@ -59,6 +62,9 @@ export class IndexViewModel {
 
   public saveSlug(): void {
     this.errorMessage(null);
+    if(!this.validateUrl(this.urlToShorten()) || !this.validateSlug(this.slug())) {
+      return;
+    }
     // make sure slug is not already used
     this.apiClient.getShortie(this.slug(), (response) => {
       if (response.status == 200) {
@@ -105,5 +111,21 @@ export class IndexViewModel {
       return true;
     }
     return false;
+  }
+
+  private validateUrl(url): boolean {
+    if (!url) {
+      this.errorMessage('URL cannot be empty.');
+      return false;
+    }
+    return true;
+  }
+
+  private validateSlug(slug): boolean {
+    if (!slug) {
+      this.errorMessage('Slug cannot be empty.');
+      return false;
+    }
+    return true;
   }
 }

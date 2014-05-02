@@ -31,9 +31,11 @@ block content
                           | save
                         button.btn.btn-default(data-bind='click: cancelEditSlug')
                           | cancel
-                  .alert.alert-danger(data-bind='visible: errorMessage')
-                    b Error: 
-                    span(data-bind='text: errorMessage')
+    .row.generated-shortie-row(data-bind='visible: errorMessage')
+      .col-md-6.col-md-offset-3
+        .alert.alert-danger
+          b Error: 
+          span(data-bind='text: errorMessage')
 block scripts
   script(src="/js/admin-main.js")
 

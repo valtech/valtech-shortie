@@ -105,6 +105,9 @@ export class ListViewModel {
 
   public save(shortieVm: ShortieViewModel): void {
     this.errorMessage(null);
+    if (!this.validateUrl(shortieVm.url()) || !this.validateSlug(shortieVm.slug())) {
+      return;
+    }
     shortieVm.url(utils.parseAndClean(shortieVm.shortie.url));
     var slugInPath = shortieVm.originalSlug === '' ? shortieVm.shortie.slug : shortieVm.originalSlug;
     this.apiClient.saveShortie(slugInPath, shortieVm.shortie, (res) => {
@@ -157,6 +160,22 @@ export class ListViewModel {
       return true;
     }
     return false;
+  }
+
+  private validateUrl(url): boolean {
+    if (!url) {
+      this.errorMessage('URL cannot be empty.');
+      return false;
+    }
+    return true;
+  }
+
+  private validateSlug(slug): boolean {
+    if (!slug) {
+      this.errorMessage('Slug cannot be empty.');
+      return false;
+    }
+    return true;
   }
 }
 
