@@ -229,16 +229,39 @@ describe('api (authenticated)', function () {
         .expect(200, done);
     });
 
-    it('PUT /:slug should replace existing shortie', function (done) {
+    it('PUT /:slug with new slug should update existing shortie', function (done) {
       var newSlug = 'qwerty-finch';
-      var url = 'http://www.imdb.com/title/tt0118276/'
       request(shortieApp)
         .put('/' + slug1)
-        .send({ slug: newSlug, url: url })
+        .send({ slug: newSlug, url: url1 })
+        .set('Accept', 'application/json')
+        .expect(201)
+        .expect(function (res) {
+          if (res.body.slug != newSlug) return "Slug was not updated";
+        })
+        .end(function (err, res) {
+          if (err) return done(err);
+
+          request(shortieApp)
+            .get('/')
+            .set('Accept', 'application/json')
+            .expect(function (res) {
+              var count = res.body.length;
+              if (count != 3) return util.format('Response included %d shorties, expected %d', count, 3);
+            })
+            .expect(200, done);
+        });
+    });
+
+    it('PUT /:slug with new URL should update existing shortie', function (done) {
+      var newUrl = 'http://www.imdb.com/title/tt0118276/'
+      request(shortieApp)
+        .put('/' + slug1)
+        .send({ slug: slug1, url: newUrl })
         .set('Accept', 'application/json')
         .expect(201) // TODO: Return 200 when replacing?
         .expect(function (res) {
-          if (res.body.slug != newSlug) return "Slug not replaced with new slug";
+          if (res.body.url != newUrl) return "URL was not updated";
         })
         .end(function (err, res) {
           if (err) return done(err);
