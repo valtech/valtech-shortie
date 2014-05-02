@@ -118,12 +118,11 @@ export class ListViewModel {
 
   public remove(): void {
     this.errorMessage(null);
-    var self = this;
-    this.apiClient.deleteShortie(this.shortieForDeletion.originalSlug, function(res) {
+    this.apiClient.deleteShortie(this.shortieForDeletion.originalSlug, (res) => {
       if(this.handleError(res))
           return;
       if (res.status == 200) {
-        self.shorties.remove(self.shortieForDeletion);
+        this.shorties.remove(this.shortieForDeletion);
       } else {
         // TODO: Do something
       }
