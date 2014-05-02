@@ -80,24 +80,17 @@ function putHandler(req, res, next) {
     return res.send(400, 'Sorry, that slug is not allowed.');
   }
 
-  repo.getShortieBySlug(newSlug, (err, existingShortie: model.Shortie) => {
-    if(existingShortie) {
-      log.warn('Slug already exists. Was: ' + existingShortie.slug);
-      res.send(409, 'Slug already exists.');
-    } else {
-        var type: model.ShortieType;
-        if(slugToCreateOrReplace !== newSlug)
-          type = model.ShortieType.Manual;
-        else
-          type = req.body.type;
+  var type: model.ShortieType;
+  if(slugToCreateOrReplace !== newSlug)
+    type = model.ShortieType.Manual;
+  else
+    type = req.body.type;
 
-        var shortie = new model.Shortie(newSlug , url, type);
+  var shortie = new model.Shortie(newSlug , url, type);
 
-        repo.addShortie(slugToCreateOrReplace, shortie, function(err) {
-          if (err) return next(err);
-          res.send(201, shortie);
-        });
-    }
+  repo.addShortie(slugToCreateOrReplace, shortie, function(err) {
+    if (err) return next(err);
+    res.send(201, shortie);
   });
 }
 
