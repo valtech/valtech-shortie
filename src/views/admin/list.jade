@@ -3,7 +3,7 @@ block vars
   - var activeView='list'
 block content
   .container-fluid#admin-list
-    table.table.table-striped
+    table.table
       thead
         tr
           th.slug
@@ -16,13 +16,16 @@ block content
       tbody(data-bind="foreach: shorties")
        tr(data-bind="css: { selected: isCurrent(), notSelected: !isCurrent() }")
           td
-            input.form-control(type='text', placeholder='rly shrt', data-bind="value: slug, event: { focus: $parent.select.bind($parent), blur: $parent.deselect.bind($parent) }")
+            label(data-bind="attr: { for: 'shortie_slug_'+$index() }") Slug
+            input.form-control(type='text', placeholder='rly shrt', data-bind="attr: { id: 'shortie_slug_'+$index() }, value: slug, event: { focus: $parent.select.bind($parent), blur: $parent.deselect.bind($parent) }")
           td
-            input.form-control(type='text', placeholder='really long', data-bind="value: url, event: { focus: $parent.select.bind($parent), blur: $parent.deselect.bind($parent) }")
+            label(data-bind="attr: { for: 'shortie_url_'+$index() }") URL
+            input.form-control(type='text', placeholder='really long', data-bind="attr: { id: 'shortie_url_'+$index() }, value: url, event: { focus: $parent.select.bind($parent), blur: $parent.deselect.bind($parent) }")
           td
+            label Type
             div.form-control(data-bind='text: type')
           td
-            .btn-group.pull-right
+            .btn-group
               button.btn.btn-primary.btn-xs(data-bind='click: $parent.save.bind($parent)')
                 span.glyphicon.glyphicon-save
                 span.small save

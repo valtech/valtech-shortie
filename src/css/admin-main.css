@@ -7,6 +7,7 @@
 }
 
 @media (max-width: 767px) {
+	/* Split horizontal input/button groups into rows */
 	.input-group {
 		display: block;
 	}
@@ -18,11 +19,14 @@
 		display: block;
 		float: none;
 	}
-	.input-group > .input-group-btn {
+	.input-group > .input-group-btn,
+	.btn-group {
 		display: block;
 		width: 100%;
 	}
-	.input-group > .input-group-btn > .btn {
+	.input-group > .input-group-btn > .btn,
+	.btn-group > .btn {
+		float: none;
 		display: block;
 		width: 100%;
 		border-radius: 6px !important;
