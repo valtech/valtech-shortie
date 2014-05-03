@@ -10,10 +10,12 @@ if (environment == 'production') {
   // New Relic
   require('newrelic');
   // Logentries
+  var winston = require('winston');
   var logentries = require('node-logentries');
   logentries.logger({
     token: process.env.LOGENTRIES_TOKEN
-  }).winston(log, {});
+  }).winston(winston, {});
+  log.add(winston.transports.LogentriesLogger);
 }
 
 log.info('Running in environment ' + environment);
