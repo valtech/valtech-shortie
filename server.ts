@@ -2,18 +2,9 @@
 
 import http = require('http');
 import app = require('./src/app');
-var log = require('winston');
+var log = require('./src/log');
 
 var environment = process.env.NODE_ENV || 'development';
-
-log.setLevels({
-    silly: 0,
-    debug: 1,
-    info: 2,
-    warn: 3,
-    error: 4,
-    fatal: 5
-});
 
 if (environment == 'production') {
   // New Relic
@@ -41,9 +32,9 @@ var appOpts = {
 
 app.create(appOpts, function (err, app) {
   if (err) {
-    log.fatal(err);
+    return log.fatal(err);
   }
   http.createServer(app).listen(app.get('port'), function () {
-    log.info('Express server listening on port ' + app.get('port'));
+    log.info('Shortie server listening on port ' + app.get('port'));
   });
 });

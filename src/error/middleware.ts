@@ -1,7 +1,7 @@
-﻿var log = require('winston');
+﻿var log = require('../log');
 
 export function handleError(err, req, res, next) {
-  log.error(err);
+  log.error('unhandled error', err.stack);
   if (req.accepts('html')) {
     res
       .status(500)

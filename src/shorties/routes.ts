@@ -4,7 +4,7 @@ import model = require('./model');
 import express = require('express');
 import slugGenerator = require('../lib/SlugGenerator');
 import authMiddleware = require('../auth/middleware');
-var log = require('winston');
+var log = require('../log');
 
 var repo;
 
@@ -73,7 +73,7 @@ function putHandler(req, res, next) {
     log.error('Blacklisted slug in request URL. Was: ' + slugToCreateOrReplace);
     return res.send(400, 'Sorry, that slug is not allowed.');
   }
-  
+
   var newSlug = req.body.slug;
   if (isInvalidSlug(newSlug)) {
     log.error('Invalid slug in request body. Was: ' + slugToCreateOrReplace);

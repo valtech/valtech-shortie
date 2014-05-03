@@ -4,7 +4,7 @@
 import express = require('express');
 var sessions = require('client-sessions');
 var path = require('path');
-var log = require('winston');
+var log = require('./log');
 
 import shortieRoutes = require('./shorties/routes');
 import authRoutes = require('./auth/routes');
@@ -45,14 +45,15 @@ export function create(options, callback: (err: any, app)=>void) {
   app.set('view engine', 'jade');
 
   app.use(express.favicon(path.join(__dirname, 'public/favicon.ico')));
-  app.use(express.logger('dev'));
-  app.use(express.logger({
+  //app.use(express.logger('dev'));
+  /*app.use(express.logger({
     stream: {
       write: function (message, encoding) {
-        log.info(message);
+        log.info('hehehehehhe');
       }
     }
-  }));
+  }));*/
+  app.use(log.express);
   app.use(express.json());
   app.use(express.urlencoded());
   app.use(sessions({
