@@ -5,10 +5,11 @@ block content
   .container-fluid#admin-main
     .row.input-row
       .col-md-6.col-md-offset-3
-        .input-group.input-group-lg
-          input.form-control(type='text', data-bind='value: urlToShorten')
-          span.input-group-btn
-            button.btn.btn-primary#generateShortieButton(data-bind='click: generateShortie') Generate!
+        form(data-bind='submit: generateShortie')
+          .input-group.input-group-lg
+            input.form-control(type='text', data-bind='value: urlToShorten')
+            span.input-group-btn
+              input.btn.btn-primary#generateShortieButton(type='submit', value='Generate!')
     .row.generated-shortie-row(data-bind='visible: showInfoPanel()')
       .col-md-6.col-md-offset-3
         .panel.panel-default
