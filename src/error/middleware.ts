@@ -7,6 +7,6 @@ export function handleError(err, req, res, next) {
       .status(500)
       .render('500');
   } else {
-    res.send(500, { error: 'internal server error' });
+    res.send(500, "Internal server error.");
   }
 }
