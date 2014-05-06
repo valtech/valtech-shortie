@@ -1,4 +1,5 @@
-#admin-main > .generated-shortie-row { 
+#admin-main > .generated-shortie-row,
+#admin-main > .error-message-row { 
 	margin-top: 6px;
 }
 

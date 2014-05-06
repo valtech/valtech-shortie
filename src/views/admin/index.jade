@@ -10,7 +10,7 @@ block content
             input.form-control(type='text', data-bind='value: urlToShorten')
             span.input-group-btn
               input.btn.btn-primary#generateShortieButton(type='submit', value='Generate!')
-    .row.generated-shortie-row(data-bind='visible: showInfoPanel()')
+    .row.generated-shortie-row(data-bind='visible: showInfoPanel()', style='display: none')
       .col-md-6.col-md-offset-3
         .panel.panel-default
           .panel-body
@@ -32,7 +32,7 @@ block content
                           | save
                         button.btn.btn-default(data-bind='click: cancelEditSlug')
                           | cancel
-    .row.generated-shortie-row(data-bind='visible: errorMessage')
+    .row.error-message-row(data-bind='visible: errorMessage', style='display: none')
       .col-md-6.col-md-offset-3
         .alert.alert-danger
           b Error: 
