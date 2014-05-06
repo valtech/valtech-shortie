@@ -105,7 +105,7 @@ export class ListViewModel {
 
   public save(shortieVm: ShortieViewModel): void {
     this.errorMessage(null);
-    if (!this.validateUrl(shortieVm.url()) || !this.validateSlug(shortieVm.slug())) {
+    if (!this.validateShortie(shortieVm)) {
       return;
     }
     shortieVm.url(utils.parseAndClean(shortieVm.shortie.url));
@@ -162,17 +162,17 @@ export class ListViewModel {
     return false;
   }
 
-  private validateUrl(url): boolean {
-    if (!url) {
+  private validateShortie(shortieVm): boolean {
+    if (!shortieVm.url()) {
       this.errorMessage('URL cannot be empty.');
       return false;
     }
-    return true;
-  }
-
-  private validateSlug(slug): boolean {
-    if (!slug) {
+    if (!shortieVm.slug()) {
       this.errorMessage('Slug cannot be empty.');
+      return false;
+    }
+    if (_.any<ShortieViewModel>(this.shorties(), s => { return s != shortieVm && s.originalSlug === shortieVm.slug(); })) {
+      this.errorMessage('Slug already exists.');
       return false;
     }
     return true;
