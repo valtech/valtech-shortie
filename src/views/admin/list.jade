@@ -25,13 +25,13 @@ block content
             input.form-control(type='text', placeholder='really long', data-bind="attr: { id: 'shortie_url_'+$index() }, value: url, event: { focus: $parent.select.bind($parent), blur: $parent.deselect.bind($parent) }")
           td
             label Type
-            div.form-control(data-bind='text: type')
+            div(data-bind='text: type')
           td
             label Last modified
-            div.form-control
-              span(data-bind='text: lastModifiedTime')
-              |  by 
-              span(data-bind='text: lastModifiedBy')
+            div
+              div(data-bind='text: lastModifiedTime')
+              div by 
+                span(data-bind='text: lastModifiedBy')
           td
             .btn-group
               button.btn.btn-primary.btn-xs(data-bind='click: $parent.save.bind($parent)')

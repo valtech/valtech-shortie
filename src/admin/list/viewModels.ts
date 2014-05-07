@@ -157,7 +157,10 @@ export class ListViewModel {
       if(this.handleError(res))
           return;
       if (res.status == 200) {
-        var arrayOfVms = _.map(res.data, item => new ShortieViewModel(item));
+        var arrayOfVms = _.chain(res.data)
+          .sortBy(item => -item.lastModifiedTimestamp)
+          .map(item => new ShortieViewModel(item))
+          .value();
         this.shorties(arrayOfVms);
       }
     });
