@@ -1,10 +1,12 @@
 /// <reference path="../../../.types/underscore/underscore.d.ts"/>
 /// <reference path="../../../.types/node/node.d.ts"/>
 /// <reference path="../../../.types/knockout/knockout.d.ts"/>
+/// <reference path="../../../.types/moment/moment.d.ts"/>
 
 import knockout = require('knockout');
 import underscore = require('underscore');
 import utils = require('../../lib/UrlUtils');
+import moment = require('moment');
 
 // this is a hack for better intellisence in vs2013
 var _: UnderscoreStatic = underscore;
@@ -17,24 +19,39 @@ export class ShortieViewModel {
   public shortie: model.Shortie;
 
   public isCurrent: KnockoutObservable<boolean>;
+  public lastModifiedBy: KnockoutObservable<string>;
+  public lastModifiedTime: KnockoutObservable<string>;
   public originalSlug: string;
   public slug: KnockoutObservable<string>;
   public type: KnockoutObservable<string>;
   public url: KnockoutObservable<string>;
 
   constructor(shortie?: model.Shortie) {
-    if (!shortie)
+    if (!shortie) {
       shortie = new model.Shortie('', '');
+    }
     this.shortie = shortie;
     this.isCurrent = ko.observable(false);
+    this.lastModifiedBy = ko.observable<string>();
+    this.lastModifiedTime = ko.observable<string>();
     this.originalSlug = shortie.slug;
     this.slug = ko.observable<string>();
     this.url = ko.observable<string>();
     this.type = ko.observable<string>();
 
+    if (shortie.lastModifiedBy) {
+      this.lastModifiedBy(shortie.lastModifiedBy.name);
+    } else {
+      this.lastModifiedBy('someone');
+    }
+    if (shortie.lastModifiedTimestamp) {
+      this.lastModifiedTime(moment(shortie.lastModifiedTimestamp).calendar());
+    } else {
+      this.lastModifiedTime('sometime');
+    }
     this.slug(shortie.slug);
-    this.url(shortie.url);
     this.type(model.ShortieType[shortie.type]);
+    this.url(shortie.url);
 
     this.slug.subscribe((newValue) => { shortie.slug = newValue; });
     this.url.subscribe((newValue) => { shortie.url = newValue; });

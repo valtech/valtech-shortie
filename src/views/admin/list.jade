@@ -13,6 +13,8 @@ block content
           th
             div Type
           th
+            div Last modified
+          th
       tbody(data-bind="foreach: shorties")
        tr(data-bind="css: { selected: isCurrent(), notSelected: !isCurrent() }")
           td
@@ -24,6 +26,12 @@ block content
           td
             label Type
             div.form-control(data-bind='text: type')
+          td
+            label Last modified
+            div.form-control
+              span(data-bind='text: lastModifiedTime')
+              |  by 
+              span(data-bind='text: lastModifiedBy')
           td
             .btn-group
               button.btn.btn-primary.btn-xs(data-bind='click: $parent.save.bind($parent)')

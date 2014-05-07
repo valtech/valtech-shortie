@@ -88,8 +88,19 @@ describe('api (authenticated)', function () {
   before(function (done) {
     this.timeout(5000);
     createApp(done);
-    authMiddleware.requireAuthCookieOrRedirect = function (req, res, next) { next(); };
-    authMiddleware.requireAuthOrDeny = function (req, res, next) { next(); };
+    var user = {
+      username: 'Someone',
+      name: 'Some One',
+      email: 'someone@example.com'
+    };
+    authMiddleware.requireAuthCookieOrRedirect = function (req, res, next) { 
+      req.authSession.profile = user;
+      next(); 
+    };
+    authMiddleware.requireAuthOrDeny = function (req, res, next) { 
+      req.authSession.profile = user;
+      next(); 
+    };
   });
 
   afterEach(function (done) {

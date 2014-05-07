@@ -46,13 +46,13 @@ function postHandler(req, res, next) {
     if (err) return next(err);
     if(shorties.length === 0) {
       var slug = slugGenerator.generate();
-      var shortie = new model.Shortie(slug, url, model.ShortieType.Generated);
+      var shortie = new model.Shortie(slug, url, model.ShortieType.Generated, new Date().getTime(), req.authSession.profile);
       repo.addShortie(shortie.slug, shortie, function(err) {
         if (err) return next(err);
         res.send(201, shortie);
       });
     } else {
-      res.send(200, new model.Shortie(shorties[0].slug, shorties[0].url, shorties[0].type));
+      res.send(200, new model.Shortie(shorties[0].slug, shorties[0].url, shorties[0].type, shorties[0].lastModifiedTimestamp, shorties[0].lastModifiedBy));
     }
   });
 }
@@ -90,7 +90,7 @@ function putHandler(req, res, next) {
   else
     type = req.body.type;
 
-  var shortie = new model.Shortie(newSlug , url, type);
+  var shortie = new model.Shortie(newSlug , url, type, new Date().getTime(), req.authSession.profile);
 
   repo.addShortie(slugToCreateOrReplace, shortie, function(err) {
     if (err) return next(err);

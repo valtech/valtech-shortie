@@ -1,15 +1,17 @@
 /// <reference path="../../.types/node/node.d.ts" />
 
 import express = require('express');
+import model = require('./model');
+
 var util = require('util'),
     qs = require('querystring');
 
 function getUser(req) {
-  return {
-    username: req.authSession.profile.username,
-    name: req.authSession.profile.name,
-    email: req.authSession.profile.email
-  };
+  return new model.User(
+    req.authSession.profile.username,
+    req.authSession.profile.name,
+    req.authSession.profile.email
+  );
 }
 
 export function requireAuthCookieOrRedirect(req, res, next) {

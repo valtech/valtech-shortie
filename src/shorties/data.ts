@@ -47,7 +47,7 @@ export class ShortieRepository {
 
   private callbackWrapper(callback: (err: string, doc: model.Shortie) => void) {
     return (err, doc) => {
-      var shortie = doc !== null ? new model.Shortie(doc.slug, doc.url, doc.type) : null;
+      var shortie = doc !== null ? new model.Shortie(doc.slug, doc.url, doc.type, doc.lastModifiedTimestamp, doc.lastModifiedBy) : null;
       callback(err, shortie);
     };
   }
@@ -55,7 +55,7 @@ export class ShortieRepository {
   private callbackWrapper2(callback: (err: string, docs: Array<model.Shortie>) => void) {
     return (err, docs) => {
       var shorties = _.map(docs, function(doc: any) {
-        return new model.Shortie(doc.slug, doc.url, doc.type);
+        return new model.Shortie(doc.slug, doc.url, doc.type, doc.lastModifiedTimestamp, doc.lastModifiedBy);
       });
       callback(err, shorties);
     };
