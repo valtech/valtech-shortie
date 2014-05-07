@@ -1,12 +1,17 @@
 ﻿var uriParser = require('uri-js');
 
 export function parseAndClean(url: string): string {
-  var parserResult = uriParser.parse(url);
+  var uri = uriParser.parse(url);
 
-  if (!parserResult.scheme)
-    return 'http://' + url;
+  if (!uri.scheme) {
+    uri = uriParser.parse('http://' + url);
+  }
 
-  return url;
+  if (!uri.path) {
+    uri.path = '/';
+  }
+
+  return uriParser.serialize(uri);
 }
 
 export function getRootUrl(): string {

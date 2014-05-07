@@ -10,35 +10,40 @@ var assert = chai.assert;
 
 describe('UrlUtils', ()=> {
   describe('parseAndClean()', ()=> {
-    describe('adding http', ()=> {
-      it('Should do nothing if url has http', () => {
-        /* Setup */
-        var url = "http://www.google.se";
+    describe('if scheme is missing', () => {
+      it('should set http as scheme', () => {
+        var url = "google.com";
         
-        /* Test */
         var result = utils.parseAndClean(url);
 
-        assert.equal(result, url);
+        assert(result.indexOf('http://') === 0);
       });
+    });
+    describe('if scheme is present', () => {
+      it('should preserve scheme', () => {
+        var url = 'https://google.com';
 
-      it("Should do nothing if url starts with https", ()=> {
-        /* Setup */
-        var url = "https://www.google.se";
-
-        /* Test */
         var result = utils.parseAndClean(url);
 
-        assert.equal(result, url);
+        assert(result.indexOf('https://') === 0);
       });
-
-      it("Should add http if url does not start with that", () => {
-        /* Setup */
-        var url = "www.google.se";
-
-        /* Test */
+    });
+    describe('if path is missing', () => {
+      it('should append root path', () => {
+        var url = "http://google.com";
+        
         var result = utils.parseAndClean(url);
 
-        assert.equal('http://' + url, result);
+        assert.equal(result, 'http://google.com/');
+      });
+    });
+    describe('if path is present', () => {
+      it('should preserve path', () => {
+        var url = "http://google.com/search";
+        
+        var result = utils.parseAndClean(url);
+
+        assert.equal(result, 'http://google.com/search');
       });
     });
   });
