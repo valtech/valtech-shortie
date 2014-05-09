@@ -63,11 +63,8 @@ export class ListViewModel {
   public currentShortie: KnockoutObservable<ShortieViewModel>;
   public rootUrl: KnockoutObservable<string>;
   public shorties: KnockoutObservableArray<ShortieViewModel>;
-  public spamWarning: KnockoutComputed<boolean>;
   public urlForGenerated : KnockoutObservable<string>;
 
-  private spamAttemped: KnockoutObservable<boolean>;
-  private containsEmpties: KnockoutComputed<boolean>;
   private apiClient: api.ApiClient;
   private shortieForDeletion: ShortieViewModel;
 
@@ -76,15 +73,7 @@ export class ListViewModel {
     this.errorMessage = ko.observable<string>();
     this.rootUrl = ko.observable<string>(rootUrl);
     this.shorties = <KnockoutObservableArray<ShortieViewModel>>ko.observableArray();
-    this.spamAttemped = ko.observable(false);
     this.urlForGenerated = ko.observable<string>();
-
-    this.containsEmpties = ko.computed(() => containsEmptyShorties(this.shorties()));
-    this.spamWarning = ko.computed(() => this.spamAttemped() && this.containsEmpties());
-    this.containsEmpties.subscribe(newValue=> {
-      if (newValue === false)
-        this.spamAttemped(false);
-    });
   }
 
   public select(shortie: ShortieViewModel): void {
@@ -96,18 +85,6 @@ export class ListViewModel {
 
   public deselect(shortie: ShortieViewModel): void {
     shortie.isCurrent(false);
-  }
-
-  public addNew(): void {
-    if (this.containsEmpties()) {
-      this.spamAttemped(true);
-      selectFirstEmptyShorties(this.shorties());
-      return;
-    }
-
-    var newShortie = new ShortieViewModel();
-    this.shorties.unshift(newShortie);
-    this.select(newShortie);
   }
 
   public saveByUrl() {
@@ -197,24 +174,4 @@ export class ListViewModel {
     }
     return true;
   }
-}
-
-function containsEmptyShorties(shorties: Array<ShortieViewModel>): boolean {
-  var hasEmpties = _.any<ShortieViewModel>(shorties,
-    shortie => { return !shortie.slug() || !shortie.url(); }
-    );
-
-  return hasEmpties;
-}
-
-function selectFirstEmptyShorties(shorties: Array<ShortieViewModel>): void {
-  shorties.forEach(s=> s.isCurrent(false));
-  var firstEmpty = _.find<ShortieViewModel>(shorties, shortie=> {
-    if (!shortie.slug() || !shortie.url())
-      return true;
-    return false;
-  });
-
-  if (firstEmpty)
-    firstEmpty.isCurrent(true);
 }

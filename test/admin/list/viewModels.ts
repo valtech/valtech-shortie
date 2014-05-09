@@ -92,27 +92,6 @@ describe("ListViewModel", function () {
     });
   });
 
-  describe("addNew()", function () {
-    beforeEach(function () {
-    });
-    it("should add a new ShortieViewModel if request is OK", function () {
-      listViewModel.addNew();
-
-      expect(listViewModel.shorties().length).to.be.equal(1);
-    });
-
-    it("should set newly added ShortieViewModel as current", function () {
-      listViewModel.addNew();
-      expect(listViewModel.shorties()[0].isCurrent()).to.be.true;
-    });
-
-    it("should prevent creation of multiple empty shorties", function () {
-      listViewModel.addNew();
-      listViewModel.addNew();
-      expect(listViewModel.shorties().length).to.be.equal(1);
-    });
-  });
-
   describe("save()", function () {
     var saveShortieSpy: SinonSpy;
     var saveNewShortieSpy: SinonSpy;
@@ -218,36 +197,6 @@ describe("ListViewModel", function () {
       listViewModel.remove();
 
       expect(listViewModel.shorties().length).to.equal(2);
-    });
-  });
-
-  describe("The 'spamWarning' property", function () {
-    it("Should be false if all shorties have value", function () {
-      expect(listViewModel.spamWarning()).to.be.false;
-    });
-
-    it("Should be false if one new shorties and no attempt to create new", function () {
-      models.push(new model.Shortie('', ''));
-
-      expect(listViewModel.spamWarning()).to.be.false;
-    });
-
-    it("Should be true if one new shorties and attempt to create new is performed", function () {
-      listViewModel.addNew();
-
-      listViewModel.addNew();
-
-      expect(listViewModel.spamWarning()).to.be.true;
-    });
-
-    it("Should be false again if new slug gets values", function () {
-      models.push(new model.Shortie('', ''));
-
-      listViewModel.addNew();
-      listViewModel.shorties()[0].slug('newSlug');
-      listViewModel.shorties()[0].url('newUrl');
-
-      expect(listViewModel.spamWarning()).to.be.false;
     });
   });
 });
