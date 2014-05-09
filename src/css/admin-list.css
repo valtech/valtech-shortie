@@ -55,32 +55,32 @@ table.table > tbody > tr > td > div.form-control {
 
 @media (max-width: 767px) {
 	/* Hide table header and split columns into rows */
-	#admin-list > table.table {
+	#admin-list table.table {
 		display: block;
 	}
-	#admin-list > table.table > thead {
+	#admin-list table.table > thead {
 		display: none;
 	}
-	#admin-list > table.table > tbody {
+	#admin-list table.table > tbody {
 		display: block;
 	}
-	#admin-list > table.table > tbody > tr {
+	#admin-list table.table > tbody > tr {
 		display: block;
 		margin-bottom: 20px;
 		border-bottom: 4px double #ddd;
 	}
-	#admin-list > table.table > tbody > tr > td {
+	#admin-list table.table > tbody > tr > td {
 		display: block;
 		margin-bottom: 10px;
 		padding: 0;
 		border: none;
 	}
 	/* Align readonly form-controls */
-	#admin-list > table.table > tbody > tr > td > div.form-control {
+	#admin-list table.table > tbody > tr > td > div.form-control {
 		padding: 0px;
 		height: auto;
 	}
-	#admin-list > table.table .btn {
+	#admin-list table.table .btn {
 		padding: 6px;
 	}
 }
