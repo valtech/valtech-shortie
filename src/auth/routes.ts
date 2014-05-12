@@ -103,9 +103,12 @@ function abs_url(req, path) {
 }
 
 function parse_vauth_err(err, res, body) {
+  if (!res) {
+    return 'No response received from auth service.';
+  }
   var status_code = res.statusCode;
   if (err || status_code != 200) {
-    return 'invalid response from vauth: ' + status_code + ': ' + body;
+    return 'Invalid response from vauth: ' + status_code + ': ' + body;
   }
 }
 
