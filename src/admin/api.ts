@@ -45,12 +45,15 @@ export class ApiClient {
   }
 
   public getShorties(callback: (response: ApiResponse<Array<model.Shortie>>) => void): void {
-    ApiClient.sendRequest<Array<model.Shortie>>({ path: '/', verb: 'GET' }, callback);
+    ApiClient.sendRequest<Array<model.Shortie>>({
+      path: '/api/shorties/',
+      verb: 'GET'
+    }, callback);
   }
 
   public getShortie(slug: string, callback: (response: ApiResponse<model.Shortie>) => void): void {
     ApiClient.sendRequest<model.Shortie>({ 
-      path: '/' + slug,
+      path: '/api/shorties/' + slug,
       data: {
         noRedirect: true
       },
@@ -60,14 +63,14 @@ export class ApiClient {
 
   public deleteShortie(slug: string, callback: (response: ApiResponse<any>) => void) {
     ApiClient.sendRequest({
-      path: '/' + slug,
+      path: '/api/shorties/' + slug,
       verb: 'DELETE'
     }, callback);
   }
 
   public saveShortie(slug: string, shortie: model.Shortie, callback: (response: ApiResponse<any>) => void): void {
     var saveRequest = {
-      path: '/' + slug,
+      path: '/api/shorties/' + slug,
       verb: 'PUT',
       data: JSON.stringify(shortie)
     };
@@ -76,7 +79,7 @@ export class ApiClient {
 
   public saveNewShortie(url: string, callback: (response: ApiResponse<model.Shortie>) => void): void {
     ApiClient.sendRequest<model.Shortie>({
-        path: '/',
+        path: '/api/shorties/',
         verb: 'POST',
         data: JSON.stringify({ url: url })
       }, callback);

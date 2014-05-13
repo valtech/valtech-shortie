@@ -5,7 +5,7 @@
 import ko = require('knockout');
 import _ = require('underscore');
 import utils = require('../lib/UrlUtils');
-import api = require('../api/api');
+import api = require('./api');
 import model = require('../shorties/model');
 
 export class IndexViewModel {

@@ -20,18 +20,13 @@ function getHandler(req, res, next) {
 }
 
 function listHandler(req, res, next) {
-  if (req.accepts('application/json')) {
-    log.info('Will fetch list of shorties from repository');
-    repo.getAllShorties(function (err, shorties) {
-      if (err) return next(err);
-      log.info('Fetched ' + shorties.length + ' shorties from repository');
-      res.send(200, shorties);
-    });
-    return;
-  }
-  else {
-    next();
-  }
+  log.info('Will fetch list of shorties from repository');
+  repo.getAllShorties(function (err, shorties) {
+    if (err) return next(err);
+    log.info('Fetched ' + shorties.length + ' shorties from repository');
+    res.send(200, shorties);
+  });
+  return;
 }
 
 function postHandler(req, res, next) {
@@ -128,6 +123,7 @@ function isBlacklistedSlug(url) {
     case 'logout':
     case 'me':
     case 'admin':
+    case 'api':
       return true;
   }
   return false;
@@ -136,9 +132,10 @@ function isBlacklistedSlug(url) {
 export function setup(app: express.Application, options: any): void {
   repo = options.shortiesRepo;
 
-  app.get('/', authMiddleware.requireAuthOrDeny, listHandler);
+  app.get('/api/shorties', authMiddleware.requireAuthOrDeny, listHandler);
   app.get('/:slug', getHandler);
-  app.post('/', authMiddleware.requireAuthOrDeny, postHandler);
-  app.put('/:slug', authMiddleware.requireAuthOrDeny, putHandler);
-  app.del('/:slug', authMiddleware.requireAuthOrDeny, deleteHandler);
+  app.post('/api/shorties', authMiddleware.requireAuthOrDeny, postHandler);
+  app.put('/api/shorties/:slug', authMiddleware.requireAuthOrDeny, putHandler);
+  app.del('/api/shorties/:slug', authMiddleware.requireAuthOrDeny, deleteHandler);
 }
+  

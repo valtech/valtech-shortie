@@ -3,70 +3,128 @@ block vars
   - var activeView='list'
 block content
   .container-fluid#admin-list
-    table.table
-      thead
-        tr
-          th.slug
-            div Slug
-          th.url
-            div URL
-          th
-            div Type
-          th
-            div Last modified
-          th
-      tbody(data-bind="foreach: shorties")
-       tr(data-bind="css: { selected: isCurrent(), notSelected: !isCurrent() }")
-          td
-            label(data-bind="attr: { for: 'shortie_slug_'+$index() }") Slug
-            input.form-control(type='text', placeholder='rly shrt', data-bind="attr: { id: 'shortie_slug_'+$index() }, value: slug, event: { focus: $parent.select.bind($parent), blur: $parent.deselect.bind($parent) }")
-          td
-            label(data-bind="attr: { for: 'shortie_url_'+$index() }") URL
-            input.form-control(type='text', placeholder='really long', data-bind="attr: { id: 'shortie_url_'+$index() }, value: url, event: { focus: $parent.select.bind($parent), blur: $parent.deselect.bind($parent) }")
-          td
-            label Type
-            div(data-bind='text: type')
-          td
-            label Last modified
-            div
-              div(data-bind='text: lastModifiedTime')
-              div by 
-                span(data-bind='text: lastModifiedBy')
-          td
-            .btn-group
-              button.btn.btn-primary.btn-xs(data-bind='click: $parent.save.bind($parent)')
-                span.glyphicon.glyphicon-save
-                span.small save
-              button.btn.btn-danger.btn-xs(data-toggle='modal', data-target='#deleteModal', data-bind='click: $parent.markShortieForDeletion.bind($parent)')
-                span.glyphicon.glyphicon-remove
-                span.small &nbsp;delete
-              a.btn.btn-default.btn-xs(data-bind='attr: { href: $parent.rootUrl() + slug() }')
-                span.glyphicon.glyphicon-globe
-                span.small goto
+    .col-md-2(data-bind='with: filter')
+      //.form-group
+        h4 Country
+        button.btn.btn-default.btn-xs clear
+        .checkbox
+          label
+            input(type='checkbox')
+            | SE
+        .checkbox
+          label
+            input(type='checkbox')
+            | FR
+      .form-group
+        h4 Type
+        button.btn.btn-default.btn-xs clear
+        .checkbox
+          label
+            input(type='checkbox')
+            | Manual
+        .checkbox
+          label
+            input(type='checkbox')
+            | Generated
+        .checkbox
+          label
+            input(type='checkbox')
+            | (unknown)
+      .form-group
+        h4 Last modified by
+        button.btn.btn-default.btn-xs clear
+        .checkbox
+          label
+            input(type='checkbox')
+            | Christian Palmstierna
+        .checkbox
+          label
+            input(type='checkbox')
+            | Adam Renberg
+        .checkbox
+          label
+            input(type='checkbox')
+            | Pär Dahlman
+        .checkbox
+          label
+            input(type='checkbox')
+            | Jessica Malmborg
+        .checkbox
+          label
+            input(type='checkbox')
+            | (unknown)
+      //.form-group
+        h4 Last modified at
+        .form-group
+          button.btn.btn-default.btn-xs clear
+        input.form-control(type='text', value='???')
 
-    #deleteModal.modal(data-backdrop='false')
-      .modal-dialog
-        .modal-content
-          .modal-header
-            h4.modal-title Really delete shortie?
-          .modal-body
-            | This cannot be undone.
-          .modal-footer
-            button.btn.btn-danger.btn-xl(data-dismiss='modal', data-bind='click: remove')
-              span.glyphicon.glyphicon-remove
-              &nbsp;delete forever
-            button.btn.btn-default.btn-xl(data-dismiss='modal')
-              span.glyphicon.glyphicon-remove
-              &nbsp;cancel
-    
-    #errorModal.modal(data-backdrop='true')
-      .modal-dialog
-        .modal-content
-          .modal-header
-            button.close(data-dismiss='modal')
-              &times
-            h4.modal-title An error has occurred!
-          .modal-body
-            span(data-bind='text: errorMessage')
+    .col-md-10(data-bind='with: list')
+      table.table
+        thead
+          tr
+            th.slug
+              div Slug
+            th.url
+              div URL
+            th
+              div Type
+            th
+              div Last modified
+            th
+        tbody(data-bind="foreach: shorties")
+         tr(data-bind="css: { selected: isCurrent(), notSelected: !isCurrent() }")
+            td
+              label(data-bind="attr: { for: 'shortie_slug_'+$index() }") Slug
+              input.form-control(type='text', placeholder='rly shrt', data-bind="attr: { id: 'shortie_slug_'+$index() }, value: slug, event: { focus: $parent.select.bind($parent), blur: $parent.deselect.bind($parent) }")
+            td
+              label(data-bind="attr: { for: 'shortie_url_'+$index() }") URL
+              input.form-control(type='text', placeholder='really long', data-bind="attr: { id: 'shortie_url_'+$index() }, value: url, event: { focus: $parent.select.bind($parent), blur: $parent.deselect.bind($parent) }")
+            td
+              label Type
+              div(data-bind='text: type')
+            td
+              label Last modified
+              div
+                div(data-bind='text: lastModifiedTime')
+                div by 
+                  span(data-bind='text: lastModifiedBy')
+            td
+              .btn-group
+                button.btn.btn-primary.btn-xs(data-bind='click: $parent.save.bind($parent)')
+                  span.glyphicon.glyphicon-save
+                  span.small save
+                button.btn.btn-danger.btn-xs(data-toggle='modal', data-target='#deleteModal', data-bind='click: $parent.markShortieForDeletion.bind($parent)')
+                  span.glyphicon.glyphicon-remove
+                  span.small &nbsp;delete
+                a.btn.btn-default.btn-xs(data-bind='attr: { href: $parent.rootUrl() + slug() }')
+                  span.glyphicon.glyphicon-globe
+                  span.small goto
+
+      #deleteModal.modal(data-backdrop='false')
+        .modal-dialog
+          .modal-content
+            .modal-header
+              h4.modal-title Really delete shortie?
+            .modal-body
+              | This cannot be undone.
+            .modal-footer
+              button.btn.btn-danger.btn-xl(data-dismiss='modal', data-bind='click: remove')
+                span.glyphicon.glyphicon-remove
+                &nbsp;delete forever
+              button.btn.btn-default.btn-xl(data-dismiss='modal')
+                span.glyphicon.glyphicon-remove
+                &nbsp;cancel
+      
+      #errorModal.modal(data-backdrop='true')
+        .modal-dialog
+          .modal-content
+            .modal-header
+              button.close(data-dismiss='modal')
+                &times
+              h4.modal-title An error has occurred!
+            .modal-body
+              span(data-bind='text: errorMessage')
+
 block scripts
   script(src="/js/admin-list.js")

@@ -9,7 +9,7 @@ import _ = require('underscore');
 
 import viewModels = require('./viewModels');
 import model = require('../shorties/model');
-import api = require('../api/api');
+import api = require('./api');
 import UrlUtils = require('../lib/UrlUtils');
 
 var indexViewModel = new viewModels.IndexViewModel(new api.ApiClient(), UrlUtils.getRootUrl());

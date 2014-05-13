@@ -54,30 +54,30 @@ describe('api (unauthenticated)', function () {
     db.close(true, done);
   });
 
-  it('GET / should return 401', function (done) {
+  it('GET /api/shorties/ should return 401', function (done) {
     request(shortieApp)
-      .get('/')
+      .get('/api/shorties/')
       .set('Accept', 'application/json')
       .expect(401, done);
   });
 
-  it('POST / should return 401', function (done) {
+  it('POST /api/shorties/ should return 401', function (done) {
     request(shortieApp)
-      .post('/')
+      .post('/api/shorties/')
       .set('Accept', 'application/json')
       .expect(401, done);
   });
 
-  it('PUT /:slug should return 401', function (done) {
+  it('PUT /api/shorties/:slug should return 401', function (done) {
     request(shortieApp)
-      .put('/short-shorts')
+      .put('/api/shorties/short-shorts')
       .set('Accept', 'application/json')
       .expect(401, done);
   });
 
-  it('DELETE /:slug should return 401', function (done) {
+  it('DELETE /api/shorties/:slug should return 401', function (done) {
     request(shortieApp)
-      .del('/short-shorts')
+      .del('/api/shorties/short-shorts')
       .set('Accept', 'application/json')
       .expect(401, done);
   });
@@ -113,24 +113,31 @@ describe('api (authenticated)', function () {
     db.close(true, done);
   });
 
-  it('GET /:slug should return 404 if shortie cannot be found', function (done) {
+  it('GET /api/shorties/ should return 200', function (done) {
     request(shortieApp)
-      .get('/catch-me-if-you-can')
+      .get('/api/shorties/')
+      .set('Accept', 'application/json')
+      .expect(200, done);
+  });
+
+  it('GET /api/shorties/:slug should return 404 if shortie cannot be found', function (done) {
+    request(shortieApp)
+      .get('/api/shorties/catch-me-if-you-can')
       .set('Accept', 'application/json')
       .expect(404, done);
   });
 
-  it('DELETE /:slug should return 404 if shortie cannot be found', function (done) {
+  it('DELETE /api/shorties/:slug should return 404 if shortie cannot be found', function (done) {
     request(shortieApp)
-      .del('/catch-me-if-you-can')
+      .del('/api/shorties/catch-me-if-you-can')
       .set('Accept', 'application/json')
       .expect(404, done);
   });
 
-  it('POST / should insert a shortie that can be GET', function (done) {
+  it('POST /api/shorties/ should insert a shortie that can be GET', function (done) {
     var url = 'http://www.imdb.com/title/tt0118276/'
     request(shortieApp)
-      .post('/')
+      .post('/api/shorties/')
       .send({ url: url })
       .set('Accept', 'application/json')
       .expect(201)
@@ -148,16 +155,16 @@ describe('api (authenticated)', function () {
     };
   });
 
-  it('POST / should return existing shortie if URL has already been shortened', function (done) {
+  it('POST /api/shorties/ should return existing shortie if URL has already been shortened', function (done) {
     var url = 'http://www.imdb.com/title/tt0118276/';
     request(shortieApp)
-      .post('/')
+      .post('/api/shorties/')
       .send({ url: url })
       .set('Accept', 'application/json')
       .end(function(err, res) {
         if (err) return done(err);
         request(shortieApp)
-          .post('/')
+          .post('/api/shorties/')
           .send({ url: url })
           .set('Accept', 'application/json')
           .expect(200)
@@ -169,10 +176,10 @@ describe('api (authenticated)', function () {
       });
   });
 
-  it('PUT /:slug should insert a shortie', function (done) {
+  it('PUT /api/shorties/:slug should insert a shortie', function (done) {
     var url = 'http://www.imdb.com/title/tt0118276/'
     request(shortieApp)
-      .put('/buffy')
+      .put('/api/shorties/buffy')
       .send({ slug: 'buffy', url: url })
       .set('Accept', 'application/json')
       .expect(201)
@@ -198,7 +205,7 @@ describe('api (authenticated)', function () {
     beforeEach(function (done) {
       // Insert 3 shorties
       request(shortieApp)
-        .post('/')
+        .post('/api/shorties/')
         .send({ url: url1 })
         .set('Accept', 'application/json')
         .expect(201)
@@ -207,7 +214,7 @@ describe('api (authenticated)', function () {
           slug1 = res.body.slug;
 
           request(shortieApp)
-            .post('/')
+            .post('/api/shorties/')
             .send({ url: url2 })
             .set('Accept', 'application/json')
             .expect(201)
@@ -216,7 +223,7 @@ describe('api (authenticated)', function () {
               slug2 = res.body.slug;
 
               request(shortieApp)
-                .post('/')
+                .post('/api/shorties/')
                 .send({ url: url3 })
                 .set('Accept', 'application/json')
                 .expect(201)
@@ -229,9 +236,9 @@ describe('api (authenticated)', function () {
         });
     });
 
-    it('GET / should return all shorties', function (done) {
+    it('GET /api/shorties/ should return all shorties', function (done) {
       request(shortieApp)
-        .get('/')
+        .get('/api/shorties/')
         .set('Accept', 'application/json')
         .expect(function (res) {
           var count = res.body.length;
@@ -240,10 +247,10 @@ describe('api (authenticated)', function () {
         .expect(200, done);
     });
 
-    it('PUT /:slug with new slug should update existing shortie', function (done) {
+    it('PUT /api/shorties/:slug with new slug should update existing shortie', function (done) {
       var newSlug = 'qwerty-finch';
       request(shortieApp)
-        .put('/' + slug1)
+        .put('/api/shorties/' + slug1)
         .send({ slug: newSlug, url: url1 })
         .set('Accept', 'application/json')
         .expect(201)
@@ -254,7 +261,7 @@ describe('api (authenticated)', function () {
           if (err) return done(err);
 
           request(shortieApp)
-            .get('/')
+            .get('/api/shorties/')
             .set('Accept', 'application/json')
             .expect(function (res) {
               var count = res.body.length;
@@ -264,10 +271,10 @@ describe('api (authenticated)', function () {
         });
     });
 
-    it('PUT /:slug with new URL should update existing shortie', function (done) {
+    it('PUT /api/shorties/:slug with new URL should update existing shortie', function (done) {
       var newUrl = 'http://www.imdb.com/title/tt0118276/'
       request(shortieApp)
-        .put('/' + slug1)
+        .put('/api/shorties/' + slug1)
         .send({ slug: slug1, url: newUrl })
         .set('Accept', 'application/json')
         .expect(201) // TODO: Return 200 when replacing?
@@ -278,7 +285,7 @@ describe('api (authenticated)', function () {
           if (err) return done(err);
 
           request(shortieApp)
-            .get('/')
+            .get('/api/shorties/')
             .set('Accept', 'application/json')
             .expect(function (res) {
               var count = res.body.length;
@@ -288,8 +295,8 @@ describe('api (authenticated)', function () {
         });
     });
 
-    it('DELETE /:slug should', function (done) {
-      var resource = '/' + slug1;
+    it('DELETE /api/shorties/:slug should', function (done) {
+      var resource = '/api/shorties/' + slug1;
       request(shortieApp)
         .del(resource)
         .set('Accept', 'application/json')

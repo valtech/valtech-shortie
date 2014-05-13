@@ -13,7 +13,8 @@ var _: UnderscoreStatic = underscore;
 var ko: KnockoutStatic = knockout;
 
 import model = require('../../shorties/model');
-import api = require('../../api/api');
+import api = require('../api');
+import UrlUtils = require('../../lib/UrlUtils');
 
 export class ShortieViewModel {
   public shortie: model.Shortie;
@@ -55,6 +56,42 @@ export class ShortieViewModel {
 
     this.slug.subscribe((newValue) => { shortie.slug = newValue; });
     this.url.subscribe((newValue) => { shortie.url = newValue; });
+  }
+}
+
+export class FilterViewModel {
+  public availableLastModifiedBy: KnockoutObservableArray<string>;
+  public availableTypes: KnockoutObservableArray<string>;
+  public lastModifiedBy: KnockoutObservable<string>;
+  public lastModifiedSince: KnockoutObservable<number>;
+  public lastModifiedUntil: KnockoutObservable<number>;
+  public slug: KnockoutObservable<string>;
+  public type: KnockoutObservable<model.ShortieType>;
+  public url: KnockoutObservable<string>;
+
+  constructor() {
+    this.lastModifiedBy = ko.observable<string>();
+    this.lastModifiedSince = ko.observable<number>();
+    this.lastModifiedUntil = ko.observable<number>();
+    this.slug = ko.observable<string>();
+    this.type = ko.observable<model.ShortieType>();
+    this.url = ko.observable<string>();
+  }
+}
+
+export class PagerViewModel {
+  public fromIndex: KnockoutObservable<number>;
+  public pageNumber: KnockoutObservable<number>;
+  public pageSize: KnockoutObservable<number>;
+  public toIndex: KnockoutObservable<number>;
+  public total: KnockoutObservable<number>;
+
+  constructor() {
+    this.fromIndex = ko.observable<number>();
+    this.pageNumber = ko.observable<number>();
+    this.pageSize = ko.observable<number>();
+    this.toIndex = ko.observable<number>();
+    this.total = ko.observable<number>();
   }
 }
 
@@ -173,5 +210,17 @@ export class ListViewModel {
       return false;
     }
     return true;
+  }
+}
+
+export class RootViewModel {
+  public filter: FilterViewModel;
+  public list: ListViewModel;
+  public pager: PagerViewModel;
+
+  constructor() {
+    this.filter = new FilterViewModel();
+    this.list = new ListViewModel(new api.ApiClient(), UrlUtils.getRootUrl());
+    this.pager = new PagerViewModel();
   }
 }

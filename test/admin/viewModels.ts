@@ -4,7 +4,7 @@
 /// <reference path="../../src/admin/list/viewModels.ts"/>
 
 import viewModels = require('../../src/admin/viewModels');
-import api = require('../../src/api/api');
+import api = require('../../src/admin/api');
 import model = require('../../src/shorties/model');
 
 import _ = require('underscore');

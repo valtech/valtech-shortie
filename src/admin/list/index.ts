@@ -9,17 +9,15 @@ import _ = require('underscore');
 
 import viewModels = require('./viewModels');
 import model = require('../../shorties/model');
-import api = require('../../api/api');
 import UrlUtils = require('../../lib/UrlUtils');
 
-var listViewModel = new viewModels.ListViewModel(new api.ApiClient(), UrlUtils.getRootUrl());
+var vm = new viewModels.RootViewModel();
 
-ko.applyBindings(listViewModel, document.getElementById('admin-list'));
+ko.applyBindings(vm, document.getElementById('admin-list'));
 
-listViewModel.errorMessage.subscribe(function (newValue) {
+vm.list.errorMessage.subscribe(function (newValue) {
   if(newValue) {
     $('#errorModal').modal('show');
   }
 });
-
-listViewModel.loadShorties();
+vm.list.loadShorties();
