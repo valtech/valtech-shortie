@@ -7,32 +7,23 @@ var request = require('supertest');
 var assert = require('chai').assert;
 
 import util = require('util');
-import express = require('express');
 import mongodb = require('mongodb');
-import app = require('../../src/app');
-import testHelpers = require('./testhelpers');
+import testHelpers = require('./testHelpers');
 
 var shortieApp;
 var db: mongodb.Db;
 var shortiesCollection: mongodb.Collection;
 
 function createApp(done) {
-  // Setup test mongodb connection
-  var mongoUrl = process.env.MONGO_URL || 'mongodb://127.0.0.1:27017/valtech_shorties_test?w=1';
-  mongodb.MongoClient.connect(mongoUrl, (err: Error, _db: mongodb.Db) => {
-    if (err) return done(err);
-    db = _db;
+  testHelpers.setupMongo((err, db_) => {
+    db = db_;
     shortiesCollection = db.collection('shorties');
-
-    var appOpts = { dbType: 'mongodb', mongoUrl: mongoUrl };
-    app.create(appOpts, function (err, app_) {
+    testHelpers.createApp((err, app_) => {
       shortieApp = app_;
       done();
-    });
+    })
   });
 }
-
-
 
 describe('api (unauthenticated)', function () {
   before(function (done) {
