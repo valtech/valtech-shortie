@@ -10,7 +10,7 @@ import util = require('util');
 import express = require('express');
 import mongodb = require('mongodb');
 import app = require('../../src/app');
-import authMiddleware = require('../../src/auth/middleware');
+import testHelpers = require('./testhelpers');
 
 var shortieApp;
 var db: mongodb.Db;
@@ -88,19 +88,7 @@ describe('api (authenticated)', function () {
   before(function (done) {
     this.timeout(5000);
     createApp(done);
-    var user = {
-      username: 'Someone',
-      name: 'Some One',
-      email: 'someone@example.com'
-    };
-    authMiddleware.requireAuthCookieOrRedirect = function (req, res, next) { 
-      req.authSession.profile = user;
-      next(); 
-    };
-    authMiddleware.requireAuthOrDeny = function (req, res, next) { 
-      req.authSession.profile = user;
-      next(); 
-    };
+    testHelpers.mockAuthentication();
   });
 
   afterEach(function (done) {
