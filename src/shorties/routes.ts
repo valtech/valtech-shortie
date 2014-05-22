@@ -25,7 +25,7 @@ function listHandler(req, res, next) {
     if (err) return next(err);
     log.info('Fetched ' + shorties.length + ' shorties from repository');
     res.send(200, shorties);
-  });
+  }, { sort: { 'lastModifiedTimestamp': -1 } });
   return;
 }
 
