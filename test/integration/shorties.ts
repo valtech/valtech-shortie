@@ -9,6 +9,7 @@ var assert = require('chai').assert;
 import util = require('util');
 import mongodb = require('mongodb');
 import testHelpers = require('./testHelpers');
+import model = require('../../src/shorties/model');
 
 var shortieApp;
 var db: mongodb.Db;
@@ -176,43 +177,14 @@ describe('api (authenticated)', function () {
   });
 
   describe('with data', function () {
-    var url1 = 'http://1.example.com';
-    var url2 = 'http://2.example.com';
-    var url3 = 'http://3.example.com';
-    var slug1, slug2, slug3;
+    var shortie1 = new model.Shortie('slug1', 'http://example.com/1', model.ShortieType.Manual, 100000, { username: 'user1', name: '', email: '' });
+    var shortie2 = new model.Shortie('slug2', 'http://example.com/2', model.ShortieType.Manual, 200000, { username: 'user2', name: '', email: '' });
+    var shortie3 = new model.Shortie('slug3', 'http://example.com/3', model.ShortieType.Manual, 300000, { username: 'user3', name: '', email: '' });
 
     beforeEach(function (done) {
-      // Insert 3 shorties
-      request(shortieApp)
-        .post('/api/shorties/')
-        .send({ url: url1 })
-        .set('Accept', 'application/json')
-        .expect(201)
-        .end(function (err, res) {
-          if (err) return done(err);
-          slug1 = res.body.slug;
-
-          request(shortieApp)
-            .post('/api/shorties/')
-            .send({ url: url2 })
-            .set('Accept', 'application/json')
-            .expect(201)
-            .end(function (err, res) {
-              if (err) return done(err);
-              slug2 = res.body.slug;
-
-              request(shortieApp)
-                .post('/api/shorties/')
-                .send({ url: url3 })
-                .set('Accept', 'application/json')
-                .expect(201)
-                .end(function (err, res) {
-                  if (err) return done(err);
-                  slug3 = res.body.slug;
-                  done();
-                });
-            });
-        });
+      shortiesCollection.insert([ shortie1, shortie2, shortie3 ], function() {
+        done();
+      });
     });
 
     it('GET /api/shorties/ should return all shorties', function (done) {
@@ -229,8 +201,8 @@ describe('api (authenticated)', function () {
     it('PUT /api/shorties/:slug with new slug should update existing shortie', function (done) {
       var newSlug = 'qwerty-finch';
       request(shortieApp)
-        .put('/api/shorties/' + slug1)
-        .send({ slug: newSlug, url: url1 })
+        .put('/api/shorties/' + shortie1.slug)
+        .send({ slug: newSlug, url: shortie1.url })
         .set('Accept', 'application/json')
         .expect(201)
         .expect(function (res) {
@@ -244,7 +216,10 @@ describe('api (authenticated)', function () {
             .set('Accept', 'application/json')
             .expect(function (res) {
               var count = res.body.length;
-              if (count != 3) return util.format('Response included %d shorties, expected %d', count, 3);
+              if (count != 3)
+                return util.format('Response included %d shorties, expected %d', count, 3);
+              if (res.body[0].slug !== newSlug)
+                return util.format('Slug was not updated. Was "%s", expected "%s"', res.body[0].slug, newSlug)
             })
             .expect(200, done);
         });
@@ -253,8 +228,8 @@ describe('api (authenticated)', function () {
     it('PUT /api/shorties/:slug with new URL should update existing shortie', function (done) {
       var newUrl = 'http://www.imdb.com/title/tt0118276/'
       request(shortieApp)
-        .put('/api/shorties/' + slug1)
-        .send({ slug: slug1, url: newUrl })
+        .put('/api/shorties/' + shortie1.slug)
+        .send({ slug: shortie1.slug, url: newUrl })
         .set('Accept', 'application/json')
         .expect(201) // TODO: Return 200 when replacing?
         .expect(function (res) {
@@ -275,7 +250,7 @@ describe('api (authenticated)', function () {
     });
 
     it('DELETE /api/shorties/:slug should', function (done) {
-      var resource = '/api/shorties/' + slug1;
+      var resource = '/api/shorties/' + shortie1.slug;
       request(shortieApp)
         .del(resource)
         .set('Accept', 'application/json')
