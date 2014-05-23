@@ -21,11 +21,17 @@ function getHandler(req, res, next) {
 
 function listHandler(req, res, next) {
   log.info('Will fetch list of shorties from repository');
-  repo.getAllShorties(function (err, shorties) {
+  var opts = { query: {}, sort: null };
+  if (req.query.query)
+    opts.query = JSON.parse(req.query.query) || {};
+  opts.sort = { 
+    'lastModifiedTimestamp': -1 
+  };
+  repo.getAllShorties(opts, function (err, shorties) {
     if (err) return next(err);
     log.info('Fetched ' + shorties.length + ' shorties from repository');
     res.send(200, shorties);
-  }, { sort: { 'lastModifiedTimestamp': -1 } });
+  });
   return;
 }
 

@@ -26,8 +26,8 @@ export class ShortieRepository {
     return this.db.find({ url: url }).toArray(this.callbackWrapper2(callback));
   }
 
-  public getAllShorties(callback: (err: string, doc: Array<model.Shortie>) => void, options?: ShortieGetOptions) {
-    var dbQuery = this.db.find({});
+  public getAllShorties(options: ShortieGetOptions, callback: (err: string, doc: Array<model.Shortie>) => void) {
+    var dbQuery = this.db.find(options.query);
 
     if (!options)
       return dbQuery.toArray(this.callbackWrapper2(callback));
@@ -66,6 +66,7 @@ export class ShortieRepository {
 export interface ShortieGetOptions {
   page?: number;
   sort? : any;
+  query? : any;
 }
 
 export interface ShortieRepositoryOptions {
