@@ -4,6 +4,8 @@
 import util = require('util');
 import qs = require('querystring');
 import express = require('express');
+var uuid = require('node-uuid');
+
 
 import authMiddleware = require('./middleware');
 var log = require('../log');
@@ -25,12 +27,14 @@ function login(req, res, next) {
   }
 
   req.authSession.redirectAfterLogin = req.query.redirect;
+  req.authSession.oauthState = uuid.v4();
 
   var authorizeParams = {
     response_type: 'code',
     client_id: IDP_CLIENT_ID,
     redirect_uri: IDP_CLIENT_REDIRECT_URI,
     scope: 'profile',
+    state: req.authSession.oauthState,
   };
   var redirectUrl = IDP_AUTHORIZE_URL + '?' + qs.stringify(authorizeParams);
 
@@ -45,9 +49,13 @@ function logout(req, res) {
 
 function callback(req, res, next) {
   if (req.query.error) return next(new Error('OAuth error: ' + req.query.error + ', description: ' + req.query.error_description));
-  if (!req.query.code) return next();
+  if (!req.query.code || !req.query.state) return next();
 
   var code = req.query.code;
+  var state = req.query.state;
+
+  if (state !== req.authSession.oauthState) return res.redirect('/?invalidState');
+  delete req.authSession.oauthState;
 
   var tokenOptions = {
     url: IDP_TOKEN_URL,
