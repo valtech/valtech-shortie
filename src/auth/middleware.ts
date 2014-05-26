@@ -8,9 +8,9 @@ var util = require('util'),
 
 function getUser(req) {
   return new model.User(
-    req.authSession.profile.username,
+    req.authSession.profile.email,
     req.authSession.profile.name,
-    req.authSession.profile.email
+    req.authSession.profile.countryCode
   );
 }
 
