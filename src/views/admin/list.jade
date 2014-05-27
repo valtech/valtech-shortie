@@ -3,8 +3,8 @@ block vars
   - var activeView='list'
 block content
   .container-fluid#admin-list
-    .col-md-2(data-bind='with: filter')
-      //.form-group
+    //.col-md-2(data-bind='with: filter')
+      .form-group
         h4 Country
         button.btn.btn-default.btn-xs clear
         .checkbox
@@ -59,7 +59,7 @@ block content
           button.btn.btn-default.btn-xs clear
         input.form-control(type='text', value='???')
 
-    .col-md-10(data-bind='with: list')
+    .col-md-12(data-bind='with: list')
       table.table
         thead
           tr
