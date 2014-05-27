@@ -177,9 +177,9 @@ describe('api (authenticated)', function () {
   });
 
   describe('with data', function () {
-    var shortie1 = new model.Shortie('slug1', 'http://example.com/1', model.ShortieType.Manual, 100000, { username: 'user1', name: '', email: '' });
-    var shortie2 = new model.Shortie('slug2', 'http://example.com/2', model.ShortieType.Manual, 200000, { username: 'user2', name: '', email: '' });
-    var shortie3 = new model.Shortie('slug3', 'http://example.com/3', model.ShortieType.Manual, 300000, { username: 'user3', name: '', email: '' });
+    var shortie1 = new model.Shortie('slug1', 'http://example.com/1', model.ShortieType.Manual, 100000, { name: 'user1', countryCode: '', email: '' });
+    var shortie2 = new model.Shortie('slug2', 'http://example.com/2', model.ShortieType.Manual, 200000, { name: 'user2', countryCode: '', email: '' });
+    var shortie3 = new model.Shortie('slug3', 'http://example.com/3', model.ShortieType.Manual, 300000, { name: 'user3', countryCode: '', email: '' });
 
     beforeEach(function (done) {
       shortiesCollection.insert([ shortie1, shortie2, shortie3 ], function() {
