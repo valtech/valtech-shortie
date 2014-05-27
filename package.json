@@ -31,7 +31,8 @@
     "winston": "0.7.3",
     "uri-js": "^1.4.2",
     "express-winston": "0.2.5",
-    "moment": "~2.6.0"
+    "moment": "~2.6.0",
+    "node-uuid": "^1.4.1"
   },
   "devDependencies": {
     "chai": "~1.9.0",

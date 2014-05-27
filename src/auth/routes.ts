@@ -4,47 +4,42 @@
 import util = require('util');
 import qs = require('querystring');
 import express = require('express');
+var uuid = require('node-uuid');
+
 
 import authMiddleware = require('./middleware');
+var log = require('../log');
 
 var request = require('request');
 
-var VAUTH_CONSUMER_KEY = 'wix6Iz249hFjMsXI7QcfUTKl8oXVH4CfYNSE7cED',
-  VAUTH_CONSUMER_SECRET = 'L76UBmoGjx3Veq8MLi622yAUZMwAMgchikIEJeI2';
+var IDP_BASE_URL = process.env.IDP_BASE_URL || 'https://stage-id.valtech.com';
+var IDP_AUTHORIZE_URL = IDP_BASE_URL + '/oauth2/authorize';
+var IDP_TOKEN_URL = IDP_BASE_URL + '/oauth2/token';
+var IDP_USERS_ME_URL = IDP_BASE_URL + '/api/users/me';
 
-var VAUTH_HOST = 'vauth.valtech.se',
-  VAUTH_REQUEST_TOKEN_URL = util.format('https://%s/oauth/request_token', VAUTH_HOST),
-  VAUTH_ACCESS_TOKEN_URL = util.format('https://%s/oauth/access_token', VAUTH_HOST),
-  VAUTH_AUTHORIZE_URL = util.format('https://%s/oauth/authorize', VAUTH_HOST),
-  VAUTH_PROFILE_URL = util.format('https://%s/users/me', VAUTH_HOST),
-  VAUTH_USERS_URL = util.format('https://%s/users/', VAUTH_HOST);
+var IDP_CLIENT_ID = process.env.IDP_CLIENT_ID || 'local.valtech.shortie';
+var IDP_CLIENT_SECRET = process.env.IDP_CLIENT_SECRET || 'wRNntVkUoiFuC8kJRNDOligNO6btLZrYQz7Oq1NX';
+var IDP_CLIENT_REDIRECT_URI = process.env.IDP_CLIENT_REDIRECT_URI || 'http://localhost:3000/login/callback';
 
 function login(req, res, next) {
   if (req.authSession.signed_in === true) {
     return res.redirect('/me?alreadySignedIn');
   }
 
-  var oauth_body = {
-    consumer_key: VAUTH_CONSUMER_KEY,
-    consumer_secret: VAUTH_CONSUMER_SECRET,
-    callback: abs_url(req, '/login/authenticated')
+  req.authSession.redirectAfterLogin = req.query.redirect;
+  req.authSession.oauthState = uuid.v4();
+
+  var authorizeParams = {
+    response_type: 'code',
+    client_id: IDP_CLIENT_ID,
+    redirect_uri: IDP_CLIENT_REDIRECT_URI,
+    scope: 'profile',
+    state: req.authSession.oauthState,
   };
-  request.post({ url: VAUTH_REQUEST_TOKEN_URL, oauth: oauth_body }, function (vauthErr, vauthRes, vauthBody) {
-    var err = parse_vauth_err(vauthErr, vauthRes, vauthBody);
-    if (err) return next(err);
+  var redirectUrl = IDP_AUTHORIZE_URL + '?' + qs.stringify(authorizeParams);
 
-    var request_token = qs.parse(vauthBody);
-    req.authSession.token = request_token;
-    var redirect = req.query.redirect;
-    if (redirect) {
-      console.log('will redirect after login to', redirect);
-      req.authSession.redirectAfterLogin = redirect;
-    }
-    console.log('sucessfully got a request token', request_token);
-
-    var authorize_url = util.format('%s?oauth_token=%s', VAUTH_AUTHORIZE_URL, request_token.oauth_token);
-    res.redirect(authorize_url);
-  });
+  log.info('oauth2 redirecting to authorize', { url: redirectUrl });
+  res.redirect(redirectUrl);
 }
 
 function logout(req, res) {
@@ -52,87 +47,71 @@ function logout(req, res) {
   res.redirect('/');
 }
 
-function authenticated(req, res, next) {
-  var token = req.authSession.token;
-  delete req.authSession.token;
+function callback(req, res, next) {
+  if (req.query.error) return next(new Error('OAuth error: ' + req.query.error + ', description: ' + req.query.error_description));
+  if (!req.query.code || !req.query.state) return next();
 
-  if (req.query.oauth_verifier) {
-    token.oauth_verifier = req.query.oauth_verifier;
-  } else {
-    next();
-  }
+  var code = req.query.code;
+  var state = req.query.state;
 
-  var oauth_body = {
-    consumer_key: VAUTH_CONSUMER_KEY,
-    consumer_secret: VAUTH_CONSUMER_SECRET,
-    token: token.oauth_token,
-    token_secret: token.oauth_token_secret,
-    verifier: token.oauth_verifier
+  if (state !== req.authSession.oauthState) return res.redirect('/?invalidState');
+  delete req.authSession.oauthState;
+
+  var tokenOptions = {
+    url: IDP_TOKEN_URL,
+    json: true,
+    body: {
+      grant_type: 'authorization_code',
+      code: code,
+      client_id: IDP_CLIENT_ID,
+      client_secret: IDP_CLIENT_SECRET,
+    }
   };
-  request.post({ url: VAUTH_ACCESS_TOKEN_URL, oauth: oauth_body }, function (vauthErr, vauthRes, vauthBody) {
-    var err = parse_vauth_err(vauthErr, vauthRes, vauthBody);
+
+  request.post(tokenOptions, function(err, tres, tbody) {
     if (err) return next(err);
+    if (tres.statusCode !== 200) return next(new Error(tres.statusCode + ' from idp, body: ' + JSON.stringify(tbody)));
 
-    var token = qs.parse(vauthBody);
-    console.log('sucessfully got an access token', token);
+    var accessToken = tbody.access_token;
+    var usersMeOptions = {
+      url: IDP_USERS_ME_URL,
+      json: true,
+      headers: {
+        'Authorization': 'Bearer ' + accessToken
+      }
+    };
 
-    load_profile(token, function (err, profile) {
+    request.get(usersMeOptions, function(err, ures, user) {
       if (err) return next(err);
+      if (ures.statusCode !== 200) return next(new Error(ures.statusCode + ' from idp, WWW-Authenticate: ' + JSON.stringify(ures.headers['www-authenticate'])));
 
-      req.authSession.profile = profile;
+      req.authSession.profile = {
+        email: user.email,
+        name: user.name,
+        countryCode: user.countryCode,
+      };
       req.authSession.signed_in = true;
-      console.log('got a profile', profile);
-      console.log('successfully logged in');
-      var redirect = '/me';
+
+      log.info('successfully logged user in', req.authSession.profile);
+      var redirect = '/admin';
       if (req.authSession.redirectAfterLogin) {
         redirect = req.authSession.redirectAfterLogin;
         delete req.authSession.redirectAfterLogin;
       }
-      console.log('will redirect to', redirect);
+      log.info('redirecting back to', redirect);
       res.redirect(redirect);
     });
   });
 }
 
+
 function viewSession(req, res) {
   res.send(200, req.authSession);
 }
 
-function abs_url(req, path) {
-  return util.format('%s://%s%s', req.protocol, req.get('host'), path);
-}
-
-function parse_vauth_err(err, res, body) {
-  if (!res) {
-    return 'No response received from auth service.';
-  }
-  var status_code = res.statusCode;
-  if (err || status_code != 200) {
-    return 'Invalid response from vauth: ' + status_code + ': ' + body;
-  }
-}
-
-function load_profile(token, callback: (err, json?: any) => void) {
-  var oauth_body = {
-    consumer_key: VAUTH_CONSUMER_KEY,
-    consumer_secret: VAUTH_CONSUMER_SECRET,
-    token: token.oauth_token,
-    token_secret: token.oauth_token_secret,
-  };
-  var headers = {
-    'Accept': '*/*'
-  };
-  request.get({ url: VAUTH_PROFILE_URL, oauth: oauth_body, json: true, headers: headers }, function (vauthErr, vauthRes, vauthBody) {
-    var err = parse_vauth_err(vauthErr, vauthRes, vauthBody);
-    if (err) return callback(err);
-
-    callback(null, vauthBody);
-  });
-}
-
 export function setup(app: express.Application): void {
   app.get('/login', login);
-  app.get('/login/authenticated', authenticated);
+  app.get('/login/callback', callback);
   app.get('/logout', logout);
   app.get('/me', authMiddleware.requireAuthCookieOrRedirect, viewSession);
 }
