@@ -131,7 +131,7 @@ describe('api (authenticated)', function () {
       request(shortieApp)
         .get('/' + generatedSlug)
         .expect('Location', url)
-        .expect(302, done);
+        .expect(301, done);
     };
   });
 
@@ -172,7 +172,7 @@ describe('api (authenticated)', function () {
       request(shortieApp)
         .get('/' + slug)
         .expect('Location', url)
-        .expect(302, done);
+        .expect(301, done);
     };
   });
 
