@@ -14,7 +14,9 @@ function getHandler(req, res, next) {
     if(req.query.noRedirect) {
       res.send(200, shortie);
     } else {
-      res.redirect(shortie.url);
+      // Important: Do a 301 Moved Permanently redirect to allow SEO rankings etc.
+      // to propagate correctly to the target site.
+      res.redirect(301, shortie.url);
     }
   });
 }
@@ -144,4 +146,3 @@ export function setup(app: express.Application, options: any): void {
   app.put('/api/shorties/:slug', authMiddleware.requireAuthOrDeny, putHandler);
   app.del('/api/shorties/:slug', authMiddleware.requireAuthOrDeny, deleteHandler);
 }
-  
