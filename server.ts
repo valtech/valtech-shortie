@@ -26,8 +26,8 @@ var appOpts = {
   dbType: 'mongodb',
   mongoUrl: process.env.MONGO_URL || 'mongodb://127.0.0.1:27017/valtech_shorties?w=1',
   sessionSecret: process.env.SESSION_SECRET || 'TODO: create some better secret',
-  sessionDuration: 60 * 60 * 1000,
-  sessionActiveDuration: 5 * 60 * 1000,
+  sessionDuration: 24 * 60 * 60 * 1000, // valid for 1 day
+  sessionActiveDuration: 5 * 60 * 1000, // sliding expiration for 5 minutes
   sessionUseSecureCookie: false
 };
 

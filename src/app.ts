@@ -54,7 +54,8 @@ export function create(options, callback: (err: any, app)=>void) {
     duration: options.sessionDuration,
     activeDuration: options.sessionActiveDuration,
     cookie: {
-      secure: options.sessionsUseSecureCookie
+      secure: options.sessionsUseSecureCookie,
+      ephemeral: true, // session cookie
     }
   }));
   app.use(express.static(path.join(__dirname, 'public')));
