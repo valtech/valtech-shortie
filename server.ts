@@ -25,7 +25,7 @@ var appOpts = {
   port: process.env.PORT || 3000,
   dbType: 'mongodb',
   mongoUrl: process.env.MONGO_URL || 'mongodb://127.0.0.1:27017/valtech_shorties?w=1',
-  sessionSecret: 'TODO: create some better secret',
+  sessionSecret: process.env.SESSION_SECRET || 'TODO: create some better secret',
   sessionDuration: 60 * 60 * 1000,
   sessionActiveDuration: 5 * 60 * 1000,
   sessionUseSecureCookie: false
