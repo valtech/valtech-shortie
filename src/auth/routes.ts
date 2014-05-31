@@ -22,9 +22,8 @@ var IDP_CLIENT_SECRET = process.env.IDP_CLIENT_SECRET || 'wRNntVkUoiFuC8kJRNDOli
 var IDP_CLIENT_REDIRECT_URI = process.env.IDP_CLIENT_REDIRECT_URI || 'http://localhost:3000/login/callback';
 
 function login(req, res, next) {
-  if (req.authSession.signed_in === true) {
-    return res.redirect('/me?alreadySignedIn');
-  }
+  if (req.authSession.signed_in === true) return res.redirect('/me?alreadySignedIn');
+  if (req.query.redirect && req.query.redirect[0] !== '/') return res.redirect('/?invalidRedirect')
 
   req.authSession.redirectAfterLogin = req.query.redirect;
   req.authSession.oauthState = uuid.v4();
