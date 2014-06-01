@@ -87,7 +87,7 @@ block content
               label Last modified
               div
                 div(data-bind='text: lastModifiedTime')
-                div by 
+                div by
                   span(data-bind='text: lastModifiedBy')
             td
               .btn-group
@@ -96,7 +96,7 @@ block content
                   span.small save
                 button.btn.btn-danger.btn-xs(data-toggle='modal', data-target='#deleteModal', data-bind='click: $parent.markShortieForDeletion.bind($parent)')
                   span.glyphicon.glyphicon-remove
-                  span.small &nbsp;delete
+                  span.small delete
                 a.btn.btn-default.btn-xs(data-bind='attr: { href: $parent.rootUrl() + slug() }')
                   span.glyphicon.glyphicon-globe
                   span.small goto
@@ -111,17 +111,17 @@ block content
             .modal-footer
               button.btn.btn-danger.btn-xl(data-dismiss='modal', data-bind='click: remove')
                 span.glyphicon.glyphicon-remove
-                &nbsp;delete forever
+                | &nbsp;delete forever
               button.btn.btn-default.btn-xl(data-dismiss='modal')
                 span.glyphicon.glyphicon-remove
-                &nbsp;cancel
-      
+                | &nbsp;cancel
+
       #errorModal.modal(data-backdrop='true')
         .modal-dialog
           .modal-content
             .modal-header
               button.close(data-dismiss='modal')
-                &times
+                | &times
               h4.modal-title An error has occurred!
             .modal-body
               span(data-bind='text: errorMessage')
