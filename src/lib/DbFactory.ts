@@ -28,6 +28,7 @@ export function create(type: string, options: any, callback: (err: any, db?: any
         if (err)
           return callback(err.message);
         var shortiesCollection = db.collection('shorties');
+        shortiesCollection.ensureIndex({ slug: 1 }, { unique: true, background: true }, function(err) { if (err) throw err; });
         callback(null, shortiesCollection);
       });
       break;
