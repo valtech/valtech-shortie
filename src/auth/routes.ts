@@ -23,9 +23,16 @@ var IDP_CLIENT_REDIRECT_URI = process.env.IDP_CLIENT_REDIRECT_URI || 'http://loc
 
 function login(req, res, next) {
   if (req.authSession.signed_in === true) return res.redirect('/admin');
-  if (req.query.redirect && req.query.redirect[0] !== '/') return res.redirect('/?invalidRedirect')
 
+  // It is important to validate that the URLs we redirect to after successful sign in
+  // are actually "located on valtech shortie", and not external URLs *or* redirects
+  // to external URLs. Otherwise we become an open redirector, exposing us / idp to
+  // certain attacks.
+  // We solve this by being conservative in what redirects we accept
+  var redirect = req.query.redirect || '/admin';
+  if (redirect !== '/admin' && redirect.indexOf('/admin/') !== 0) return res.redirect('/?invalidRedirect')
   req.authSession.redirectAfterLogin = req.query.redirect;
+
   req.authSession.oauthState = uuid.v4();
 
   var authorizeParams = {
