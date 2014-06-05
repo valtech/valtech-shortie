@@ -39,7 +39,7 @@ function login(req, res, next) {
     response_type: 'code',
     client_id: IDP_CLIENT_ID,
     redirect_uri: IDP_CLIENT_REDIRECT_URI,
-    scope: 'profile',
+    scope: 'profile email',
     state: req.authSession.oauthState,
   };
   var redirectUrl = IDP_AUTHORIZE_URL + '?' + qs.stringify(authorizeParams);
@@ -94,7 +94,7 @@ function callback(req, res, next) {
       req.authSession.profile = {
         email: user.email,
         name: user.name,
-        countryCode: user.countryCode,
+        countryCode: user.country_code,
       };
       req.authSession.signed_in = true;
 
