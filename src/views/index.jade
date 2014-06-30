@@ -3,13 +3,13 @@
 block content
   .page-header.startpageheader
   .container.centered-for-small
-  
+
     .col-md-6.row
       h1.heading-large valte.ch
       h3.subheading The Valtech URL shortener
 
-      .form-group 
-        <a class="btn btn-success btn-square" href="/Admin">&rsaquo; admin login</a>
+      .form-group
+        <a class="btn btn-success btn-square" href="/admin">&rsaquo; admin login</a>
       p
         | Valte.ch, eller Valtech Shortie som vi kallar den, är en Node.JS applikation (<a href="http://nodejs.org/">http://nodejs.org/</a>) Med det minimalistiska Express web framework (<a href="http://expressjs.com">http://expressjs.com</a>). 'Shorties sparas i en Mongo-databas (<a href="http://mongodb.org">http://mongodb.org</a>) på MongoHQ (<a href="https://app.mongohq.com">https://app.mongohq.com</a>). Med en dokumentdatabas så har vi sluppit strulet med uppdaterade databas-scheman, vilket har varit extra skönt innan domänobjektens struktur sattes. Länkarna administreras på administrations-gränssnittet (<a href="/admin">http://valtech.ch/admin</a>) som är skrivet med jade templateing och backas upp av knockout.js (<a href="http://www.knockoutjs.com">http://www.knockoutjs.com</a>) och underscore.js (<a href="http://underscorejs.org">http://underscorejs.org</a>). För attt komma åt admin-gränssnittet krävs authentisering från Valtechs 0Auth 2 applikation så alla är inte välkomna dit, tyvärr :(
       strong <a href="https://github.com/valtech/valtech_shortie">Läs mer...</a>
