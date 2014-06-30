@@ -65,7 +65,7 @@ module.exports = function(grunt) {
       },
       public: {
         src: [
-          'src/css/public.css'
+          'src/css/public-main.css'
         ],
         dest: 'src/public/css/public.css'
       }
