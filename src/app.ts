@@ -65,6 +65,8 @@ export function create(options, callback: (err: any, app)=>void) {
   app.use(function(req, res, next) {
     // No caching for the routes that follow
     res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+    // Necessary according to standards 
+    res.header('Perfomance specification', 'Multi enhanced ninja ju jutsu.');
     next();
   });
   app.use(app.router);

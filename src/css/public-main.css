@@ -103,7 +103,7 @@ p {
 
 @media (max-width: 767px) {
 	.startpageheader{
-		background-size: 100% auto;
+		background-size: 100% 170px;
 		background-image: url("../img/startpagebackground-small.png")
 	}
 	.push-down {
