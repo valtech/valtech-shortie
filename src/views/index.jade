@@ -11,7 +11,18 @@ block content
       .form-group
         <a class="btn btn-success btn-square" href="/admin">&rsaquo; admin login</a>
       p
-        | Valte.ch, eller Valtech Shortie som vi kallar den, är en Node.JS applikation (<a href="http://nodejs.org/">http://nodejs.org/</a>) Med det minimalistiska Express web framework (<a href="http://expressjs.com">http://expressjs.com</a>). 'Shorties sparas i en Mongo-databas (<a href="http://mongodb.org">http://mongodb.org</a>) på MongoHQ (<a href="https://app.mongohq.com">https://app.mongohq.com</a>). Med en dokumentdatabas så har vi sluppit strulet med uppdaterade databas-scheman, vilket har varit extra skönt innan domänobjektens struktur sattes. Länkarna administreras på administrations-gränssnittet (<a href="/admin">http://valtech.ch/admin</a>) som är skrivet med jade templateing och backas upp av knockout.js (<a href="http://www.knockoutjs.com">http://www.knockoutjs.com</a>) och underscore.js (<a href="http://underscorejs.org">http://underscorejs.org</a>). För attt komma åt admin-gränssnittet krävs authentisering från Valtechs 0Auth 2 applikation så alla är inte välkomna dit, tyvärr :(
+        | Valte.ch, eller Valtech Shortie som vi kallar den, är en <a href="http://nodejs.org/">Node.JS</a>-applikation
+        | som använder det minimalistiska <a href="http://expressjs.com">Express</a>-ramverket.
+        | Shorties sparas i en <a href="http://mongodb.org">MongoDB</a>-databas
+        | hos <a href="https://www.mongohq.com/">MongoHQ</a>.
+        | Med en dokumentdatabas så har vi sluppit strulet med att uppdatera
+        | databasscheman, vilket har varit extra skönt innan domänobjektens struktur
+        | sattes. Länkarna administreras via administrationsgränssnittet på <a href="/admin">/admin</a>,
+        | som är skrivet med <a href="http://jade-lang.com/">Jade</a>
+        | och backas upp av <a href="http://www.knockoutjs.com">Knockout</a>
+        | och <a href="http://underscorejs.org">Underscore</a>. För att
+        | komma åt admingränssnittet krävs autentisering från Valtechs OAuth 2-tjänst, så
+        | alla är inte välkomna dit, tyvärr :(
       strong <a href="https://github.com/valtech/valtech_shortie">Läs mer...</a>
 
     .col-md-5.row.col-md-offset-1.push-down
@@ -19,13 +30,13 @@ block content
         img(src="img/startpage-blob.png")
       ul.list-unstyled
         li
-          a(href='http://www.valtech.se') www.valtech.se
+          a(href='https://valtech.se') valtech.se
         li
-          a(href='http://www.valtech.se/sv/jobb/lediga-jobb' class='no-color') www.valtech.se/sv/jobb/lediga-jobb
-        li 
+          a(href='https://valtech.se/jobb' class='no-color') valtech.se/jobb
+        li
           a(href='http://www.valtechportfolio.se' class='no-color') www.valtechportfolio.se
         li
-          a(href='http://www.valtech.se/sv/jobb/lediga-jobb/talang-valtech' class='no-color') www.valtech.se/sv/jobb/lediga-jobb/talang-valtech
+          a(href='http://talang.valtech.se' class='no-color') talang.valtech.se
       ul-list-unstyled.list-inline
         li
           a(href='https://www.linkedin.com/company/valtech' class="logo logo-linkedin") Linkedin
@@ -37,7 +48,7 @@ block content
           a(href='http://instagram.com/valtechsweden/' class="logo logo-instagram") Instagram
         li
           a(href='http://vimeo.com/valtechsweden' class="logo logo-vimeo") Vimeo
-        
+
     .col-md-12.row
       hr
       .footer
@@ -45,6 +56,7 @@ block content
         |  Kungliga Myntet, Hanterkargatan 5, 11221 Stockholm, Box 12108 10223 Stockholm
         br
         strong Tel:
-        |  08-56223300,
-        strong Fax: 08-56-223310,
-        a(href="mailto:info@valtech.se")  info@valtech.se
+        |  08-56223300,&nbsp;
+        strong Fax:&nbsp;
+        | 08-56-223310,&nbsp;
+        a(href="mailto:info@valtech.se") info@valtech.se
