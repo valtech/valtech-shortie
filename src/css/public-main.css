@@ -37,8 +37,16 @@ p {
 	background: url("../img/socialmedia-sprite.png") -210px no-repeat;
 }
 
+.centered {
+	text-align: center;
+}
+
 .page-header {
   border-bottom: none;
+}
+
+.footer {
+	margin-bottom: 20px;
 }
 
 .btn {
@@ -50,10 +58,19 @@ p {
 	font-family: "georgia";
 }
 
+.heading-gigantic {
+	font-size: 200px;
+	font-weight: bold;
+}
+
 .subheading {
 	font-size: 33px;
 	font-family: "arial";
 	letter-spacing: -1px;
+}
+
+.push-down {
+	margin-top: 100px;
 }
 
 .startpageheader {
@@ -65,12 +82,20 @@ p {
 	background-image: url("../img/startpagebackground.png")
 }
 
-.push-down {
-	margin-top: 100px;
+.not-found-header {
+	padding: 0;
+	margin: 0;
+	height: 600px;
+	background-size: 100% 600px;
+	background-repeat: no-repeat;
+	background-image: url("../img/404-header-background.png")
 }
 
-.push-down {
-	margin-bottom: 10px;
+
+@media (max-width: 1000px) {
+	.not-found-header {
+		background-image: url("../img/404-header-background-medium.png")
+	}
 }
 
 @media (max-width: 767px) {
@@ -79,5 +104,11 @@ p {
 	}
 	.push-down {
 		margin-top: 40px;
+	}
+}
+
+@media (max-width: 500px) {
+	.not-found-header {
+		background-image: url("../img/404-header-background-small.png")
 	}
 }

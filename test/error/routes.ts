@@ -33,7 +33,7 @@ describe('404 error', function () {
         [verb.toLowerCase()]('/non-existing-resource')
           .set('Accept', 'text/html')
           .expect('Content-Type', /text\/html/)
-          .expect(/not found/)
+          .expect(/something wrong/)
           .expect(404, done);
       });
 
