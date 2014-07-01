@@ -63,7 +63,7 @@ This list isn't exhaustive, but should give you an idea of the overall architect
 
 # Admin
 
-Go to `/admin` and login using vauth. You can administer existing URLs and add new ones.
+Go to `/admin` and login using Valtech IDP. You can administer existing URLs and add new ones.
 
 
 # API
