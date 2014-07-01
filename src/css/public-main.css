@@ -115,4 +115,7 @@ p {
 	.not-found-header {
 		background-image: url("../img/404-header-background-small.png")
 	}
-}
+	.heading-large {
+		font-size: 85px;
+	}
+} 
