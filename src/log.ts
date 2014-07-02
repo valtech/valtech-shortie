@@ -20,7 +20,6 @@ var logger = new winston.Logger({
     info: 2,
     warn: 3,
     error: 4,
-    fatal: 5,
   },
   colors: {
     silly: 'cyan',
@@ -28,7 +27,6 @@ var logger = new winston.Logger({
     info: 'green',
     warn: 'yellow',
     error: 'red',
-    fatal: 'red',
   },
 });
 
