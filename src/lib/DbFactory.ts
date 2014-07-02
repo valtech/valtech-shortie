@@ -19,7 +19,7 @@ export function create(type: string, options: any, callback: (err: any, db?: any
       var mongodb = require('mongodb');
       var mongoOptions = {
         server: {
-          auto_connect: true,
+          auto_reconnect: true,
           socketOptions: {
             connectTimeoutMS:3600000,
             keepAlive:3600000,
