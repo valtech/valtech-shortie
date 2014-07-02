@@ -34,7 +34,7 @@ var appOpts = {
 
 app.create(appOpts, function (err, app) {
   if (err) {
-    return log.error('app create error', err);
+    return log.error('app create error', err.stack);
   }
   http.createServer(app).listen(app.get('port'), function () {
     log.info('Shortie server listening on port ' + app.get('port'));
