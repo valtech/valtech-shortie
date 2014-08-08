@@ -4,6 +4,7 @@ import model = require('./model');
 import express = require('express');
 import slugGenerator = require('../lib/SlugGenerator');
 import authMiddleware = require('../auth/middleware');
+import validation = require('./validation');
 var log = require('../log');
 
 var repo;
@@ -26,8 +27,8 @@ function listHandler(req, res, next) {
   var opts = { query: {}, sort: null };
   if (req.query.query)
     opts.query = JSON.parse(req.query.query) || {};
-  opts.sort = { 
-    'lastModifiedTimestamp': -1 
+  opts.sort = {
+    'lastModifiedTimestamp': -1
   };
   repo.getAllShorties(opts, function (err, shorties) {
     if (err) return next(err);
@@ -40,7 +41,7 @@ function listHandler(req, res, next) {
 function postHandler(req, res, next) {
   // return 400 on invalid data
   var url = req.body.url;
-  if (isInvalidUrl(url)) {
+  if (validation.isInvalidUrl(url)) {
     log.warn('Invalid URL in request body. Was: ' + url);
     return res.send(400, 'Invalid URL.');
   }
@@ -62,27 +63,27 @@ function postHandler(req, res, next) {
 
 function putHandler(req, res, next) {
   var url = req.body.url;
-  if (isInvalidUrl(url)) {
+  if (validation.isInvalidUrl(url)) {
     log.warn('Invalid URL in request body. Was: ' + url);
     return res.send(400, 'Invalid URL.');
   }
 
   var slugToCreateOrReplace = req.params.slug;
-  if (isInvalidSlug(slugToCreateOrReplace)) {
+  if (validation.isInvalidSlug(slugToCreateOrReplace)) {
     log.error('Invalid slug in request URL. Was: ' + slugToCreateOrReplace);
     return res.send(400, 'Invalid slug.');
   }
-  if (isBlacklistedSlug(slugToCreateOrReplace)) {
+  if (validation.isBlacklistedSlug(slugToCreateOrReplace)) {
     log.error('Blacklisted slug in request URL. Was: ' + slugToCreateOrReplace);
     return res.send(400, 'Sorry, that slug is not allowed.');
   }
 
   var newSlug = req.body.slug;
-  if (isInvalidSlug(newSlug)) {
+  if (validation.isInvalidSlug(newSlug)) {
     log.error('Invalid slug in request body. Was: ' + slugToCreateOrReplace);
     return res.send(400, 'Invalid slug.');
   }
-  if (isBlacklistedSlug(newSlug)) {
+  if (validation.isBlacklistedSlug(newSlug)) {
     log.error('Blacklisted slug in request body. Was: ' + slugToCreateOrReplace);
     return res.send(400, 'Sorry, that slug is not allowed.');
   }
@@ -103,38 +104,13 @@ function putHandler(req, res, next) {
 
 function deleteHandler(req, res, next) {
   var slug = req.params.slug;
-  if (isInvalidSlug(slug)) return res.send(400, 'Invalid slug in request body');
+  if (validation.isInvalidSlug(slug)) return res.send(400, 'Invalid slug in request body');
 
   repo.removeShortie(slug, function(err, numRemoved) {
     if (err) return next(err);
     if (numRemoved != 1) return res.send(404, 'Shortie not found');
     res.send(200, 'Shortie removed');
   });
-}
-
-function isInvalidUrl(url) {
-  // TODO: Write better validation
-  // TODO: Move somewhere?
-  if (!url || url.length === 0) return true;
-}
-
-function isInvalidSlug(url) {
-  // TODO: Write better validation. Slug cannot clash with routes
-  // TODO: Move somewhere
-  if (!url || url.length === 0) return true;
-  return false;
-}
-
-function isBlacklistedSlug(url) {
-  switch (url) {
-    case 'login':
-    case 'logout':
-    case 'me':
-    case 'admin':
-    case 'api':
-      return true;
-  }
-  return false;
 }
 
 export function setup(app: express.Application, options: any): void {
