@@ -3,6 +3,7 @@
 # Generated files
 # All scripts should be type script
 *.js
+!Gruntfile.js
 src/public/css/*.css
 
 # User-specific files
