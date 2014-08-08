@@ -1,6 +1,6 @@
 ﻿/// <reference path="../../.types/node/node.d.ts" />
 
-var defaultSlugLength = 5;
+var defaultSlugLength = 10;
 var defaultAllowedChars = 'bcdfghjklmnpqrstvwxz';
 
 export function generate(slugLength?: number, allowedChars?: string): string {
