@@ -79,6 +79,8 @@ http://bob.valtech.se.
  * Branch `master` is automatically deployed to production.
  * Branch `develop` is automatically deployed to stage.
 
+If TeamCity does not trigger a build for a branch (e.g. after merge to `master`), trigger one yourself (by pressing the ... next to "Run" and then choosing branch).
+
 The application is deployed to Azure. The azure-site-names are:
 
  * Production: http://valtech-shortie.azurewebsites.net
