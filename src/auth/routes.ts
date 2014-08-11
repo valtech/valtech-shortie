@@ -16,6 +16,7 @@ var IDP_BASE_URL = process.env.IDP_BASE_URL || 'https://stage-id.valtech.com';
 var IDP_AUTHORIZE_URL = IDP_BASE_URL + '/oauth2/authorize';
 var IDP_TOKEN_URL = IDP_BASE_URL + '/oauth2/token';
 var IDP_USERS_ME_URL = IDP_BASE_URL + '/api/users/me';
+var IDP_END_SESSION_URL = IDP_BASE_URL + '/oidc/end-session';
 
 var IDP_CLIENT_ID = process.env.IDP_CLIENT_ID || 'valtech.shortie.local';
 var IDP_CLIENT_SECRET = process.env.IDP_CLIENT_SECRET || 'OTQyMmEyY2UtMDM4OS00YjU5LThkNTMtOGY4YzcwYTg1NGVm';
@@ -50,7 +51,13 @@ function login(req, res, next) {
 
 function logout(req, res) {
   req.authSession.reset();
-  res.redirect('/');
+
+  var endSessionParams = {
+    client_id: IDP_CLIENT_ID,
+  };
+
+  var redirectUrl = IDP_END_SESSION_URL + '?' + qs.stringify(endSessionParams);
+  res.redirect(redirectUrl);
 }
 
 function callback(req, res, next) {
