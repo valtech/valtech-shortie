@@ -20,6 +20,7 @@ export function requireAuthCookieOrRedirect(req, res, next) {
     return res.redirect(url);
   }
   res.locals.user = getUser(req);
+  res.locals.signOutCsrfToken = req.authSession.signOutCsrfToken;
   next();
 }
 

@@ -50,6 +50,12 @@ function login(req, res, next) {
 }
 
 function logout(req, res) {
+  var csrfToken = req.query._csrf;
+  if (req.authSession.signOutCsrfToken && req.authSession.signOutCsrfToken !== csrfToken) {
+    // authSessions created before 2014-08-11 didn't have the signOutCsrfToken.
+    // For now, allow sign-outs for such sessions
+    return res.status(400).send("invalid csrf token");
+  }
   req.authSession.reset();
 
   var endSessionParams = {
@@ -104,6 +110,9 @@ function callback(req, res, next) {
         countryCode: user.country_code,
       };
       req.authSession.signed_in = true;
+      // We need to protect the GET /logout request against csrf
+      // Sine logout is a GET, when used the csrf token is to be considered used and invalid
+      req.authSession.signOutCsrfToken = uuid.v4();
 
       log.info('successfully logged user in', req.authSession.profile);
       var redirect = '/admin';

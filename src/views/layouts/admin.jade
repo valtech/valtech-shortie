@@ -30,7 +30,7 @@ html
                 span.glyphicon.glyphicon-list &nbsp;
                 | List
             li
-              a(href='/logout')
+              a(href='/logout?_csrf=' + (signOutCsrfToken || ''))
                 span.glyphicon.glyphicon-log-out &nbsp;
                 | Logout
                 | (
