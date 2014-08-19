@@ -55,3 +55,9 @@ build
 .grunt
 
 node_modules
+
+# IDEA
+.idea
+
+# Vagrant
+.vagrant
