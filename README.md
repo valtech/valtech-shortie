@@ -91,7 +91,24 @@ The MongoDB databases are located at [MongoHQ](https://app.mongohq.com/). Ask IT
 
 # Dev
 
-## Prerequisites
+## Creating a local environment with Vagrant
+
+This project is setup with Vagrant, to make it easy to get up and running. To create a VM with a local development
+environment using Vagrant, you need the following software installed on your host machine:
+
+ * Vagrant (http://vagrantup.com)
+ * VirtualBox (https://www.virtualbox.org/)
+ * nfsd - see https://docs.vagrantup.com/v2/synced-folders/nfs.html
+   * sudo apt-get install nfs-kernel-server # Ubuntu 14.04
+
+Create, provision and bootstrap the Vagrant box like this:
+
+    vagrant up
+    vagrant ssh
+
+You are now inside a VM setup for development, and can skip the manual install steps.
+
+## Manual install
 
 ### For all platforms
 
@@ -109,7 +126,7 @@ The MongoDB databases are located at [MongoHQ](https://app.mongohq.com/). Ask IT
 
 ## Running
 
-#### (First time)
+#### (First time - done automatically as part of the Vagrant bootstrap process)
 
 This will install all required Node modules.
 
