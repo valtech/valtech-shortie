@@ -1,4 +1,4 @@
-# valtech\_shortie - valte.ch
+# valtech_shortie - valte.ch
 
 Valtech URL shortening service.
 
