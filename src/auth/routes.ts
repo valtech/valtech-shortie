@@ -20,7 +20,6 @@ var IDP_END_SESSION_URL = IDP_BASE_URL + '/oidc/end-session';
 
 var IDP_CLIENT_ID = process.env.IDP_CLIENT_ID || 'valtech.shortie.local';
 var IDP_CLIENT_SECRET = process.env.IDP_CLIENT_SECRET || 'OTQyMmEyY2UtMDM4OS00YjU5LThkNTMtOGY4YzcwYTg1NGVm';
-var IDP_CLIENT_REDIRECT_URI = process.env.IDP_CLIENT_REDIRECT_URI || 'http://localhost:3000/login/callback';
 
 function login(req, res, next) {
   if (req.authSession.signed_in === true) return res.redirect('/admin');
@@ -31,7 +30,7 @@ function login(req, res, next) {
   // certain attacks.
   // We solve this by being conservative in what redirects we accept
   var redirect = req.query.redirect || '/admin';
-  if (redirect !== '/admin' && redirect.indexOf('/admin/') !== 0) return res.redirect('/?invalidRedirect')
+  if (redirect !== '/admin' && redirect.indexOf('/admin/') !== 0) return res.status(400).json({ error_description: 'Invalid redirect.'});
   req.authSession.redirectAfterLogin = req.query.redirect;
 
   req.authSession.oauthState = uuid.v4();
@@ -39,7 +38,6 @@ function login(req, res, next) {
   var authorizeParams = {
     response_type: 'code',
     client_id: IDP_CLIENT_ID,
-    redirect_uri: IDP_CLIENT_REDIRECT_URI,
     scope: 'profile email',
     state: req.authSession.oauthState,
   };
@@ -68,14 +66,30 @@ function logout(req, res) {
 
 function callback(req, res, next) {
   if (req.query.error) return next(new Error('OAuth error: ' + req.query.error + ', description: ' + req.query.error_description));
-  if (!req.query.code || !req.query.state) return next();
+  if (!req.query.code || !req.query.state) return res.status(400).json({ error_description: 'Missing code or stage.'});
 
   var code = req.query.code;
   var state = req.query.state;
 
-  if (state !== req.authSession.oauthState) return res.redirect('/?invalidState');
+  if (state !== req.authSession.oauthState) return res.status(400).json({ error: 'Invalid state.' });
   delete req.authSession.oauthState;
 
+  exchangeCodeForAccessToken(code, function(err, accessToken) {
+    if (err) return next(err);
+
+    fetchUserInfo(accessToken, function(err, user) {
+      if (err) return next(err);
+
+      signUserIn(req, user, function(err) {
+        if (err) return next(err);
+
+        redirectAfterSignIn(req, res);
+      });
+    });
+  });
+}
+
+function exchangeCodeForAccessToken(code, callback) {
   var tokenOptions = {
     url: IDP_TOKEN_URL,
     json: true,
@@ -87,45 +101,55 @@ function callback(req, res, next) {
     }
   };
 
-  request.post(tokenOptions, function(err, tres, tbody) {
-    if (err) return next(err);
-    if (tres.statusCode !== 200) return next(new Error(tres.statusCode + ' from idp, body: ' + JSON.stringify(tbody)));
+  request.post(tokenOptions, function(err, res, body) {
+    if (err) return callback(err);
+    if (res.statusCode !== 200) return callback(new Error(res.statusCode + ' from idp, body: ' + JSON.stringify(body)));
 
-    var accessToken = tbody.access_token;
-    var usersMeOptions = {
-      url: IDP_USERS_ME_URL,
-      json: true,
-      headers: {
-        'Authorization': 'Bearer ' + accessToken
-      }
-    };
-
-    request.get(usersMeOptions, function(err, ures, user) {
-      if (err) return next(err);
-      if (ures.statusCode !== 200) return next(new Error(ures.statusCode + ' from idp, WWW-Authenticate: ' + JSON.stringify(ures.headers['www-authenticate'])));
-
-      req.authSession.profile = {
-        email: user.email,
-        name: user.name,
-        countryCode: user.country_code,
-      };
-      req.authSession.signed_in = true;
-      // We need to protect the GET /logout request against csrf
-      // Sine logout is a GET, when used the csrf token is to be considered used and invalid
-      req.authSession.signOutCsrfToken = uuid.v4();
-
-      log.info('successfully logged user in', req.authSession.profile);
-      var redirect = '/admin';
-      if (req.authSession.redirectAfterLogin) {
-        redirect = req.authSession.redirectAfterLogin;
-        delete req.authSession.redirectAfterLogin;
-      }
-      log.info('redirecting back to', redirect);
-      res.redirect(redirect);
-    });
+    callback(null, body.access_token);
   });
 }
 
+function fetchUserInfo(accessToken, callback) {
+  var usersMeOptions = {
+    url: IDP_USERS_ME_URL,
+    json: true,
+    headers: {
+      'Authorization': 'Bearer ' + accessToken
+    }
+  };
+
+  request.get(usersMeOptions, function(err, res, user) {
+    if (err) return callback(err);
+    if (res.statusCode !== 200) return callback(new Error(res.statusCode + ' from idp, WWW-Authenticate: ' + JSON.stringify(res.headers['www-authenticate'])));
+
+    callback(null, user);
+  });
+}
+
+function signUserIn(req, user, callback) {
+  req.authSession.profile = {
+    email: user.email,
+    name: user.name,
+    countryCode: user.country_code,
+  };
+  req.authSession.signed_in = true;
+  // We need to protect the GET /logout request against csrf
+  // Since logout is a GET, when used the csrf token is to be considered used and invalid
+  req.authSession.signOutCsrfToken = uuid.v4();
+
+  log.info('successfully logged user in', req.authSession.profile);
+  callback(null);
+}
+
+function redirectAfterSignIn(req, res) {
+  var redirect = '/admin';
+  if (req.authSession.redirectAfterLogin) {
+    redirect = req.authSession.redirectAfterLogin;
+    delete req.authSession.redirectAfterLogin;
+  }
+  log.info('redirecting back to', redirect);
+  res.redirect(redirect);
+}
 
 function viewSession(req, res) {
   res.send(200, req.authSession);
