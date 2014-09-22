@@ -18,8 +18,10 @@ var IDP_TOKEN_URL = IDP_BASE_URL + '/oauth2/token';
 var IDP_USERS_ME_URL = IDP_BASE_URL + '/api/users/me';
 var IDP_END_SESSION_URL = IDP_BASE_URL + '/oidc/end-session';
 
-var IDP_CLIENT_ID = process.env.IDP_CLIENT_ID || 'valtech.shortie.local';
-var IDP_CLIENT_SECRET = process.env.IDP_CLIENT_SECRET || 'OTQyMmEyY2UtMDM4OS00YjU5LThkNTMtOGY4YzcwYTg1NGVm';
+var IDP_CLIENT_ID = process.env.IDP_CLIENT_ID;
+var IDP_CLIENT_SECRET = process.env.IDP_CLIENT_SECRET;
+
+var AUTH_MODE = process.env.AUTH_MODE;
 
 function login(req, res, next) {
   if (req.authSession.signed_in === true) return res.redirect('/admin');
@@ -32,6 +34,21 @@ function login(req, res, next) {
   var redirect = req.query.redirect || '/admin';
   if (redirect !== '/admin' && redirect.indexOf('/admin/') !== 0) return res.status(400).json({ error_description: 'Invalid redirect.'});
   req.authSession.redirectAfterLogin = req.query.redirect;
+
+  if (AUTH_MODE !== 'idp') {
+    // do anonymous authentication
+    var user = {
+      email: 'anonymous.user@test.me',
+      name: 'Anonymous',
+      country_code: 'se'
+    };
+    signUserIn(req, user, function(err) {
+      if (err) return next(err);
+
+      redirectAfterSignIn(req, res);
+    });
+    return;
+  }
 
   req.authSession.oauthState = uuid.v4();
 
@@ -54,7 +71,12 @@ function logout(req, res) {
     // For now, allow sign-outs for such sessions
     return res.status(400).send("invalid csrf token");
   }
+
+  var isAnonymousSession = req.authSession.email === 'anonymous.user@test.me';
+
   req.authSession.reset();
+
+  if (isAnonymousSession) return res.redirect('/');
 
   var endSessionParams = {
     client_id: IDP_CLIENT_ID,

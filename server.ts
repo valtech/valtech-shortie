@@ -1,5 +1,9 @@
 ﻿/// <reference path="./.types/node/node.d.ts" />
 
+// load environment variables from a .env file, if it exists
+var dotenv = require('dotenv');
+dotenv.load();
+
 import http = require('http');
 import app = require('./src/app');
 var log = require('./src/log');

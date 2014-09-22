@@ -4,6 +4,7 @@
 /// <reference path="../../.types/mocha/mocha.d.ts" />
 /// <reference path="../../.types/supertest/supertest.d.ts" />
 
+import qs = require('querystring');
 import request = require('supertest');
 import express = require('express');
 import _ = require('underscore');
@@ -24,8 +25,7 @@ describe('auth', function () {
     it('should reject absolute urls', function(done) {
       request(shortieApp)
         .get('/login?redirect=http%3A%2F%2Fwww.google.com')
-        .expect('Location', '/?invalidRedirect')
-        .expect(302, done);
+        .expect(400, done);
     });
 
     var unacceptableLocalRedirects = ['%2Fpossibly-malicious-shortie', '%2Fadminother'];
@@ -33,17 +33,16 @@ describe('auth', function () {
       it('should reject unknown relative url "'+redirect+'"', function(done) {
         request(shortieApp)
           .get('/login?redirect=' + redirect)
-          .expect('Location', '/?invalidRedirect')
-          .expect(302, done);
+          .expect(400, done);
       });
     });
 
-    var acceptableRedirects = ['%2Fadmin', '%2Fadmin%2Fwhatever?123'];
+    var acceptableRedirects = ['/admin', '/admin/whatever?123'];
     _.each(acceptableRedirects, function(redirect) {
       it('should accept url "'+redirect+'"', function(done) {
         request(shortieApp)
-          .get('/login?redirect=')
-          .expect('Location', /^https:\/\/stage-id\.valtech\.com\/.+/)
+          .get('/login?' + qs.stringify({ redirect: redirect }))
+          .expect('Location', redirect)
           .expect(302, done);
       });
     });

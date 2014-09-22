@@ -55,6 +55,7 @@ build
 .grunt
 
 node_modules
+.env
 
 # IDEA
 .idea

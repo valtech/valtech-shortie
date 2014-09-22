@@ -124,20 +124,35 @@ You are now inside a VM setup for development, and can skip the manual install s
  * Visual Studio 2013
  * Node.js Tools for Visual Studio: https://nodejstools.codeplex.com/
 
+## Authentication
+
+By default valtech_shortie will not require any authentication, and `/admin` will be accessible for all.
+To enable authentication through Valtech IDP, set the environment variables:
+
+```
+AUTH_MODE=idp
+IDP_CLIENT_ID=valtech.shortie.local
+IDP_CLIENT_SECRET=<FETCH FROM IDP STAGE ADMIN>
+```
+
+You can do this by creating adding the above lines to a file `.env` in the root folder.
+
 ## Running
 
-#### (First time - done automatically as part of the Vagrant bootstrap process)
+### First time
+
+*Done automatically as part of the Vagrant bootstrap process.*
 
 This will install all required Node modules.
 
     npm install
 
-#### From CLI
+### From CLI
 
     grunt
     node server.js
 
-#### With grunt watch and [node-supervisor](https://github.com/isaacs/node-supervisor)
+### With grunt watch and [node-supervisor](https://github.com/isaacs/node-supervisor)
 
 Tab A:
 
@@ -147,12 +162,12 @@ Tab B:
 
     supervisor server.js
 
-#### Debugging with [node-inspector](https://github.com/node-inspector/node-inspector)
+### Debugging with [node-inspector](https://github.com/node-inspector/node-inspector)
 
     grunt
     node-debug server.js
 
-#### Running (and debugging) with Visual Studio 2013
+### Running (and debugging) with Visual Studio 2013
 
 Run Grunt tasks.
 
