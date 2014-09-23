@@ -14,6 +14,7 @@
     "type": "git",
     "url": "https://github.com/valtech/valtech-shortie"
   },
+  "license": "MIT",
   "private": true,
   "dependencies": {
     "browserify": "^3.31.2",
