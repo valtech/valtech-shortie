@@ -1,4 +1,4 @@
-# valtech_shortie - valte.ch
+# Valtech Shortie - valte.ch
 
 Valtech URL shortening service.
 
@@ -73,7 +73,7 @@ TODO. Will require an "application key + secret". POST, PUT and DELETE. JSON dat
 
 # Deployment
 
-valtech\_shortie is deployed with our internal TeamCity instance:
+Valtech Shortie is deployed with our internal TeamCity instance:
 http://bob.valtech.se.
 
  * Branch `master` is automatically deployed to production.
@@ -81,10 +81,7 @@ http://bob.valtech.se.
 
 If TeamCity does not trigger a build for a branch (e.g. after merge to `master`), trigger one yourself (by pressing the ... next to "Run" and then choosing branch).
 
-The application is deployed to Azure. The azure-site-names are:
-
- * Production: http://valtech-shortie.azurewebsites.net
- * Stage: http://stage-valtech-shortie.azurewebsites.net
+The application is deployed to Azure.
 
 The MongoDB databases are located at [MongoHQ](https://app.mongohq.com/). Ask IT for access.
 
@@ -126,7 +123,7 @@ You are now inside a VM setup for development, and can skip the manual install s
 
 ## Authentication
 
-By default valtech_shortie will not require any authentication, and `/admin` will be accessible for all.
+By default Valtech Shortie will not require any authentication, and `/admin` will be accessible for all.
 To enable authentication through Valtech IDP, set the environment variables:
 
 ```

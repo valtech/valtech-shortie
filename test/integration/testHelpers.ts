@@ -10,17 +10,17 @@ var mockUser = {
 };
 
 export function mockAuthentication() {
-  authMiddleware.requireAuthCookieOrRedirect = function (req, res, next) { 
+  authMiddleware.requireAuthCookieOrRedirect = function (req, res, next) {
     req.authSession.profile = mockUser;
-    next(); 
+    next();
   };
-  authMiddleware.requireAuthOrDeny = function (req, res, next) { 
+  authMiddleware.requireAuthOrDeny = function (req, res, next) {
     req.authSession.profile = mockUser;
-    next(); 
+    next();
   };
 }
 
-export var mongoUrl = process.env.MONGO_URL || 'mongodb://127.0.0.1:27017/valtech_shorties_test?w=1';
+export var mongoUrl = process.env.MONGO_URL || 'mongodb://127.0.0.1:27017/valtech-shortie_test?w=1';
 
 export function setupMongo(callback) {
   // Setup test mongodb connection

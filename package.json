@@ -1,5 +1,5 @@
 {
-  "name": "valtech_shortie",
+  "name": "valtech-shortie",
   "version": "1.0.0",
   "description": "Valtech URL shortener",
   "main": "app.js",
@@ -9,6 +9,10 @@
   },
   "engines": {
     "node": "0.10.24"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/valtech/valtech-shortie"
   },
   "private": true,
   "dependencies": {

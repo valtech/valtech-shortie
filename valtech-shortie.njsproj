@@ -3,7 +3,7 @@
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-    <Name>valtech_shortie</Name>
+    <Name>valtech-shortie</Name>
     <RootNamespace>valtech_shortie</RootNamespace>
     <NodeExePath />
     <NodeExeArguments />
