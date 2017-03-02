@@ -55,7 +55,7 @@ This list isn't exhaustive, but should give you an idea of the overall architect
 
 ### Test frameworks
 
-* Mocha ([http://visionmedia.github.io/mocha/]()) for BDD/unit testing
+* Mocha ([http://mochajs.org/]()) for BDD/unit testing
 * Chai ([https://chaijs.com/]()) for assertions
 * Sinon ([https://sinonjs.org/]()) for mocking
 * Supertest ([https://github.com/visionmedia/supertest]()) for testing HTTP requests
